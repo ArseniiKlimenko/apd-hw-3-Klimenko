@@ -1,0 +1,41 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentDetailTests/testDetailsForMissingStudentShowNoStudentData (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:missing-shows-first>
+# Expectation: missing student falls back to the first student -> testDetailsForMissingStudentShowNoStudentData fails (R-34)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -39,7 +39,7 @@
+         view.accessibilityIdentifier = "studentDetails"
+         setUpLayout()
+ 
+-        if let student = store.students.first(where: { $0.id == studentID }) {
++        if let student = store.students.first(where: { $0.id == studentID }) ?? store.students.first {
+             show(student)
+         } else {
+             showNotFound()
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:16:56.076.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:16:56.076.
+Test Suite 'StudentDetailTests' started at 2026-11-09 01:16:56.076.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' failed (0.150 seconds).
+Test Suite 'StudentDetailTests' failed at 2026-11-09 01:16:56.227.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:16:56.227.
+Test Suite 'Selected tests' failed at 2026-11-09 01:16:56.227.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentDetailTests/testDetailsForMissingStudentShowNoStudentData() -> XCTAssertTrue failed - Rule: a missing student shows a not-found message
+failure: StudentDetailTests/testDetailsForMissingStudentShowNoStudentData() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Student not found")") - Rule: the not-found message text (R-34)
+failure: StudentDetailTests/testDetailsForMissingStudentShowNoStudentData() -> XCTAssertFalse failed - Rule: a missing student shows no student fields
+failure: StudentDetailTests/testDetailsForMissingStudentShowNoStudentData() -> XCTAssertTrue failed - Rule: a missing student shows no subjects
+test: StudentDetailTests.testDetailsForMissingStudentShowNoStudentData() -> Failed

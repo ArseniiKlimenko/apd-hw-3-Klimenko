@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/StudentDetailUITests/testBackReturnsToStudentsList (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:hide-back-button>
+# Expectation: no standard back button -> testBackReturnsToStudentsList fails on its rule
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -35,7 +35,7 @@
+ 
+     override func viewDidLoad() {
+         super.viewDidLoad()
+-        view.backgroundColor = .systemBackground
++        view.backgroundColor = .systemBackground; navigationItem.hidesBackButton = true
+         view.accessibilityIdentifier = "studentDetails"
+         setUpLayout()
+ 
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:21:19.051.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 01:21:19.051.
+Test Suite 'StudentDetailUITests' started at 2026-11-09 01:21:19.052.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' failed (26.236 seconds).
+Test Suite 'StudentDetailUITests' failed at 2026-11-09 01:21:45.289.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 01:21:45.289.
+Test Suite 'Selected tests' failed at 2026-11-09 01:21:45.290.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentDetailUITests/testBackReturnsToStudentsList() -> failed - Rule: the details screen has the standard back button
+failure: StudentDetailUITests/testBackReturnsToStudentsList() -> failed: caught error: "MissingElement(rule: "the details screen has the standard back button")"
+test: StudentDetailUITests.testBackReturnsToStudentsList() -> Failed

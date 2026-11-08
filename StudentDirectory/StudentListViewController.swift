@@ -50,7 +50,10 @@ extension StudentListViewController: UITableViewDataSource {
     }
 }
 
-// T3 red: neutral placeholder; the push follows in feat(T3).
 extension StudentListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let details = StudentDetailViewController(store: store, studentID: students[indexPath.row].id)
+        navigationController?.pushViewController(details, animated: true)
+    }
 }

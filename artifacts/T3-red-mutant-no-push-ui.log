@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/StudentDetailUITests/testTappingStudentOpensDetails (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:no-push-ui>
+# Expectation: no push -> the UI test finds no studentDetails screen
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -54,6 +54,6 @@
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         tableView.deselectRow(at: indexPath, animated: true)
+         let details = StudentDetailViewController(store: store, studentID: students[indexPath.row].id)
+-        navigationController?.pushViewController(details, animated: true)
++
+     }
+ }
+
+--- excerpt ---
+<scratch>/mutants/work/StudentDirectory/StudentListViewController.swift:56:13: warning: initialization of immutable value 'details' was never used; consider replacing with assignment to '_' or removing it
+Test Suite 'Selected tests' started at 2026-11-09 01:18:03.846.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 01:18:03.847.
+Test Suite 'StudentDetailUITests' started at 2026-11-09 01:18:03.847.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' failed (25.209 seconds).
+Test Suite 'StudentDetailUITests' failed at 2026-11-09 01:18:29.057.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 01:18:29.058.
+Test Suite 'Selected tests' failed at 2026-11-09 01:18:29.059.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentDetailUITests/testTappingStudentOpensDetails() -> failed - Rule: tapping a row opens the screen identified as studentDetails
+failure: StudentDetailUITests/testTappingStudentOpensDetails() -> failed: caught error: "MissingElement(rule: "tapping a row opens the screen identified as studentDetails")"
+test: StudentDetailUITests.testTappingStudentOpensDetails() -> Failed

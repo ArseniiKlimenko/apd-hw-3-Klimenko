@@ -15,6 +15,7 @@ student as a diff before the student committed it manually.
 | 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | Reviewed the 6-line StudentStore diff, the green log and both mutant logs; chose R-19 (b) after the equivalent-mutant finding. | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
 | 2026-11-08 | Entry 4: store characterization tests (T1), CI of `fix(T0)` | Reviewed the six store tests, the TestSupport factory, the green log and all seven mutant logs; chose R-20 (b); re-ran the failed CI job. | `artifacts/T1-green.log`, `artifacts/T1-red-mutant-*.log` (7) |
 | 2026-11-09 | Entry 5: student list and cell (T2), scene fixes R-25/R-30, R-21…R-31 | Reviewed the list, cell, formatting and scene code, the red and green logs, the flaky attempt and all mutant logs; chose R-21…R-31, R-23 and R-27 against the recommendation. | `artifacts/T2-red.log`, `artifacts/T2-green.log`, `artifacts/T2-green-ui5-flaky-attempt.log`, `artifacts/T2-red-mutant-*.log` (17), `artifacts/T2-mutant-no-scene-delegate-class-equivalent.log` |
+| 2026-11-09 | Entry 6: details screen and navigation (T3), R-32…R-35, CI of `feat(T2)` | Reviewed the details screen and push code, the red and green logs and all twelve mutant logs; accepted R-32…R-35 and the back-button guard added after red. | `artifacts/T3-red.log`, `artifacts/T3-green.log`, `artifacts/T3-red-mutant-*.log` (12) |
 
 ---
 
@@ -370,6 +371,63 @@ session. R-26 cut one mutant run from about 2 min to under 30 s.
 - `artifacts/T2-green-ui5-flaky-attempt.log` (failed attempt, R-27)
 - `artifacts/T2-red-mutant-<name>.log` (17 mutants, table in `PLAN.md`)
 - `artifacts/T2-mutant-no-scene-delegate-class-equivalent.log` (R-31)
+
+---
+
+## Entry 6 — Details screen and navigation (T3) (2026-11-09)
+
+### Tool/agent task
+
+Build the details screen (every field, `studentDetails`, Dynamic Type) and the
+push from the list test-first, with R-26 run settings; check the CI result of
+`feat(T2)`.
+
+### Output reviewed
+
+- Facts checked first in a scratchpad copy (`PLAN.md` facts 31-33): the root
+  view identifier is an `otherElements` match in XCUI, the iOS 26 back button
+  is `BackButton` labelled `Students`, a delegate call pushes at once.
+- Decisions R-32…R-35 (all as recommended): subject buttons from T3, details
+  texts, `Student not found` for a missing student, an extra Dynamic Type
+  test. Agent conventions accepted: avatar label `Avatar of <name>`, no
+  disclosure indicator, UI tests on Grace Hopper.
+- Red (`test(T3)`): 7 tests fail on their rules against a neutral details
+  controller and an empty `didSelectRow`; 19 older unit tests stay green.
+- Implementation: `StudentDetailViewController` (scroll view + vertical
+  stack with SnapKit, labels via `StudentFormatting`, subject buttons,
+  not-found label), `didSelectRow` pushes the tapped student's details.
+- Green with R-26: 24 unit tests 20/20 in 13 s, the 2 new UI tests 5/5.
+- 12 mutants killed. The agent noticed that `hide-back-button` failed on an
+  XCUI tap error instead of a rule message and added a `waitOrFail` on the
+  back button to `testBackReturnsToStudentsList` after the red commit; the
+  test and the mutant were run again (5/5; the mutant now fails on
+  `Rule: the details screen has the standard back button`).
+- CI of `feat(T2)` (run `42532789200`): success on Xcode 16.4, 23/23, so the
+  R-25/R-30 scene code also works on CI (fact 34).
+
+### Accepted/rejected/revised decision
+
+Accepted R-32…R-35 as recommended: subject buttons from T3 so T4 only adds
+the action, details texts consistent with the list cell, "Student not found"
+for a missing student (needed later for delete), and an extra Dynamic Type
+test. Accepted the agent's change after red: the back-button test now waits
+for the button, so a missing button fails with a rule message. CI confirmed
+that the T2 scene fixes also work on Xcode 16.4.
+
+### Verification command/result
+
+- Red: `-only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentDetailUITests`
+  -> 7 T3 tests fail on their rules, 19 pass.
+- Green: all unit tests `-test-iterations 20` -> 24 tests, each 20/20;
+  `StudentDetailUITests` `-test-iterations 5` -> 2 tests, each 5/5.
+- Mutants: 12 killed, each on its target test's rule.
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit and `StudentDirectoryApp`.
+
+### Artifact links
+
+- `artifacts/T3-red.log`, `artifacts/T3-green.log`
+- `artifacts/T3-red-mutant-<name>.log` (12 mutants, table in `PLAN.md`)
 
 ---
 

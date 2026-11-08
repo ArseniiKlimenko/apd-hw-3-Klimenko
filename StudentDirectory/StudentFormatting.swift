@@ -14,6 +14,14 @@ enum StudentFormatting {
         isScholarshipHolder ? "Scholarship" : "No scholarship"
     }
 
+    static func identifier(_ id: UUID) -> String {
+        "ID \(id.uuidString)"
+    }
+
+    static func avatarName(_ avatarName: String) -> String {
+        "Avatar \(avatarName)"
+    }
+
     /// One VoiceOver phrase for a list row (R-10).
     static func accessibilityLabel(for student: Student, locale: Locale = .current) -> String {
         let scholarship = student.isScholarshipHolder ? "scholarship holder" : "no scholarship"

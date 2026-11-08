@@ -1,6 +1,8 @@
+import SnapKit
 import UIKit
 
-// T3 red: neutral placeholder; the layout and fields follow in feat(T3).
+/// Shows every field of one student (R-8); keeps only the id and reads the
+/// student from the shared store (R-7).
 final class StudentDetailViewController: UIViewController {
     let studentID: UUID
     private let store: StudentStore
@@ -17,6 +19,9 @@ final class StudentDetailViewController: UIViewController {
     private(set) var subjectButtons: [UIButton] = []
     let notFoundLabel = UILabel()
 
+    private let scrollView = UIScrollView()
+    private let stack = UIStackView()
+
     init(store: StudentStore, studentID: UUID, locale: Locale = .current) {
         self.store = store
         self.studentID = studentID
@@ -26,5 +31,87 @@ final class StudentDetailViewController: UIViewController {
 
     required init?(coder: NSCoder) {
         nil
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        view.accessibilityIdentifier = "studentDetails"
+        setUpLayout()
+
+        if let student = store.students.first(where: { $0.id == studentID }) {
+            show(student)
+        } else {
+            showNotFound()
+        }
+    }
+
+    private func setUpLayout() {
+        stack.axis = .vertical
+        stack.alignment = .leading
+        stack.spacing = 8
+        view.addSubview(scrollView)
+        scrollView.addSubview(stack)
+
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        stack.snp.makeConstraints { make in
+            make.edges.equalTo(scrollView.contentLayoutGuide).inset(20)
+            make.width.equalTo(scrollView.frameLayoutGuide).inset(20)
+        }
+    }
+
+    private func show(_ student: Student) {
+        title = student.name
+
+        avatarView.image = UIImage(named: student.avatarName) ?? UIImage(named: "avatar-default")
+        avatarView.contentMode = .scaleAspectFit
+        avatarView.isAccessibilityElement = true
+        avatarView.accessibilityLabel = "Avatar of \(student.name)"
+        avatarView.snp.makeConstraints { make in
+            make.size.equalTo(120)
+        }
+
+        configure(nameLabel, text: student.name, style: .title1)
+        configure(idLabel, text: StudentFormatting.identifier(student.id), style: .footnote, secondary: true)
+        configure(ageLabel, text: StudentFormatting.age(student.age), style: .body)
+        configure(gradeLabel, text: StudentFormatting.grade(student.averageGrade, locale: locale), style: .body)
+        configure(scholarshipLabel, text: StudentFormatting.scholarship(student.isScholarshipHolder), style: .body)
+        configure(avatarNameLabel, text: StudentFormatting.avatarName(student.avatarName), style: .footnote, secondary: true)
+        configure(subjectsTitleLabel, text: "Subjects", style: .headline)
+
+        // R-32: buttons from T3; the action and identifiers follow in T4.
+        subjectButtons = student.subjects.map(makeSubjectButton)
+
+        let rows: [UIView] = [avatarView, nameLabel, idLabel, ageLabel, gradeLabel, scholarshipLabel, avatarNameLabel, subjectsTitleLabel]
+        for row in rows + subjectButtons {
+            stack.addArrangedSubview(row)
+        }
+    }
+
+    private func showNotFound() {
+        configure(notFoundLabel, text: "Student not found", style: .body)
+        stack.addArrangedSubview(notFoundLabel)
+    }
+
+    private func makeSubjectButton(_ subject: String) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(subject, for: .normal)
+        button.contentHorizontalAlignment = .leading
+        if let titleLabel = button.titleLabel {
+            configure(titleLabel, text: subject, style: .body)
+        }
+        return button
+    }
+
+    private func configure(_ label: UILabel, text: String, style: UIFont.TextStyle, secondary: Bool = false) {
+        label.text = text
+        label.font = .preferredFont(forTextStyle: style)
+        label.adjustsFontForContentSizeCategory = true
+        label.numberOfLines = 0
+        if secondary {
+            label.textColor = .secondaryLabel
+        }
     }
 }

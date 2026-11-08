@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentDetailTests/testSelectingRowPushesDetailsOfThatStudent (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:no-push>
+# Expectation: no push -> testSelectingRowPushesDetailsOfThatStudent fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -54,6 +54,6 @@
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         tableView.deselectRow(at: indexPath, animated: true)
+         let details = StudentDetailViewController(store: store, studentID: students[indexPath.row].id)
+-        navigationController?.pushViewController(details, animated: true)
++
+     }
+ }
+
+--- excerpt ---
+<scratch>/mutants/work/StudentDirectory/StudentListViewController.swift:56:13: warning: initialization of immutable value 'details' was never used; consider replacing with assignment to '_' or removing it
+Test Suite 'Selected tests' started at 2026-11-09 01:14:36.906.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:14:36.907.
+Test Suite 'StudentDetailTests' started at 2026-11-09 01:14:36.907.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' failed (0.209 seconds).
+Test Suite 'StudentDetailTests' failed at 2026-11-09 01:14:37.117.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:14:37.117.
+Test Suite 'Selected tests' failed at 2026-11-09 01:14:37.118.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentDetailTests/testSelectingRowPushesDetailsOfThatStudent() -> XCTAssertEqual failed: ("1") is not equal to ("2") - Rule: tapping a row pushes one screen
+failure: StudentDetailTests/testSelectingRowPushesDetailsOfThatStudent() -> XCTUnwrap failed: expected non-nil value of type "StudentDetailViewController" - Rule: the pushed screen is the details screen
+test: StudentDetailTests.testSelectingRowPushesDetailsOfThatStudent() -> Failed

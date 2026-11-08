@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentDetailTests/testDetailsShowEveryStudentField (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:avatar-name-hidden>
+# Expectation: avatar name label not on screen -> testDetailsShowEveryStudentField fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -84,7 +84,7 @@
+         // R-32: buttons from T3; the action and identifiers follow in T4.
+         subjectButtons = student.subjects.map(makeSubjectButton)
+ 
+-        let rows: [UIView] = [avatarView, nameLabel, idLabel, ageLabel, gradeLabel, scholarshipLabel, avatarNameLabel, subjectsTitleLabel]
++        let rows: [UIView] = [avatarView, nameLabel, idLabel, ageLabel, gradeLabel, scholarshipLabel, subjectsTitleLabel]
+         for row in rows + subjectButtons {
+             stack.addArrangedSubview(row)
+         }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:15:49.423.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:15:49.423.
+Test Suite 'StudentDetailTests' started at 2026-11-09 01:15:49.423.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' failed (0.151 seconds).
+Test Suite 'StudentDetailTests' failed at 2026-11-09 01:15:49.574.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:15:49.574.
+Test Suite 'Selected tests' failed at 2026-11-09 01:15:49.575.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the avatar name is shown on the details screen
+test: StudentDetailTests.testDetailsShowEveryStudentField() -> Failed

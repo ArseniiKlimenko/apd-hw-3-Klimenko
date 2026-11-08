@@ -132,7 +132,7 @@ list cells (not required, would be untested); UI tests use Grace Hopper (row
 - [x] T0 fix: R-17/R-19 workaround, green run, mutants
 - [x] T1: store characterization tests (unit), 7 mutants
 - [x] Student list and reusable cell (T2), including the scene fixes R-25/R-30
-- [ ] Detail screen and navigation (T3)
+- [x] Detail screen and navigation (T3)
 - [ ] Subject-filtered list (T4)
 - [ ] Unit and UI tests (T1-T5, per task)
 - [ ] Optional add/edit/delete bonus, if attempted (T6)
@@ -226,6 +226,21 @@ in `StudentDirectoryUITests/`.
   Red (`artifacts/T3-red.log`): with a neutral
   `StudentDetailViewController(store:studentID:locale:)` and an empty
   `didSelectRow` all 7 fail on their rule; the 19 older unit tests stay green.
+  Green (`artifacts/T3-green.log`, R-26): all 24 unit tests 20/20, both T3 UI
+  tests 5/5. After green, `testBackReturnsToStudentsList` got a
+  `waitOrFail` on the back button, so that a missing button fails with the
+  rule name instead of an XCUI tap error (found by mutant `hide-back-button`).
+  Mutants (one changed line each, `artifacts/T3-red-mutant-<name>.log`):
+
+  | Test | Mutant |
+  | --- | --- |
+  | `testSelectingRowPushesDetailsOfThatStudent` | `push-first-row`, `no-push` |
+  | `testDetailsShowEveryStudentField` | `id-shows-name`, `subjects-drop-first`, `avatar-name-hidden`, `no-title` |
+  | `testDetailsViewHasStudentDetailsIdentifier` | `details-id-typo` |
+  | `testDetailsForMissingStudentShowNoStudentData` | `missing-shows-first` |
+  | `testDetailsTextSupportsDynamicType` | `details-no-dynamic-type`, `button-fixed-font` |
+  | UI `testTappingStudentOpensDetails` | `no-push-ui` |
+  | UI `testBackReturnsToStudentsList` | `hide-back-button` |
 - T4 `SubjectFilterTests` (unit): `testDetailsHaveButtonForEachSubject`,
   `testTappingSubjectPushesListTitledWithSubject`,
   `testFilteredListShowsExactMatchesInStoreOrder`,
@@ -388,9 +403,11 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     that screen.
 33. Calling `tableView.delegate?.tableView?(_:didSelectRowAt:)` in a unit test
     on a list inside a navigation controller pushes at once (as fact 21).
+34. CI (Xcode 16.4, fresh simulator) builds and passes the R-25/R-30 scene code
+    (`MainActor.assumeIsolated`, `UIScene.willConnectNotification`): run
+    `42532789200` for `8c275a5`, 23/23 tests.
 
-Not yet verified (checked before first use): CI behaviour of the R-25/R-30
-scene code (Xcode 16.4).
+Not yet verified: nothing the current code relies on.
 
 ## Verification plan
 
@@ -456,3 +473,7 @@ scene code (Xcode 16.4).
 | 2026-11-09 | T2 mutants on the final code: `adopt-without-window` (`APD Probe`, saved session), `no-scene-delegate-class` (fresh `APD Probe`), `no-navigation-controller`, `cell-id-dash` | killed, **passed (equivalent)**, killed, killed | R-31 |
 | 2026-11-09 | T3 probe (scratchpad copy): details identifier, back button, delegate push | facts 31-33 | none |
 | 2026-11-09 | T3 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentDetailUITests` | `TEST FAILED` as expected: 7 T3 tests fail on their rules, 19 pass, 81 s (`artifacts/T3-red.log`) | implement T3 |
+| 2026-11-09 | CI run `42532789200` (push of `8c275a5`, `feat(T2)`) | success: Xcode 16.4, 23/23 | fact 34 |
+| 2026-11-09 | T3 green: all unit tests x20; T3 UI tests x5 | 24 tests each 20/20 (13 s); 2 tests each 5/5 (88 s) | mutants |
+| 2026-11-09 | T3: 12 mutants | all failed; `hide-back-button` failed on an XCUI tap error, not on a rule message | added a `waitOrFail` on the back button |
+| 2026-11-09 | T3 UI tests x5 again and mutant `hide-back-button` again | 2 tests each 5/5; the mutant now fails with `Rule: the details screen has the standard back button` | none |

@@ -22,7 +22,9 @@ final class StudentDetailUITests: XCTestCase {
         try waitOrFail(app.otherElements["studentDetails"], rule: "the details screen opens")
 
         // The standard back button is identified as BackButton (PLAN fact 32).
-        app.navigationBars.buttons["BackButton"].tap()
+        let back = app.navigationBars.buttons["BackButton"]
+        try waitOrFail(back, rule: "the details screen has the standard back button")
+        back.tap()
 
         try waitOrFail(app.navigationBars["Students"], rule: "the standard back button returns to the Students list")
         XCTAssertTrue(app.tables["studentList"].exists, "Rule: the list is shown again")
