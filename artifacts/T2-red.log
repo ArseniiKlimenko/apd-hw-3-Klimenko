@@ -1,0 +1,102 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentListUITests (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: neutral placeholders: all 11 StudentListTests and both StudentListUITests fail on their rule (no title, no rows, no identifiers, empty texts, fixed fonts, horizontal stack; the app shows no window, R-25); the 8 T1/starter unit tests stay green
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (39884)'
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.001 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.000 seconds)
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (39884)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.000 seconds)
+Test suite 'StudentListTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (39884)'
+Test case 'StudentListTests.testCellAccessibilityLabelSummarizesStudent()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (3.366 seconds)
+Test case 'StudentListTests.testCellShowsNameAgeGradeAndScholarship()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.051 seconds)
+Test case 'StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (1.272 seconds)
+Test case 'StudentListTests.testCellTextSupportsDynamicType()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.044 seconds)
+Test case 'StudentListTests.testGradeFormattingFollowsLocale()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.007 seconds)
+Test case 'StudentListTests.testListHasOneRowPerStoreStudent()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.063 seconds)
+Test case 'StudentListTests.testListReflectsStoreChangesAfterReload()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.032 seconds)
+Test case 'StudentListTests.testListRowsFollowStoreOrder()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.006 seconds)
+Test case 'StudentListTests.testListTableHasStudentListIdentifier()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.004 seconds)
+Test case 'StudentListTests.testListTitleIsStudents()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.010 seconds)
+Test case 'StudentListTests.testReusedCellResetsScholarshipState()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (39884)' (0.001 seconds)
+Test suite 'StudentListUITests' started on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (40944)'
+Test case 'StudentListUITests.testLaunchShowsStudentsList()' failed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (40944)' (44.431 seconds)
+Test case 'StudentListUITests.testSeedStudentCellIsFoundByIdentifier()' failed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (40944)' (25.763 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 8, failed 13, skipped 0, total 21
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testCellAccessibilityLabelSummarizesStudent() -> XCTAssertTrue failed - Rule: the cell is one accessibility element (R-10)
+failure: StudentListTests/testCellAccessibilityLabelSummarizesStudent() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Ada Lovelace, age 20, grade 97.5, scholarship holder")") - Rule: the cell label summarizes a scholarship holder
+failure: StudentListTests/testCellAccessibilityLabelSummarizesStudent() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Grace Hopper, age 22, grade 91.5, no scholarship")") - Rule: the cell label summarizes a student without a scholarship
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertTrue failed - Rule: the avatar is shown in the cell
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertTrue failed - Rule: the name is shown in the cell
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertTrue failed - Rule: the age is shown in the cell
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertTrue failed - Rule: the grade is shown in the cell
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertTrue failed - Rule: the scholarship is shown in the cell
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertTrue failed - Rule: the cell shows the student's avatar
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Ada Lovelace")") - Rule: the cell shows the name
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Age 20")") - Rule: the cell shows the age
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Grade 97.5")") - Rule: the cell shows the average grade
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Scholarship")") - Rule: the cell shows the scholarship status
+failure: StudentListTests/testCellStacksVerticallyForAccessibilityTextSizes() -> XCTAssertEqual failed: ("UILayoutConstraintAxis(rawValue: 0)") is not equal to ("UILayoutConstraintAxis(rawValue: 1)") - Rule: accessibility text sizes put the avatar above the text (R-23)
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the name label uses a text style font, got CTFontRegularUsage
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the name label follows Dynamic Type changes
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the name label wraps instead of truncating
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the age label uses a text style font, got CTFontRegularUsage
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the age label follows Dynamic Type changes
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the age label wraps instead of truncating
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the grade label uses a text style font, got CTFontRegularUsage
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the grade label follows Dynamic Type changes
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the grade label wraps instead of truncating
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the scholarship label uses a text style font, got CTFontRegularUsage
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the scholarship label follows Dynamic Type changes
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the scholarship label wraps instead of truncating
+failure: StudentListTests/testGradeFormattingFollowsLocale() -> XCTAssertEqual failed: ("") is not equal to ("Grade 97.5") - Rule: the grade uses the locale's decimal separator
+failure: StudentListTests/testGradeFormattingFollowsLocale() -> XCTAssertEqual failed: ("") is not equal to ("Grade 97,5") - Rule: the grade uses the locale's decimal separator
+failure: StudentListTests/testGradeFormattingFollowsLocale() -> XCTAssertEqual failed: ("") is not equal to ("Grade 94.0") - Rule: the grade always shows one fraction digit
+failure: StudentListTests/testListHasOneRowPerStoreStudent() -> XCTAssertEqual failed: ("0") is not equal to ("3") - Rule: the list has one row per store student
+failure: StudentListTests/testListReflectsStoreChangesAfterReload() -> XCTAssertEqual failed: ("0") is not equal to ("10") - Precondition: all seed students are listed
+failure: StudentListTests/testListReflectsStoreChangesAfterReload() -> XCTAssertEqual failed: ("0") is not equal to ("9") - Rule: the list reads the shared store, not a copy (R-7)
+failure: StudentListTests/testListRowsFollowStoreOrder() -> XCTAssertEqual failed: ("[]") is not equal to ("["studentCell.00000000-0000-0000-0000-000000000003", "studentCell.00000000-0000-0000-0000-000000000001", "studentCell.00000000-0000-0000-0000-000000000002"]") - Rule: row i shows store student i, identified as studentCell.<id>
+failure: StudentListTests/testListTableHasStudentListIdentifier() -> XCTAssertTrue failed - Precondition: the table is on the screen
+failure: StudentListTests/testListTableHasStudentListIdentifier() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("studentList")") - Rule: the table is identified as studentList
+failure: StudentListTests/testListTitleIsStudents() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Students")") - Rule: the list title is Students
+failure: StudentListTests/testReusedCellResetsScholarshipState() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("No scholarship")") - Rule: a reused cell shows the new student's scholarship status
+failure: StudentListUITests/testLaunchShowsStudentsList() -> failed - Rule: the first screen is titled Students
+failure: StudentListUITests/testLaunchShowsStudentsList() -> failed: caught error: "MissingElement(rule: "the first screen is titled Students")"
+failure: StudentListUITests/testSeedStudentCellIsFoundByIdentifier() -> failed - Rule: the first seed student's cell is identified as studentCell.<id>
+failure: StudentListUITests/testSeedStudentCellIsFoundByIdentifier() -> failed: caught error: "MissingElement(rule: "the first seed student\'s cell is identified as studentCell.<id>")"
+test: StudentListUITests.testLaunchShowsStudentsList() -> Failed
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Failed
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
+test: StudentListTests.testCellAccessibilityLabelSummarizesStudent() -> Failed
+test: StudentListTests.testCellShowsNameAgeGradeAndScholarship() -> Failed
+test: StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes() -> Failed
+test: StudentListTests.testCellTextSupportsDynamicType() -> Failed
+test: StudentListTests.testGradeFormattingFollowsLocale() -> Failed
+test: StudentListTests.testListHasOneRowPerStoreStudent() -> Failed
+test: StudentListTests.testListReflectsStoreChangesAfterReload() -> Failed
+test: StudentListTests.testListRowsFollowStoreOrder() -> Failed
+test: StudentListTests.testListTableHasStudentListIdentifier() -> Failed
+test: StudentListTests.testListTitleIsStudents() -> Failed
+test: StudentListTests.testReusedCellResetsScholarshipState() -> Failed

@@ -91,6 +91,11 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-18 | Push cadence | student pushes after each task | local Xcode 26.3 and CI Xcode 16.4 differ; catch CI problems early |
 | R-19 | Form of the R-17 workaround (revises the first form) | plain `deinit {}` with a comment, no `#if` | the first form `#if compiler(>=6.2) nonisolated deinit {} #endif` compiles to the same code (fact 12); `deinit {}` is valid for every Swift version, so it does not rely on the unverified behaviour of `#if compiler` on Xcode 16.4 |
 | R-20 | Test data for "filter keeps store order" (revises the planned Physics data) | a custom store with ids and names deliberately out of order (`Zed`(3), `Amy`(1), `Mia`(2)) | in the seed every subject list is already in id order and Physics is also in name order, so seed data cannot catch a sorting bug (checked with a script) |
+| R-21 | Cell texts (tests check them exactly) | `Ada Lovelace` / `Age 20` / `Grade 97.5` / `Scholarship` or `No scholarship`; accessibility label `Ada Lovelace, age 20, grade 97.5, scholarship holder` | readable without context; scholarship is always text |
+| R-22 | How tests see the cell content | internal read-only views (`nameLabel`, `ageLabel`, `gradeLabel`, `scholarshipLabel`, `avatarView`, `contentStack`) via `@testable` | exact checks that survive layout changes |
+| R-23 | Cell layout at very large text sizes | adaptive: avatar beside the text normally, above it for accessibility sizes (student's choice; agent recommended a fixed horizontal layout first) | see Risks |
+| R-24 | Missing avatar asset | fall back to `avatar-default`, no crash | the asset exists in the template |
+| R-25 | The template never connects `SceneDelegate` (fact 22) | set `configuration.delegateClass = SceneDelegate.self` in `StudentDirectoryApp` (+2 body lines), in `feat(T2)`; the student informs the instructor | minimal, no project file change; without it no UI test can pass |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -99,7 +104,12 @@ classes listed under Acceptance criteria; `@MainActor` test classes; log names
 `T<n>-red.log`, `T<n>-green.log`, `T<n>-red-mutant-<name>.log`,
 `T0-baseline.log`, `final-xcodebuild-test.log`; commits
 `test(Tn)` / `feat(Tn)` / `docs(Tn)` (plus `fix(T0)` from R-17) on `main`;
-clone at `<workspace>/apd-hw-3-Klimenko`.
+clone at `<workspace>/apd-hw-3-Klimenko`. T1: factory
+`makeStudent(id:name:subjects:)`, the exact-error helper deferred to T6.
+T2: `StudentFormatting` is an `enum` with static functions shared by the cell
+and the details screen; `UITestSupport.swift` with `launchApp()` and
+`waitOrFail(_:rule:)`; one extra unit test for R-23
+(`testCellStacksVerticallyForAccessibilityTextSizes`).
 
 ## Milestones
 
@@ -153,9 +163,15 @@ in `StudentDirectoryUITests/`.
   `testReusedCellResetsScholarshipState`,
   `testCellAccessibilityLabelSummarizesStudent`,
   `testCellTextSupportsDynamicType`, `testGradeFormattingFollowsLocale`,
-  `testListReflectsStoreChangesAfterReload`.
+  `testListReflectsStoreChangesAfterReload`,
+  `testCellStacksVerticallyForAccessibilityTextSizes` (R-23).
   `StudentListUITests` (UI): `testLaunchShowsStudentsList`,
   `testSeedStudentCellIsFoundByIdentifier`.
+  Red (`artifacts/T2-red.log`): with neutral placeholders
+  (`StudentListViewController(store:)`, `StudentCell`, `StudentFormatting`)
+  all 13 fail on their rule message; the 8 T1/starter unit tests stay green.
+  The `subject` parameter of the list (R-6) is added in T4 together with its
+  tests, not in T2.
 - T3 `StudentDetailTests` (unit):
   `testSelectingRowPushesDetailsOfThatStudent`,
   `testDetailsShowEveryStudentField`,
@@ -194,6 +210,11 @@ in `StudentDirectoryUITests/`.
 | `deinit {}` not yet built by CI (Xcode 16.4) | resolved: CI run `42516097673` (attempt 2) built `339d150` with Xcode 16.4 and passed 4/4 (fact 14) |
 | The CI runner sometimes finds no iOS simulator (`Unable to find a device matching the provided destination specifier`, attempt 1 of `42516097673`) | the student re-runs the job; a repeated failure is raised as a decision (the workflow is protected) |
 | Seed data hides ordering bugs (every subject list is in id order; Physics also in name order) | order tests use custom out-of-order data (R-20); the T4 order test is raised again before T4 |
+| R-23 (student's choice): the adaptive cell layout adds code, depends on trait-change handling that does not run by itself without a window (fact 20), and a bug in it is invisible at normal text sizes | a dedicated unit test switches the trait both ways; all other cell tests check texts and labels that do not depend on the layout mode |
+| The template app shows no window at all (fact 22); the starter UI tests only check `runningForeground` | R-25 fix in `feat(T2)`; every UI test first waits for a screen element |
+| The local simulator locale is `en_UA` (`97,5`), CI probably differs | R-9: unit tests pass a locale, UI tests never assert grade text |
+| Lower cells exist in the XCUI tree but are not hittable (fact 17) | UI tests tap only cells near the top |
+| The `.xcresult` summary lists only the first failure of a test | logs and fact checks read every failure from the test details (fact 23) |
 
 ## Verified language facts
 
@@ -247,11 +268,40 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     failed before building because no simulator was available; other forks
     of the template were green on the same image the same day, so the agent's
     first explanation ("the new image has no simulators") was wrong.
+15. With the R-25 scene fix, XCUI finds `app.cells["studentCell.<id>"]` for a
+    cell with `isAccessibilityElement = true`, and `label` is the combined
+    accessibility label; the inner `UILabel` is still visible to XCUI as a
+    `staticText`.
+16. The SVG avatars load with `UIImage(named:)`; a missing asset name gives
+    `nil`.
+17. With 88 pt rows all 10 seed cells exist in the XCUI tree on iPhone 17,
+    but the last one is not hittable (off screen).
+18. `Double.formatted(.number.precision(.fractionLength(1)).locale(_:))`:
+    `en_US_POSIX` -> `97.5`, `uk_UA` -> `97,5`, `94.0` -> `94.0`. The local
+    simulator locale is `en_UA`, which gives `97,5`.
+19. `UIFont.preferredFont(forTextStyle: .body)` has the text style attribute
+    `UIFont.TextStyle.body.rawValue`, but a fixed `UIFont.systemFont(ofSize:)`
+    also has a text style attribute (`CTFontRegularUsage`), so a test must
+    compare with real text style names.
+20. `traitOverrides` on a cell without a window are not applied by
+    `layoutIfNeeded()`: neither `traitCollection` nor a
+    `registerForTraitChanges` handler sees them. They are applied by
+    `updateTraitsIfNeeded()`, or by `layoutIfNeeded()` when the cell is in a
+    window. (The agent's first reading, "applied on `layoutIfNeeded()`", was
+    wrong; see fact 23.)
+21. `pushViewController(_:animated:)` on a navigation controller without a
+    window updates `viewControllers` at once, with and without animation.
+22. The template never connects `SceneDelegate`: the generated `Info.plist`
+    has an empty `UISceneConfigurations`, and
+    `application(_:configurationForConnecting:options:)` returns a
+    configuration without `delegateClass`, so no window is created. Control
+    runs on `7031d9f`: the `HW3 Starter` label never appears; with
+    `configuration.delegateClass = SceneDelegate.self` it does.
+23. `xcresulttool get test-results summary` lists only the first failure of a
+    test; `get test-results test-details` lists all of them.
 
-Not yet verified (checked before first use): synchronous update of
-`viewControllers` after `pushViewController` without a window; XCUI finding a
-cell by identifier with a combined label; SVG avatars via `UIImage(named:)`;
-which cells exist in the XCUI hierarchy on iPhone 17.
+Not yet verified (checked before first use): CI behaviour of the R-25 scene
+fix (Xcode 16.4).
 
 ## Verification plan
 
@@ -292,3 +342,10 @@ which cells exist in the XCUI hierarchy on iPhone 17.
 | 2026-11-08 | T1: `-only-testing:StudentDirectoryTests -test-iterations 20` | every unit test 20/20 | none |
 | 2026-11-08 | T1: exact command | passed 10/10 | none |
 | 2026-11-08 | T1: 7 mutants, each with `-only-testing` of its target test | all 7 failed on the expected rule message (`artifacts/T1-red-mutant-*.log`) | none |
+| 2026-11-08 | CI run `42519361024` (push of `7031d9f`) | success: Xcode 16.4, 10/10 tests | none |
+| 2026-11-08 | T2 probe round 1 (scratchpad copy) | SVG, locale, push: as expected; fixed font also has a text style; trait override not visible; XCUI found no cell | round 2 |
+| 2026-11-08 | T2 probe round 2 | trait handler never ran after `layoutIfNeeded()`; XCUI tree of the app was empty; agent found that the summary shows only the first failure | facts 20, 23; check the scene manifest |
+| 2026-11-08 | built `Info.plist` | `UISceneConfigurations` empty | R-25 hypothesis |
+| 2026-11-08 | T2 probe round 3 with `delegateClass` | XCUI finds cells by identifier, all 10 exist, last not hittable; `updateTraitsIfNeeded()` / window applies traits | facts 15, 17, 20 |
+| 2026-11-08 | control: `HW3 Starter` label on `7031d9f` without / with `delegateClass` | not shown / shown | fact 22, R-25 |
+| 2026-11-08 | T2 red: `-only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentListUITests` | `TEST FAILED` as expected: 13 T2 tests fail on their rules, 8 others pass (`artifacts/T2-red.log`) | implement T2 |
