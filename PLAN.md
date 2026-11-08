@@ -74,7 +74,7 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-1 | Fork name | `ArseniiKlimenko/apd-hw-3-Klimenko` | consistent with HW2 |
 | R-2 | Bonus | do it after the base (T6) | base stays safe and committed first |
 | R-3 | Test layers | hybrid: unit tests for rules, XCUITest for flows | each rule is checked where it is most visible |
-| R-4 | Waiting in UI tests | `waitForExistence(timeout:)` only as a guard, then `XCTFail` + `throw` | assignment forbids sleeps/polling/timing thresholds |
+| R-4 | Waiting in UI tests | `waitForExistence(timeout:)` only as a guard, then `XCTFail` + `throw`; guard 10 s, revised to 20 s by R-27 | assignment forbids sleeps/polling/timing thresholds |
 | R-5 | T1 cannot be red (store already implemented) | characterization tests, green run, mutants as proof, one `test(T1)` commit | no artificial edits of supplied code |
 | R-6 | Filtered list | reuse `StudentListViewController` with `subject: String?`, same `studentList` identifier | one code path; UI tests wait for the title before checking cells |
 | R-7 | Data source in controllers | read from the store on every access; details hold `id` + store | no second source of truth; correct after bonus mutations |
@@ -96,6 +96,12 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-23 | Cell layout at very large text sizes | adaptive: avatar beside the text normally, above it for accessibility sizes (student's choice; agent recommended a fixed horizontal layout first) | see Risks |
 | R-24 | Missing avatar asset | fall back to `avatar-default`, no crash | the asset exists in the template |
 | R-25 | The template never connects `SceneDelegate` (fact 22) | set `configuration.delegateClass = SceneDelegate.self` in `StudentDirectoryApp` (+2 body lines), in `feat(T2)`; the student informs the instructor | minimal, no project file change; without it no UI test can pass |
+| R-26 | Test run time (revises R-14 and the per-task runs) | (A) focused runs and mutants with `-parallel-testing-enabled NO`; (B) from T3 no separate first green run and no per-task exact command (CI runs it after every push, T7 runs it); (C) from T3 UI tests x5 only for the task's new UI tests, all UI tests x5 once in T7; all mutants kept | a mutant cost ~2 min, mostly simulator cloning, not the test |
+| R-27 | `testSeedStudentCellIsFoundByIdentifier` failed 1 of 5 repetitions (blank screen, empty accessibility tree for 10 s, no crash, cause unknown) | (b) UI guard 10 s -> 20 s (student's choice; the agent recommended a longer relaunch probe first) | see Risks; the likely cause was found later (R-28, fact 26) and fixed (R-30); the 20 s guard is kept |
+| R-28 | Mutant `no-scene-delegate-class` survived on the main simulator | (a) test the "saved scene session" hypothesis on a separate fresh simulator (`APD Probe`) | confirmed: facts 26, 30 |
+| R-29 | First fix for saved delegate-less sessions | (a) destroy such sessions in `didFinishLaunching` | **did not work** (fact 27); never committed |
+| R-30 | Second fix | (a) `StudentDirectoryApp` observes `UIScene.willConnectNotification`; a scene without a delegate gets a new `SceneDelegate`, which builds the window through `connect(_:)` | works on a device with a saved delegate-less session and on a fresh one (fact 28) |
+| R-31 | The R-25 line became redundant after R-30 (equivalent mutant) | (a) keep both: R-25 is the standard path, R-30 the fallback; the R-25 line is not proven by any test | two independent mechanisms; recorded honestly as an equivalent mutant |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -116,7 +122,7 @@ and the details screen; `UITestSupport.swift` with `launchApp()` and
 - [x] T0: fork, plan, worklog, baseline run (crash found, R-17)
 - [x] T0 fix: R-17/R-19 workaround, green run, mutants
 - [x] T1: store characterization tests (unit), 7 mutants
-- [ ] Student list and reusable cell (T2)
+- [x] Student list and reusable cell (T2), including the scene fixes R-25/R-30
 - [ ] Detail screen and navigation (T3)
 - [ ] Subject-filtered list (T4)
 - [ ] Unit and UI tests (T1-T5, per task)
@@ -172,6 +178,33 @@ in `StudentDirectoryUITests/`.
   all 13 fail on their rule message; the 8 T1/starter unit tests stay green.
   The `subject` parameter of the list (R-6) is added in T4 together with its
   tests, not in T2.
+  Green (`artifacts/T2-green.log`, final code): all 19 unit tests 20/20, all
+  4 UI tests 5/5 (main iPhone 17, no clones), and both `StudentListUITests`
+  pass on `APD Probe` after a delegate-less scene session was saved (R-30).
+  The first UI x5 series with a 10 s guard is kept as
+  `artifacts/T2-green-ui5-flaky-attempt.log` (R-27).
+  Mutants (one changed line each, `artifacts/T2-red-mutant-<name>.log`):
+
+  | Test | Mutant |
+  | --- | --- |
+  | `testListTitleIsStudents` | `title-typo` |
+  | `testListHasOneRowPerStoreStudent` | `rows-off-by-one` |
+  | `testListRowsFollowStoreOrder` | `rows-sorted-by-name` |
+  | `testListTableHasStudentListIdentifier` | `table-id-typo` |
+  | `testCellShowsNameAgeGradeAndScholarship` | `grade-shows-age`, `avatar-default-always` |
+  | `testReusedCellResetsScholarshipState` | `scholarship-no-else` |
+  | `testCellAccessibilityLabelSummarizesStudent` | `not-one-a11y-element`, `a11y-label-name-only` |
+  | `testCellTextSupportsDynamicType` | `no-dynamic-type`, `fixed-font` |
+  | `testGradeFormattingFollowsLocale` | `locale-ignored` |
+  | `testListReflectsStoreChangesAfterReload` | `seed-array` (the list reads the seed, a second array, instead of the shared store; a true "copy at init" needs two lines) |
+  | `testCellStacksVerticallyForAccessibilityTextSizes` | `always-horizontal` |
+  | UI `testLaunchShowsStudentsList` | `no-navigation-controller` |
+  | UI `testSeedStudentCellIsFoundByIdentifier` | `cell-id-dash` |
+  | UI `StudentListUITests` on `APD Probe` with a saved delegate-less session | `adopt-without-window` (R-30) |
+
+  Equivalent mutant: `no-scene-delegate-class` (R-25 line removed) passes on
+  a fresh device because R-30 adopts the scene
+  (`artifacts/T2-mutant-no-scene-delegate-class-equivalent.log`, R-31).
 - T3 `StudentDetailTests` (unit):
   `testSelectingRowPushesDetailsOfThatStudent`,
   `testDetailsShowEveryStudentField`,
@@ -215,6 +248,9 @@ in `StudentDirectoryUITests/`.
 | The local simulator locale is `en_UA` (`97,5`), CI probably differs | R-9: unit tests pass a locale, UI tests never assert grade text |
 | Lower cells exist in the XCUI tree but are not hittable (fact 17) | UI tests tap only cells near the top |
 | The `.xcresult` summary lists only the first failure of a test | logs and fact checks read every failure from the test details (fact 23) |
+| A scene session saved by a build without a delegate (the template, an older build) is restored on every launch and bypasses `configurationForConnecting`, so the R-25 fix alone gives a blank app on such a device (fact 26) | R-30 adopts such scenes; checked on `APD Probe` with a saved delegate-less session (green log section 3, mutant `adopt-without-window`) |
+| UI test results on the main simulator depend on its saved scene sessions (fact 30) | scene-related checks and mutants run on the separate `APD Probe` simulator with an explicit setup (erase, then a delegate-less launch) |
+| R-27 (student's choice): the cause of the blank-screen repetition is unknown; a longer guard only helps if the launch was slow, and a real scene-connection defect could show up again on CI or for users | every UI test first waits for a screen-unique element, so a blank screen still fails with the rule name; repeats (R-14) keep looking for it; the first failed series is kept in `artifacts/T2-green-ui5-flaky-attempt.log` |
 
 ## Verified language facts
 
@@ -299,16 +335,51 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     `configuration.delegateClass = SceneDelegate.self` it does.
 23. `xcresulttool get test-results summary` lists only the first failure of a
     test; `get test-results test-details` lists all of them.
+24. When the system restores a scene session on relaunch,
+    `application(_:configurationForConnecting:options:)` is not called, but
+    `SceneDelegate` is still created (8 relaunches with `NSLog` probes: launch
+    2 restored a session, all 8 showed the list). So the agent's hypothesis
+    "restored sessions lose the R-25 `delegateClass`" was not confirmed.
+25. `UIImage(named:)` returns the same instance for repeated calls with the
+    same asset name (the `===` avatar check in
+    `testCellShowsNameAgeGradeAndScholarship` passes, and `avatar-01` is not
+    `nil`, fact 16).
+26. A scene session saved by a build without `delegateClass` is restored on
+    every later launch of any build with the same bundle id;
+    `configurationForConnecting` is not called, so `SceneDelegate` is never
+    created and the screen stays blank (`APD Probe`: the R-25 build after a
+    delegate-less build showed nothing in 8/8 launches). Sessions saved by a
+    build with `delegateClass` keep the delegate (fact 24). This is the likely
+    cause of the R-27 repetition (not proven for that run).
+27. `application.requestSceneSessionDestruction(_:options:)` called in
+    `didFinishLaunching` for such a restored session has no effect: the same
+    session is restored again and the screen stays blank (8/8).
+28. `UIScene.willConnectNotification` is posted for a restored scene without a
+    delegate (`scene.delegate == nil`); giving it a new `SceneDelegate` and
+    building the window shows the list (8/8 relaunches and both list UI tests
+    on a device with a saved delegate-less session). On the normal path the
+    notification arrives with the delegate already set, so no second window
+    is built (8/8 on a fresh device). The scene keeps the assigned delegate.
+29. With `-parallel-testing-enabled NO` (R-26 A) a unit-test mutant takes
+    19-27 s instead of about 2 min with simulator clones; all 19 unit tests
+    x20 take 16 s and the 4 UI tests x5 take 88 s.
+30. UI test results on a simulator depend on its saved scene sessions: the
+    R-25-only mutant without `delegateClass` passed on the main iPhone 17
+    (sessions saved by builds with a delegate) and failed on a fresh device
+    (E1 on `APD Probe`).
 
-Not yet verified (checked before first use): CI behaviour of the R-25 scene
-fix (Xcode 16.4).
+Not yet verified (checked before first use): CI behaviour of the R-25/R-30
+scene code (Xcode 16.4).
 
 ## Verification plan
 
 - Focused runs while a task is in progress:
   `xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:<Target>/<Class>`.
 - Each green run is repeated (R-14): unit tests `-test-iterations 20`, UI
-  tests `-test-iterations 5`; counts are read from `.xcresult`.
+  tests `-test-iterations 5`; counts are read from `.xcresult`. From T3
+  (R-26): the repeats are the green run, UI repeats cover only the task's new
+  UI tests, focused runs and mutants use `-parallel-testing-enabled NO`; the
+  exact command runs on CI after every push and in T7.
 - Mutants run in a scratchpad copy with their own `-derivedDataPath`; logs as
   `artifacts/T<n>-red-mutant-<name>.log` with the mutant diff.
 - After each task: protected-file check (R-16), personal-data grep, CI run
@@ -349,3 +420,16 @@ fix (Xcode 16.4).
 | 2026-11-08 | T2 probe round 3 with `delegateClass` | XCUI finds cells by identifier, all 10 exist, last not hittable; `updateTraitsIfNeeded()` / window applies traits | facts 15, 17, 20 |
 | 2026-11-08 | control: `HW3 Starter` label on `7031d9f` without / with `delegateClass` | not shown / shown | fact 22, R-25 |
 | 2026-11-08 | T2 red: `-only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentListUITests` | `TEST FAILED` as expected: 13 T2 tests fail on their rules, 8 others pass (`artifacts/T2-red.log`) | implement T2 |
+| 2026-11-08 | T2 green: same selection | passed 21/21, no compiler warnings, no unsatisfiable-constraint logs | repeats |
+| 2026-11-08 | T2: all unit tests x20 | every unit test 20/20 | none |
+| 2026-11-08 | T2: all UI tests x5 (10 s guard, simulator clones) | **failed**: `testSeedStudentCellIsFoundByIdentifier` 4/5 (`artifacts/T2-green-ui5-flaky-attempt.log`) | investigate |
+| 2026-11-08 | T2: exact command | passed 23/23 | none |
+| 2026-11-08 | investigation of the failed repetition (`.xcresult` activities, exported UI hierarchy, frames of the screen recording) | app running and idle, blank white screen, empty accessibility tree for 10 s, no crash report; in another repetition of the series the automation setup took 14 s (load) | relaunch probe |
+| 2026-11-08 | relaunch probe: 8 launches with `NSLog` in `didFinishLaunching`, `configurationForConnecting`, `SceneDelegate` | list shown 8/8; launch 2 restored a session without `configurationForConnecting`, `SceneDelegate` still created | fact 24; R-27 |
+| 2026-11-08 | T2: all UI tests x5 again (20 s guard, no clones) | passed 4/4, each 5/5, 104 s | mutants |
+| 2026-11-08 | T2: 17 mutants on the main iPhone 17 (no clones) | 16 failed on their rule; `no-scene-delegate-class` **passed** (survived); unit mutants 19-27 s each | R-28. The log of this survived run was later overwritten by the agent's re-run under the same name (agent mistake); the result is kept in this row |
+| 2026-11-09 | E1-E3 on the new `APD Probe` simulator: delegate-less build (M) fresh / R-25 build (A) after M / M after A | E1: blank, both UI tests fail (mutant killed on a fresh device); E2: **A blank 8/8**; E3: blank | facts 26, 30; R-29 |
+| 2026-11-09 | V1-V2: R-29 candidate (destroy delegate-less sessions) over a saved session / fresh | V1 blank 8/8, destruction ignored; V2 list 8/8 | R-29 rejected; R-30 |
+| 2026-11-09 | W1-W3: R-30 candidate (adopt the scene) over a saved session / fresh | W2 list 8/8 + both UI tests pass; W3 list 8/8, no adoption on the normal path | fact 28; R-30 applied to the repo |
+| 2026-11-09 | T2 final: all unit tests x20, all UI tests x5 (main iPhone 17), both list UI tests on `APD Probe` after a delegate-less launch | 20/20, 5/5, passed (`artifacts/T2-green.log`) | none |
+| 2026-11-09 | T2 mutants on the final code: `adopt-without-window` (`APD Probe`, saved session), `no-scene-delegate-class` (fresh `APD Probe`), `no-navigation-controller`, `cell-id-dash` | killed, **passed (equivalent)**, killed, killed | R-31 |

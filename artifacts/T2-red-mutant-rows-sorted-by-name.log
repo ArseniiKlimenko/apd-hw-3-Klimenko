@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentListTests/testListRowsFollowStoreOrder (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:rows-sorted-by-name>
+# Expectation: rows sorted by name -> testListRowsFollowStoreOrder fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -8,7 +8,7 @@
+ 
+     /// R-7: read from the store on every call, never cached.
+     private var students: [Student] {
+-        store.students
++        store.students.sorted { $0.name < $1.name }
+     }
+ 
+     init(store: StudentStore) {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-08 23:30:25.932.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-08 23:30:25.932.
+Test Suite 'StudentListTests' started at 2026-11-08 23:30:25.932.
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' failed (0.147 seconds).
+Test Suite 'StudentListTests' failed at 2026-11-08 23:30:26.080.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-08 23:30:26.080.
+Test Suite 'Selected tests' failed at 2026-11-08 23:30:26.080.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testListRowsFollowStoreOrder() -> XCTAssertEqual failed: ("["studentCell.00000000-0000-0000-0000-000000000001", "studentCell.00000000-0000-0000-0000-000000000002", "studentCell.00000000-0000-0000-0000-000000000003"]") is not equal to ("["studentCell.00000000-0000-0000-0000-000000000003", "studentCell.00000000-0000-0000-0000-000000000001", "studentCell.00000000-0000-0000-0000-000000000002"]") - Rule: row i shows store student i, identified as studentCell.<id>
+test: StudentListTests.testListRowsFollowStoreOrder() -> Failed

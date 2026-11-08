@@ -15,8 +15,9 @@ extension XCTestCase {
     }
 
     /// R-4: waits only as a guard against a hanging test; it never measures time.
+    /// R-27: 20 s after one repetition under load showed no window for 10 s.
     func waitOrFail(_ element: XCUIElement, rule: String, file: StaticString = #filePath, line: UInt = #line) throws {
-        guard element.waitForExistence(timeout: 10) else {
+        guard element.waitForExistence(timeout: 20) else {
             XCTFail("Rule: \(rule)", file: file, line: line)
             throw MissingElement(rule: rule)
         }

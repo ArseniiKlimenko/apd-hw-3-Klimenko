@@ -1,0 +1,44 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryUITests -test-iterations 5 (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: FAILED ATTEMPT, kept as evidence (R-27). Every UI test should pass 5/5. ACTUAL: testSeedStudentCellIsFoundByIdentifier passed 4/5; in repetition 4 the app was running and idle but showed a blank white screen with an empty accessibility tree for the whole 10 s guard; no crash report. Cause not found (8 relaunch probe: list shown 8/8). Student chose R-27 (b): guard 10 -> 20 s
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentListUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)'
+Test case 'StudentListUITests.testLaunchShowsStudentsList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (15.616 seconds)
+Test case 'StudentListUITests.testLaunchShowsStudentsList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (17.372 seconds)
+Test case 'StudentListUITests.testLaunchShowsStudentsList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (16.034 seconds)
+Test case 'StudentListUITests.testLaunchShowsStudentsList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (15.807 seconds)
+Test case 'StudentListUITests.testLaunchShowsStudentsList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (8.765 seconds)
+Test case 'StudentListUITests.testSeedStudentCellIsFoundByIdentifier()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (14.973 seconds)
+Test case 'StudentListUITests.testSeedStudentCellIsFoundByIdentifier()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (21.000 seconds)
+Test case 'StudentListUITests.testSeedStudentCellIsFoundByIdentifier()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (7.087 seconds)
+Test case 'StudentListUITests.testSeedStudentCellIsFoundByIdentifier()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (8.100 seconds)
+Test case 'StudentListUITests.testSeedStudentCellIsFoundByIdentifier()' failed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (17.322 seconds)
+Test suite 'StudentDirectoryUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)'
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (30.984 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (4.026 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (4.847 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (4.039 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (44159)' (4.455 seconds)
+Test suite 'StudentDirectoryUITestsLaunchTests' started on 'Clone 3 of iPhone 17 - StudentDirectoryUITests-Runner (45147)'
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 3 of iPhone 17 - StudentDirectoryUITests-Runner (45147)' (10.336 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 3 of iPhone 17 - StudentDirectoryUITests-Runner (45147)' (15.754 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 3 of iPhone 17 - StudentDirectoryUITests-Runner (45147)' (6.560 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 3 of iPhone 17 - StudentDirectoryUITests-Runner (45147)' (10.588 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 3 of iPhone 17 - StudentDirectoryUITests-Runner (45147)' (4.100 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 3, failed 1, skipped 0, total 4
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListUITests/testSeedStudentCellIsFoundByIdentifier() -> failed - Rule: the first seed student's cell is identified as studentCell.<id>
+failure: StudentListUITests/testSeedStudentCellIsFoundByIdentifier() -> failed: caught error: "MissingElement(rule: "the first seed student\'s cell is identified as studentCell.<id>")"
+test: StudentListUITests.testLaunchShowsStudentsList() -> Passed (repetitions: 5, passed 5)
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Failed (repetitions: 5, passed 4)
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed (repetitions: 5, passed 5)
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed (repetitions: 5, passed 5)

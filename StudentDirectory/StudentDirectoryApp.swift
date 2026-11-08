@@ -6,7 +6,19 @@ final class StudentDirectoryApp: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        true
+        // R-30: a scene session saved by a build without a delegate class is
+        // restored without calling configurationForConnecting below, so the
+        // scene comes back without SceneDelegate and the app shows nothing.
+        // Give such a scene a SceneDelegate when it connects.
+        NotificationCenter.default.addObserver(forName: UIScene.willConnectNotification, object: nil, queue: .main) { notification in
+            MainActor.assumeIsolated {
+                guard let scene = notification.object as? UIWindowScene, scene.delegate == nil else { return }
+                let sceneDelegate = SceneDelegate()
+                scene.delegate = sceneDelegate
+                sceneDelegate.connect(scene)
+            }
+        }
+        return true
     }
 
     func application(
@@ -14,6 +26,10 @@ final class StudentDirectoryApp: UIResponder, UIApplicationDelegate {
         configurationForConnecting connectingSceneSession: UISceneSession,
         options: UIScene.ConnectionOptions
     ) -> UISceneConfiguration {
-        UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        let configuration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+        // R-25: the generated Info.plist has no scene configuration, so without
+        // this line SceneDelegate is never created and the app has no window.
+        configuration.delegateClass = SceneDelegate.self
+        return configuration
     }
 }

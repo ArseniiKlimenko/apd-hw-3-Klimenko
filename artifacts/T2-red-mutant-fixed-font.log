@@ -1,0 +1,40 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentListTests/testCellTextSupportsDynamicType (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:fixed-font>
+# Expectation: fixed font for age/grade/scholarship -> testCellTextSupportsDynamicType fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentCell.swift
++++ b/StudentDirectory/StudentCell.swift
+@@ -41,7 +41,7 @@
+ 
+         nameLabel.font = .preferredFont(forTextStyle: .headline)
+         for label in [ageLabel, gradeLabel, scholarshipLabel] {
+-            label.font = .preferredFont(forTextStyle: .subheadline)
++            label.font = .systemFont(ofSize: 15)
+         }
+         for label in [nameLabel, ageLabel, gradeLabel, scholarshipLabel] {
+             label.adjustsFontForContentSizeCategory = true
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-08 23:33:29.868.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-08 23:33:29.869.
+Test Suite 'StudentListTests' started at 2026-11-08 23:33:29.869.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' failed (0.163 seconds).
+Test Suite 'StudentListTests' failed at 2026-11-08 23:33:30.032.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-08 23:33:30.032.
+Test Suite 'Selected tests' failed at 2026-11-08 23:33:30.032.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the age label uses a text style font, got CTFontRegularUsage
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the grade label uses a text style font, got CTFontRegularUsage
+failure: StudentListTests/testCellTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the scholarship label uses a text style font, got CTFontRegularUsage
+test: StudentListTests.testCellTextSupportsDynamicType() -> Failed

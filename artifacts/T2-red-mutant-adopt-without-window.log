@@ -1,0 +1,44 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,id=<APD Probe> (after the stale-session setup)' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/StudentListUITests (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:adopt-without-window>
+# Expectation: on a device with a saved delegate-less scene session the adopted scene gets no window -> both StudentListUITests fail (R-30)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDirectoryApp.swift
++++ b/StudentDirectory/StudentDirectoryApp.swift
+@@ -15,7 +15,7 @@
+                 guard let scene = notification.object as? UIWindowScene, scene.delegate == nil else { return }
+                 let sceneDelegate = SceneDelegate()
+                 scene.delegate = sceneDelegate
+-                sceneDelegate.connect(scene)
++
+             }
+         }
+         return true
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 00:25:49.222.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 00:25:49.223.
+Test Suite 'StudentListUITests' started at 2026-11-09 00:25:49.223.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' failed (24.612 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' failed (23.926 seconds).
+Test Suite 'StudentListUITests' failed at 2026-11-09 00:26:37.766.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 00:26:37.767.
+Test Suite 'Selected tests' failed at 2026-11-09 00:26:37.768.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 2, skipped 0, total 2
+device: APD Probe (iOS Simulator 26.3.1)
+failure: StudentListUITests/testLaunchShowsStudentsList() -> failed - Rule: the first screen is titled Students
+failure: StudentListUITests/testLaunchShowsStudentsList() -> failed: caught error: "MissingElement(rule: "the first screen is titled Students")"
+failure: StudentListUITests/testSeedStudentCellIsFoundByIdentifier() -> failed - Rule: the first seed student's cell is identified as studentCell.<id>
+failure: StudentListUITests/testSeedStudentCellIsFoundByIdentifier() -> failed: caught error: "MissingElement(rule: "the first seed student\'s cell is identified as studentCell.<id>")"
+test: StudentListUITests.testLaunchShowsStudentsList() -> Failed
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Failed

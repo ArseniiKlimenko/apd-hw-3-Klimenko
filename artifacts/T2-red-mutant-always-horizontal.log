@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentListTests/testCellStacksVerticallyForAccessibilityTextSizes (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:always-horizontal>
+# Expectation: no adaptive layout -> testCellStacksVerticallyForAccessibilityTextSizes fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentCell.swift
++++ b/StudentDirectory/StudentCell.swift
+@@ -67,7 +67,7 @@
+ 
+     private func updateLayout(for category: UIContentSizeCategory) {
+         let isAccessibilitySize = category.isAccessibilityCategory
+-        contentStack.axis = isAccessibilitySize ? .vertical : .horizontal
++        contentStack.axis = .horizontal
+         contentStack.alignment = isAccessibilitySize ? .leading : .center
+     }
+ }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-08 23:34:33.512.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-08 23:34:33.513.
+Test Suite 'StudentListTests' started at 2026-11-08 23:34:33.513.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' failed (0.147 seconds).
+Test Suite 'StudentListTests' failed at 2026-11-08 23:34:33.661.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-08 23:34:33.661.
+Test Suite 'Selected tests' failed at 2026-11-08 23:34:33.661.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testCellStacksVerticallyForAccessibilityTextSizes() -> XCTAssertEqual failed: ("UILayoutConstraintAxis(rawValue: 0)") is not equal to ("UILayoutConstraintAxis(rawValue: 1)") - Rule: accessibility text sizes put the avatar above the text (R-23)
+test: StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes() -> Failed

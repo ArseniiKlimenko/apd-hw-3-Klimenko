@@ -1,0 +1,40 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,id=<APD Probe> (freshly erased)' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/StudentListUITests (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:no-scene-delegate-class>
+# Expectation: R-25 line removed on a fresh device: does R-30 adoption alone still show the list? (equivalence check)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDirectoryApp.swift
++++ b/StudentDirectory/StudentDirectoryApp.swift
+@@ -29,7 +29,7 @@
+         let configuration = UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
+         // R-25: the generated Info.plist has no scene configuration, so without
+         // this line SceneDelegate is never created and the app has no window.
+-        configuration.delegateClass = SceneDelegate.self
++
+         return configuration
+     }
+ }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 00:27:55.444.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 00:27:55.445.
+Test Suite 'StudentListUITests' started at 2026-11-09 00:27:55.446.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (11.771 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (5.819 seconds).
+Test Suite 'StudentListUITests' passed at 2026-11-09 00:28:13.038.
+Test Suite 'StudentDirectoryUITests.xctest' passed at 2026-11-09 00:28:13.038.
+Test Suite 'Selected tests' passed at 2026-11-09 00:28:13.038.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 2, failed 0, skipped 0, total 2
+device: APD Probe (iOS Simulator 26.3.1)
+test: StudentListUITests.testLaunchShowsStudentsList() -> Passed
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Passed

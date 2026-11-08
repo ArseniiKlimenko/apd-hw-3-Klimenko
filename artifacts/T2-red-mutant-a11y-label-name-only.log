@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentListTests/testCellAccessibilityLabelSummarizesStudent (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:a11y-label-name-only>
+# Expectation: label with the name only -> testCellAccessibilityLabelSummarizesStudent fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentCell.swift
++++ b/StudentDirectory/StudentCell.swift
+@@ -33,7 +33,7 @@
+         gradeLabel.text = StudentFormatting.grade(student.averageGrade, locale: locale)
+         scholarshipLabel.text = StudentFormatting.scholarship(student.isScholarshipHolder)
+         accessibilityIdentifier = "studentCell.\(student.id.uuidString)"
+-        accessibilityLabel = StudentFormatting.accessibilityLabel(for: student, locale: locale)
++        accessibilityLabel = student.name
+     }
+ 
+     private func setUpViews() {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-08 23:32:35.604.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-08 23:32:35.604.
+Test Suite 'StudentListTests' started at 2026-11-08 23:32:35.604.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' failed (0.158 seconds).
+Test Suite 'StudentListTests' failed at 2026-11-08 23:32:35.763.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-08 23:32:35.763.
+Test Suite 'Selected tests' failed at 2026-11-08 23:32:35.763.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testCellAccessibilityLabelSummarizesStudent() -> XCTAssertEqual failed: ("Optional("Ada Lovelace")") is not equal to ("Optional("Ada Lovelace, age 20, grade 97.5, scholarship holder")") - Rule: the cell label summarizes a scholarship holder
+failure: StudentListTests/testCellAccessibilityLabelSummarizesStudent() -> XCTAssertEqual failed: ("Optional("Grace Hopper")") is not equal to ("Optional("Grace Hopper, age 22, grade 91.5, no scholarship")") - Rule: the cell label summarizes a student without a scholarship
+test: StudentListTests.testCellAccessibilityLabelSummarizesStudent() -> Failed

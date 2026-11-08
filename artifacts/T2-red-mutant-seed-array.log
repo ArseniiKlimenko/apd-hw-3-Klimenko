@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentListTests/testListReflectsStoreChangesAfterReload (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:seed-array>
+# Expectation: list reads a second array (the seed) instead of the shared store -> testListReflectsStoreChangesAfterReload fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -8,7 +8,7 @@
+ 
+     /// R-7: read from the store on every call, never cached.
+     private var students: [Student] {
+-        store.students
++        StudentSeedData.students
+     }
+ 
+     init(store: StudentStore) {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-08 23:34:10.857.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-08 23:34:10.858.
+Test Suite 'StudentListTests' started at 2026-11-08 23:34:10.858.
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' failed (0.137 seconds).
+Test Suite 'StudentListTests' failed at 2026-11-08 23:34:10.995.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-08 23:34:10.995.
+Test Suite 'Selected tests' failed at 2026-11-08 23:34:10.995.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testListReflectsStoreChangesAfterReload() -> XCTAssertEqual failed: ("10") is not equal to ("9") - Rule: the list reads the shared store, not a copy (R-7)
+test: StudentListTests.testListReflectsStoreChangesAfterReload() -> Failed

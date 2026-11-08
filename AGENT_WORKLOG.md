@@ -14,6 +14,7 @@ student as a diff before the student committed it manually.
 | 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | Reviewed the baseline log and the crash diagnosis; paused the probe run over macOS crash dialogs; chose R-17/R-18; restored the assets rewritten by Xcode. | `artifacts/T0-baseline.log` |
 | 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | Reviewed the 6-line StudentStore diff, the green log and both mutant logs; chose R-19 (b) after the equivalent-mutant finding. | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
 | 2026-11-08 | Entry 4: store characterization tests (T1), CI of `fix(T0)` | Reviewed the six store tests, the TestSupport factory, the green log and all seven mutant logs; chose R-20 (b); re-ran the failed CI job. | `artifacts/T1-green.log`, `artifacts/T1-red-mutant-*.log` (7) |
+| 2026-11-09 | Entry 5: student list and cell (T2), scene fixes R-25/R-30, R-21…R-31 | Reviewed the list, cell, formatting and scene code, the red and green logs, the flaky attempt and all mutant logs; chose R-21…R-31, R-23 and R-27 against the recommendation. | `artifacts/T2-red.log`, `artifacts/T2-green.log`, `artifacts/T2-green-ui5-flaky-attempt.log`, `artifacts/T2-red-mutant-*.log` (17), `artifacts/T2-mutant-no-scene-delegate-class-equivalent.log` |
 
 ---
 
@@ -286,6 +287,89 @@ simulator; I re-ran it and it passed with Xcode 16.4.
 - `artifacts/T1-red-mutant-seed-reversed.log`, `…-ignore-injected.log`,
   `…-sort-by-name.log`, `…-case-insensitive.log`, `…-substring.log`,
   `…-trim.log`, `…-all-on-no-match.log`
+
+---
+
+## Entry 5 — Student list and reusable cell (T2) (2026-11-08 – 2026-11-09)
+
+### Tool/agent task
+
+Build the list screen (UIKit, SnapKit, reusable cell, title `Students`,
+`studentList` / `studentCell.<id>`, Dynamic Type, accessibility) test-first:
+red with neutral placeholders, then the implementation, repeats (R-14,
+R-26) and mutants. Verify the UIKit/XCUI facts the tests rely on first.
+
+### Output reviewed
+
+- Facts checked in scratchpad copies before use (`PLAN.md` facts 15-25):
+  SVG avatars, locale formatting (the local simulator locale is `en_UA`), the
+  text style attribute of fixed fonts, trait updates without a window
+  (`updateTraitsIfNeeded()`), synchronous push, XCUI cell lookup.
+- Template defect found while checking XCUI: `SceneDelegate` is never
+  connected, the app shows no window (fact 22). Fixed in `StudentDirectoryApp`
+  (R-25).
+- Red (`test(T2)`): 11 unit + 2 UI tests fail on their rules against neutral
+  placeholders; 8 older unit tests stay green.
+- Implementation: `StudentFormatting` (R-21, R-9), `StudentCell` (SnapKit,
+  `preferredFont` + `adjustsFontForContentSizeCategory`, one accessibility
+  element, adaptive stack R-23, avatar fallback R-24),
+  `StudentListViewController` (reads the shared store on every call, R-7),
+  `SceneDelegate` as the composition root with one `StudentStore`.
+- Repeats found a flaky UI test (4/5: blank screen, empty accessibility tree,
+  no crash). The student chose R-27 (b), guard 10 s -> 20 s, instead of the
+  agent's recommendation to probe further first.
+- A mutant without `delegateClass` then survived on the main simulator. On a
+  separate simulator (`APD Probe`, R-28) the agent showed that a scene session
+  saved by a delegate-less build is restored on every launch and bypasses
+  `configurationForConnecting`, so the R-25 fix alone leaves the app blank on
+  such a device (fact 26); this also explains the flaky repetition most
+  likely. R-29 (destroy such sessions) did not work and was never committed;
+  R-30 (adopt a delegate-less scene on `UIScene.willConnectNotification`)
+  works and is in this commit. R-31: the R-25 line is kept although it became
+  an equivalent mutant.
+- R-26 (student's choice A+B+C) cut a unit mutant from about 2 min to 19-27 s.
+- Agent mistakes, all found by the agent itself:
+  - read only the first failure of a test from the `.xcresult` summary and
+    concluded wrongly that trait overrides apply on `layoutIfNeeded()`;
+    fixed the log tool to read every failure (facts 20, 23);
+  - expected that restored sessions lose the `delegateClass` (fact 24
+    disproved it), and later expected R-29 to work (fact 27 disproved it);
+  - overwrote the log of the survived `no-scene-delegate-class` run by
+    re-running the mutant under the same name; the result is kept in the
+    `PLAN.md` run log;
+  - said in the T2 plan that the placeholder would be
+    `StudentListViewController(store:subject:)`; the `subject` parameter was
+    left for T4 so that no T4 rule enters T2 untested (told the student).
+
+### Accepted/rejected/revised decision
+
+Accepted R-21, R-22, R-24, R-25, R-26 (A+B+C), R-28, R-30 and R-31 as
+recommended. Chose R-23 (b) adaptive cell layout and R-27 (b) 20 s UI guard
+against the recommendations: large text stays readable, and the longer guard
+costs nothing on green runs. R-29 (destroy old scene sessions) was tried and
+rejected because it did not work; R-30 (give a restored scene without a
+delegate a SceneDelegate) fixed the blank screen on a device with an old
+session. R-26 cut one mutant run from about 2 min to under 30 s.
+
+### Verification command/result
+
+- Red: `-only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentListUITests`
+  -> 13 T2 tests fail on their rules, 8 pass.
+- Final green: all unit tests `-test-iterations 20` -> 19 tests, each 20/20;
+  all UI tests `-test-iterations 5` -> 4 tests, each 5/5; both
+  `StudentListUITests` pass on `APD Probe` after a delegate-less launch.
+- Mutants: 17 killed on their rule; `no-scene-delegate-class` equivalent
+  after R-30.
+- CI of `test(T1)` (run `42519361024`): success, Xcode 16.4, 10/10.
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit (R-19) and `StudentDirectoryApp` (R-25, R-30).
+
+### Artifact links
+
+- `artifacts/T2-red.log`, `artifacts/T2-green.log`
+- `artifacts/T2-green-ui5-flaky-attempt.log` (failed attempt, R-27)
+- `artifacts/T2-red-mutant-<name>.log` (17 mutants, table in `PLAN.md`)
+- `artifacts/T2-mutant-no-scene-delegate-class-equivalent.log` (R-31)
 
 ---
 

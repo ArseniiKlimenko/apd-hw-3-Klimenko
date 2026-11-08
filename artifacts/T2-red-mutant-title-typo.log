@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentListTests/testListTitleIsStudents (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:title-typo>
+# Expectation: title Student -> testListTitleIsStudents fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -22,7 +22,7 @@
+ 
+     override func viewDidLoad() {
+         super.viewDidLoad()
+-        title = "Students"
++        title = "Student"
+         view.backgroundColor = .systemBackground
+ 
+         tableView.accessibilityIdentifier = "studentList"
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-08 23:29:39.813.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-08 23:29:39.814.
+Test Suite 'StudentListTests' started at 2026-11-08 23:29:39.814.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' failed (0.325 seconds).
+Test Suite 'StudentListTests' failed at 2026-11-08 23:29:40.139.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-08 23:29:40.139.
+Test Suite 'Selected tests' failed at 2026-11-08 23:29:40.140.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testListTitleIsStudents() -> XCTAssertEqual failed: ("Optional("Student")") is not equal to ("Optional("Students")") - Rule: the list title is Students
+test: StudentListTests.testListTitleIsStudents() -> Failed

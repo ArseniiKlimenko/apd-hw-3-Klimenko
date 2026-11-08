@@ -1,0 +1,905 @@
+===== 1/3 all unit tests repeated 20x (R-14), final T2 code with R-30 =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests -test-iterations 20 (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: all 19 unit tests (11 T2, 6 T1, 2 starter) pass in all 20 repetitions
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'All tests' started at 2026-11-09 00:19:10.925.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 00:19:10.926.
+Test Suite 'StarterStudentDirectoryTests' started at 2026-11-09 00:19:10.927.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Suite 'StarterStudentDirectoryTests' passed at 2026-11-09 00:19:11.000.
+Test Suite 'StudentListTests' started at 2026-11-09 00:19:11.000.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.019 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.004 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.006 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.004 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.005 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Suite 'StudentListTests' passed at 2026-11-09 00:19:11.334.
+Test Suite 'StudentStoreTests' started at 2026-11-09 00:19:11.334.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.006 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.013 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.005 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 1 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 2 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 3 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 4 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 5 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 6 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 7 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 8 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 9 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 10 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 11 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 12 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 13 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 14 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 15 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 16 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 17 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 18 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 19 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started (Iteration 20 of 20).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Suite 'StudentStoreTests' passed at 2026-11-09 00:19:11.489.
+Test Suite 'StudentDirectoryTests.xctest' passed at 2026-11-09 00:19:11.489.
+Test Suite 'All tests' passed at 2026-11-09 00:19:11.489.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 19, failed 0, skipped 0, total 19
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed (repetitions: 20, passed 20)
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testCellAccessibilityLabelSummarizesStudent() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testCellShowsNameAgeGradeAndScholarship() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testCellTextSupportsDynamicType() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testGradeFormattingFollowsLocale() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testListHasOneRowPerStoreStudent() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testListReflectsStoreChangesAfterReload() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testListRowsFollowStoreOrder() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testListTableHasStudentListIdentifier() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testListTitleIsStudents() -> Passed (repetitions: 20, passed 20)
+test: StudentListTests.testReusedCellResetsScholarshipState() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed (repetitions: 20, passed 20)
+
+===== 2/3 all UI tests repeated 5x (R-14), final T2 code, R-27 20 s guard =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests -test-iterations 5 (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: the 2 T2 and 2 starter UI tests pass in all 5 repetitions
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'All tests' started at 2026-11-09 00:19:19.687.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 00:19:19.688.
+Test Suite 'StudentDirectoryUITests' started at 2026-11-09 00:19:19.688.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.368 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.387 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.507 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.399 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.537 seconds).
+Test Suite 'StudentDirectoryUITests' passed at 2026-11-09 00:19:36.895.
+Test Suite 'StudentDirectoryUITestsLaunchTests' started at 2026-11-09 00:19:36.896.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.408 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.535 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.445 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.466 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.407 seconds).
+Test Suite 'StudentDirectoryUITestsLaunchTests' passed at 2026-11-09 00:19:54.161.
+Test Suite 'StudentListUITests' started at 2026-11-09 00:19:54.162.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.674 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.558 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.668 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.713 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.715 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.608 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.645 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.536 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.685 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.554 seconds).
+Test Suite 'StudentListUITests' passed at 2026-11-09 00:20:40.528.
+Test Suite 'StudentDirectoryUITests.xctest' passed at 2026-11-09 00:20:40.530.
+Test Suite 'All tests' passed at 2026-11-09 00:20:40.531.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 4, failed 0, skipped 0, total 4
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed (repetitions: 5, passed 5)
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed (repetitions: 5, passed 5)
+test: StudentListUITests.testLaunchShowsStudentsList() -> Passed (repetitions: 5, passed 5)
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Passed (repetitions: 5, passed 5)
+
+===== 3/3 stale scene session (R-30) on a separate simulator 'APD Probe' (iPhone 17, iOS 26.3) =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,id=<APD Probe>' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/StudentListUITests (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: setup: device erased, then a build without delegateClass (template-like) launched once, leaving a saved scene session without a delegate. Without R-30 the app then shows a blank screen on every launch; with R-30 both StudentListUITests pass
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 00:23:08.488.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 00:23:08.489.
+Test Suite 'StudentListUITests' started at 2026-11-09 00:23:08.489.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (7.494 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.811 seconds).
+Test Suite 'StudentListUITests' passed at 2026-11-09 00:23:20.795.
+Test Suite 'StudentDirectoryUITests.xctest' passed at 2026-11-09 00:23:20.796.
+Test Suite 'Selected tests' passed at 2026-11-09 00:23:20.797.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 2, failed 0, skipped 0, total 2
+device: APD Probe (iOS Simulator 26.3.1)
+test: StudentListUITests.testLaunchShowsStudentsList() -> Passed
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Passed

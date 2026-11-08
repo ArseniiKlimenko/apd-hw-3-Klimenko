@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StudentListTests/testCellShowsNameAgeGradeAndScholarship (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:grade-shows-age>
+# Expectation: grade label shows the age -> testCellShowsNameAgeGradeAndScholarship fails on the grade
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentCell.swift
++++ b/StudentDirectory/StudentCell.swift
+@@ -30,7 +30,7 @@
+         avatarView.image = UIImage(named: student.avatarName) ?? UIImage(named: "avatar-default")
+         nameLabel.text = student.name
+         ageLabel.text = StudentFormatting.age(student.age)
+-        gradeLabel.text = StudentFormatting.grade(student.averageGrade, locale: locale)
++        gradeLabel.text = StudentFormatting.age(student.age)
+         scholarshipLabel.text = StudentFormatting.scholarship(student.isScholarshipHolder)
+         accessibilityIdentifier = "studentCell.\(student.id.uuidString)"
+         accessibilityLabel = StudentFormatting.accessibilityLabel(for: student, locale: locale)
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-08 23:31:07.119.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-08 23:31:07.119.
+Test Suite 'StudentListTests' started at 2026-11-08 23:31:07.119.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' failed (0.146 seconds).
+Test Suite 'StudentListTests' failed at 2026-11-08 23:31:07.266.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-08 23:31:07.267.
+Test Suite 'Selected tests' failed at 2026-11-08 23:31:07.267.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentListTests/testCellShowsNameAgeGradeAndScholarship() -> XCTAssertEqual failed: ("Optional("Age 20")") is not equal to ("Optional("Grade 97.5")") - Rule: the cell shows the average grade
+test: StudentListTests.testCellShowsNameAgeGradeAndScholarship() -> Failed
