@@ -12,6 +12,7 @@ student as a diff before the student committed it manually.
 | --- | --- | --- | --- |
 | 2026-11-08 | Entry 1: template reading, plan, decisions R-1…R-18 | TODO (student) | `PLAN.md` |
 | 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | TODO (student) | `artifacts/T0-baseline.log` |
+| 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | TODO (student) | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
 
 ---
 
@@ -151,6 +152,71 @@ locally.
 ### Artifact links
 
 - `artifacts/T0-baseline.log` (excerpt, `.xcresult` summary, crash stack)
+
+---
+
+## Entry 3 — Starter crash workaround (T0 fix) (2026-11-08)
+
+### Tool/agent task
+
+Apply the R-17 workaround to `StudentStore`, prove it with a green run of the
+exact command plus repeats (R-14) and with a mutant, and keep the change to
+the supplied file minimal.
+
+### Output reviewed
+
+- First form (as agreed in R-17):
+  `#if compiler(>=6.2) nonisolated deinit {} #endif`. Exact command 4/4,
+  unit tests 20/20, UI tests 5/5.
+- Agent mistake (found by the agent itself): the agent expected the mutant
+  "drop `nonisolated`" to bring the crash back, i.e. it assumed the keyword
+  was essential. The mutant survived. Disassembly of the deinit showed that
+  `deinit {}` and `nonisolated deinit {}` compile to the same code; only the
+  implicit deinit is isolated (`PLAN.md` -> fact 12). The survived mutant is
+  kept as evidence of the failed attempt.
+- New decision R-19 presented (keep the first form vs plain `deinit {}`); the
+  student chose plain `deinit {}` with an explaining comment, no `#if`. Final
+  diff of `StudentDirectory/StudentStore.swift`: 6 added lines (4 comment
+  lines, `deinit {}`, one blank line); no signature, stored property or name
+  changed.
+- Green again with R-19: exact command 4/4, unit tests 20/20, UI tests 5/5.
+  One-line mutant `remove-deinit` (delete `deinit {}`, keep the comment) makes
+  the starter test crash again, so the starter test proves the workaround.
+- Tooling problems found and fixed by the agent before the commit:
+  - regenerating `T0-baseline.log` failed because Xcode had already deleted
+    the baseline `.xcresult`, and the crash section was appended twice; the
+    duplicate was removed (`PLAN.md` -> fact 11);
+  - `xcodebuild` printed 19 of 20 `Test case` lines in the 20x run although
+    `.xcresult` shows 20/20; repetition counts are now read from `.xcresult`
+    (fact 13);
+  - the protected-file check script first reported the allowed `deinit {}`
+    as a failure (whitespace in the comparison); fixed and checked against a
+    copy with a renamed parameter, which fails as expected.
+- CI has not built `deinit {}` with Xcode 16.4 yet; this is checked after the
+  student pushes this commit (R-18) and recorded in the next entry (R-11).
+
+### Accepted/rejected/revised decision
+
+TODO (student)
+
+### Verification command/result
+
+- `xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test`
+  -> `** TEST SUCCEEDED **`, 4/4.
+- Same with `-only-testing:StudentDirectoryTests -test-iterations 20` -> each
+  unit test 20/20; with `-only-testing:StudentDirectoryUITests -test-iterations 5`
+  -> each UI test 5/5 (counts from `.xcresult`).
+- Mutant `remove-deinit`,
+  `-only-testing:StudentDirectoryTests/StarterStudentDirectoryTests/testStarterStoreIsConstructible`
+  -> `** TEST FAILED **`, "Test crashed with signal abrt".
+- Protected-file check vs `938bf69`: protected paths unchanged; the only
+  declaration change in `StudentStore.swift` is `deinit {}`.
+
+### Artifact links
+
+- `artifacts/T0-green.log` (exact command, unit 20x, UI 5x)
+- `artifacts/T0-red-mutant-remove-deinit.log` (mutant diff + crash)
+- `artifacts/T0-mutant-plain-deinit-survived.log` (failed attempt, equivalent mutant)
 
 ---
 

@@ -1,0 +1,31 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StarterStudentDirectoryTests/testStarterStoreIsConstructible (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:remove-deinit>
+# Expectation: one-line mutant deletes the explicit 'deinit {}' (comment kept) -> implicit isolated deinit returns -> testStarterStoreIsConstructible crashes (signal abrt)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -11,7 +11,6 @@
+     // isolation the implicit deinit is isolated, and releasing a store inside
+     // XCTest crashes (SIGABRT in swift_task_deinitOnExecutorImpl). An explicit
+     // deinit is not isolated.
+-    deinit {}
+ 
+     func students(matchingSubject subject: String) -> [Student] {
+         students.filter { $0.subjects.contains(subject) }
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (18573)'
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (18573)' (0.000 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StarterStudentDirectoryTests/testStarterStoreIsConstructible() -> Test crashed with signal abrt.
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Failed

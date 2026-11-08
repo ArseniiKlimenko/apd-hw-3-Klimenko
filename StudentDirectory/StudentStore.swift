@@ -7,6 +7,12 @@ final class StudentStore {
         self.students = students
     }
 
+    // R-17/R-19: keep this explicit deinit. With Xcode 26 default MainActor
+    // isolation the implicit deinit is isolated, and releasing a store inside
+    // XCTest crashes (SIGABRT in swift_task_deinitOnExecutorImpl). An explicit
+    // deinit is not isolated.
+    deinit {}
+
     func students(matchingSubject subject: String) -> [Student] {
         students.filter { $0.subjects.contains(subject) }
     }

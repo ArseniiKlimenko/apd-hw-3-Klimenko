@@ -89,6 +89,7 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-16 | Template reference SHA | `938bf69c34131616d693a67c3706d8dd41543388` | deterministic protected-file checks |
 | R-17 | Starter test crashes locally (T0) | (a) minimal workaround in `StudentStore` in a separate `fix(T0)` commit + (d) student informs the instructor | reliable local red/green cycle without leaking stores in tests |
 | R-18 | Push cadence | student pushes after each task | local Xcode 26.3 and CI Xcode 16.4 differ; catch CI problems early |
+| R-19 | Form of the R-17 workaround (revises the first form) | plain `deinit {}` with a comment, no `#if` | the first form `#if compiler(>=6.2) nonisolated deinit {} #endif` compiles to the same code (fact 12); `deinit {}` is valid for every Swift version, so it does not rely on the unverified behaviour of `#if compiler` on Xcode 16.4 |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -102,7 +103,7 @@ clone at `<workspace>/apd-hw-3-Klimenko`.
 ## Milestones
 
 - [x] T0: fork, plan, worklog, baseline run (crash found, R-17)
-- [ ] T0 fix: R-17 workaround, green run, mutants
+- [x] T0 fix: R-17/R-19 workaround, green run, mutants
 - [ ] Student list and reusable cell (T2)
 - [ ] Detail screen and navigation (T3)
 - [ ] Subject-filtered list (T4)
@@ -119,6 +120,15 @@ in `StudentDirectoryUITests/`.
 
 - T0: `artifacts/T0-baseline.log` records the exact command on the untouched
   template (actual: `TEST FAILED`, R-17).
+- T0 fix (R-17/R-19): with `deinit {}` in `StudentStore` the exact command
+  passes 4/4, unit tests 20/20 and UI tests 5/5 (`artifacts/T0-green.log`).
+  Proof by the starter test `testStarterStoreIsConstructible`:
+  - mutant `remove-deinit` (one line: delete `deinit {}`, comment kept) ->
+    crash, `Test crashed with signal abrt`
+    (`artifacts/T0-red-mutant-remove-deinit.log`);
+  - failed attempt kept as evidence: mutant `plain-deinit` against the first
+    form (drop `nonisolated`) survived because it is equivalent (fact 12)
+    (`artifacts/T0-mutant-plain-deinit-survived.log`).
 - T1 `StudentStoreTests` (unit): `testSeedStoreKeepsSeedStudentsInOrder`,
   `testStoreUsesInjectedStudents`, `testSubjectFilterKeepsStoreOrder`,
   `testSubjectFilterIsCaseSensitive`, `testSubjectFilterRequiresExactMatch`,
@@ -169,6 +179,8 @@ in `StudentDirectoryUITests/`.
 | The Xcode GUI rewrites asset catalog `Contents.json` files (seen in T0: 11 avatar files changed and staged while Xcode was open) | protected-file check right before every `git add`; avoid opening `Assets.xcassets` in Xcode; restore with `git restore --staged --worktree StudentDirectory/Assets.xcassets` |
 | Personal data / absolute paths in artifacts | logs are sanitized (`<repo>`, `<home>`, `<scratch>`, `<mutant:name>`); grep before every commit |
 | Simulator app crashes during mutant runs open macOS crash dialogs | harmless; dismiss with OK / Ignore |
+| The empty `deinit {}` in `StudentStore` looks like dead code and may be deleted later | explaining comment in the code; the starter test crashes without it (mutant `remove-deinit`) |
+| `deinit {}` not yet built by CI (Xcode 16.4) | first CI run after the student pushes `fix(T0)` (R-18); result recorded in the next task's worklog entry (R-11) |
 
 ## Verified language facts
 
@@ -205,8 +217,20 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     `-clonedSourcePackagesDirPath`, `-resultBundlePath` (`xcodebuild -help`).
 11. The template `.xcresult` from the baseline run was deleted by Xcode after
     later runs (only the three newest bundles remained).
+12. An explicit deinit is not isolated, with or without `nonisolated`.
+    Disassembly of `StudentStore.__deallocating_deinit` (`xcrun objdump`):
+    the template (implicit deinit) has an isolated part (`fZ`) and calls into
+    the runtime (`deinitOnExecutor`); with `deinit {}` and with
+    `nonisolated deinit {}` there is no `fZ` and the deinit is called
+    directly. Neither crashes; removing the explicit deinit brings the crash
+    back.
+13. `-test-iterations N` repeats every selected test N times (`.xcresult`
+    shows N repetitions per test). The console output can print fewer
+    `Test case` lines than repetitions (19 of 20 seen), so counts are taken
+    from `.xcresult`.
 
-Not yet verified (checked before first use): synchronous update of
+Not yet verified (checked before first use): CI (Xcode 16.4) building
+`deinit {}`; synchronous update of
 `viewControllers` after `pushViewController` without a window; XCUI finding a
 cell by identifier with a combined label; SVG avatars via `UIImage(named:)`;
 which cells exist in the XCUI hierarchy on iPhone 17.
@@ -237,3 +261,9 @@ which cells exist in the XCUI hierarchy on iPhone 17.
 | 2026-11-08 | C1: deinit probes | empty class, class with array, store on later main-queue turn crashed; `UIViewController` subclass and kept-alive store passed | facts 3, 6 |
 | 2026-11-08 | C2: app releases a store at launch + starter UI launch test | passed, no crash report | fact 7 |
 | 2026-11-08 | D: probe copy with `#if compiler(>=6.2) nonisolated deinit {} #endif` in `StudentStore` | starter + probe tests passed, no crash | R-17 options |
+| 2026-11-08 | exact command, then `-only-testing:StudentDirectoryTests -test-iterations 20` and `-only-testing:StudentDirectoryUITests -test-iterations 5`, first form of the workaround in the repo | all passed (4/4, 20/20, 5/5); console showed 19 of 20 lines for one test | fact 13; superseded by R-19 |
+| 2026-11-08 | mutant `plain-deinit` (drop `nonisolated`) on `testStarterStoreIsConstructible` | passed: mutant survived (`artifacts/T0-mutant-plain-deinit-survived.log`) | disassembly -> equivalent mutant (fact 12); R-19 |
+| 2026-11-08 | first attempt to regenerate `T0-baseline.log` | failed: baseline `.xcresult` already deleted; the crash section was appended twice | duplicate removed before commit; fact 11 |
+| 2026-11-08 | R-19 `deinit {}`: exact command, unit 20x, UI 5x | all passed: 4/4, 20/20 per unit test, 5/5 per UI test (`artifacts/T0-green.log`) | none |
+| 2026-11-08 | mutant `remove-deinit` on `testStarterStoreIsConstructible` | failed as expected: `Test crashed with signal abrt` (`artifacts/T0-red-mutant-remove-deinit.log`) | none |
+| 2026-11-08 | protected-file check script | first version wrongly reported the allowed `deinit {}` (whitespace in the comparison); fixed; negative check on a copy with a renamed parameter fails as expected | none |

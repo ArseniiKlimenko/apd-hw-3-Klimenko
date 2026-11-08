@@ -1,0 +1,117 @@
+===== 1/3 exact required command =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test
+# Working directory: <repo>
+# Expectation: with the R-19 explicit 'deinit {}' in StudentStore all 4 starter tests pass, no crash
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+** TEST SUCCEEDED **
+Testing started
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 2 of iPhone 17 - StudentDirectory (16246)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (16246)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (16246)' (0.001 seconds)
+Test suite 'StudentDirectoryUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (16253)'
+Test suite 'StudentDirectoryUITestsLaunchTests' started on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (16375)'
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (16375)' (4.842 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (16253)' (110.144 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 4, failed 0, skipped 0, total 4
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed
+
+===== 2/3 unit tests repeated 20x (R-14-a) =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests -test-iterations 20
+# Working directory: <repo>
+# Expectation: every unit test passes in all 20 repetitions (console may print fewer lines; xcresult counts are authoritative)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Testing started
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (17113)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.002 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.016 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (1.921 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+** TEST SUCCEEDED **
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.019 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.011 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (17113)' (0.000 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 2, failed 0, skipped 0, total 2
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed (repetitions: 20, passed 20)
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed (repetitions: 20, passed 20)
+
+===== 3/3 UI tests repeated 5x (R-14-a) =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryUITests -test-iterations 5
+# Working directory: <repo>
+# Expectation: every UI test passes in all 5 repetitions
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+** TEST SUCCEEDED **
+Testing started
+Test suite 'StudentDirectoryUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)'
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (26.891 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (7.922 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (8.930 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (4.741 seconds)
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (3.672 seconds)
+Test suite 'StudentDirectoryUITestsLaunchTests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)'
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (3.647 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (8.617 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (3.719 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (5.678 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (17469)' (3.848 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 2, failed 0, skipped 0, total 2
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed (repetitions: 5, passed 5)
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed (repetitions: 5, passed 5)

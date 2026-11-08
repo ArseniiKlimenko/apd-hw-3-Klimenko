@@ -1,0 +1,31 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StarterStudentDirectoryTests/testStarterStoreIsConstructible (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:plain-deinit>
+# Expectation: FAILED ATTEMPT, kept as evidence. Run against the superseded R-17(a) form '#if compiler(>=6.2) nonisolated deinit {} #endif'. Expected a crash if the 'nonisolated' keyword were essential. ACTUAL: passed -> equivalent mutant (an explicit deinit is not isolated; confirmed by disassembly), which led to R-19(b) 'deinit {}'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -11,7 +11,7 @@
+     // isolated, and releasing a store inside XCTest crashes (SIGABRT in
+     // swift_task_deinitOnExecutorImpl). The deinit has no work to isolate.
+     #if compiler(>=6.2)
+-    nonisolated deinit {}
++    deinit {}
+     #endif
+ 
+     func students(matchingSubject subject: String) -> [Student] {
+
+--- excerpt ---
+** TEST SUCCEEDED **
+Testing started
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (15233)'
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (15233)' (0.001 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 1, failed 0, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
