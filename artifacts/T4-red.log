@@ -1,0 +1,138 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/SubjectFilterUITests (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: neutral placeholders (subject stored but unused, subject buttons without identifier and action): the 5 SubjectFilterTests and both SubjectFilterUITests fail on their rule; the 24 older unit tests stay green
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'All tests' started at 2026-11-09 01:39:50.173.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:39:50.174.
+Test Suite 'StarterStudentDirectoryTests' started at 2026-11-09 01:39:50.174.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Suite 'StarterStudentDirectoryTests' passed at 2026-11-09 01:39:50.177.
+Test Suite 'StudentDetailTests' started at 2026-11-09 01:39:50.177.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' passed (0.006 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' passed (0.006 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsTextSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsTextSupportsDynamicType]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsViewHasStudentDetailsIdentifier]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsViewHasStudentDetailsIdentifier]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' passed (0.005 seconds).
+Test Suite 'StudentDetailTests' passed at 2026-11-09 01:39:50.213.
+Test Suite 'StudentListTests' started at 2026-11-09 01:39:50.214.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.008 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Suite 'StudentListTests' passed at 2026-11-09 01:39:50.240.
+Test Suite 'StudentStoreTests' started at 2026-11-09 01:39:50.240.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.001 seconds).
+Test Suite 'StudentStoreTests' passed at 2026-11-09 01:39:50.247.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 01:39:50.248.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testDetailsHaveButtonForEachSubject]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testDetailsHaveButtonForEachSubject]' failed (0.169 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListIsCaseSensitive]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListIsCaseSensitive]' failed (0.009 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListShowsExactMatchesInStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListShowsExactMatchesInStoreOrder]' failed (0.004 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredRowOpensDetailsOfFilteredStudent]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredRowOpensDetailsOfFilteredStudent]' failed (0.005 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' failed (0.010 seconds).
+Test Suite 'SubjectFilterTests' failed at 2026-11-09 01:39:50.447.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:39:50.447.
+Test Suite 'All tests' failed at 2026-11-09 01:39:50.447.
+Test Suite 'Selected tests' started at 2026-11-09 01:39:52.503.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 01:39:52.504.
+Test Suite 'SubjectFilterUITests' started at 2026-11-09 01:39:52.504.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' failed (25.100 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' failed (25.919 seconds).
+Test Suite 'SubjectFilterUITests' failed at 2026-11-09 01:40:43.525.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 01:40:43.526.
+Test Suite 'Selected tests' failed at 2026-11-09 01:40:43.526.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 24, failed 7, skipped 0, total 31
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterTests/testDetailsHaveButtonForEachSubject() -> XCTAssertEqual failed: ("[nil, nil, nil]") is not equal to ("[Optional("subjectButton.Algorithms"), Optional("subjectButton.Math"), Optional("subjectButton.Design")]") - Rule: every subject is a button identified as subjectButton.<subject>, in model order
+failure: SubjectFilterTests/testFilteredListIsCaseSensitive() -> XCTAssertEqual failed: ("["studentCell.00000000-0000-0000-0000-000000000001", "studentCell.00000000-0000-0000-0000-000000000002"]") is not equal to ("["studentCell.00000000-0000-0000-0000-000000000001"]") - Rule: the filtered list matches the subject case-sensitively
+failure: SubjectFilterTests/testFilteredListShowsExactMatchesInStoreOrder() -> XCTAssertEqual failed: ("["studentCell.00000000-0000-0000-0000-000000000003", "studentCell.00000000-0000-0000-0000-000000000001", "studentCell.00000000-0000-0000-0000-000000000002", "studentCell.00000000-0000-0000-0000-000000000004"]") is not equal to ("["studentCell.00000000-0000-0000-0000-000000000003", "studentCell.00000000-0000-0000-0000-000000000002", "studentCell.00000000-0000-0000-0000-000000000004"]") - Rule: the filtered list shows only students with the subject, in store order
+failure: SubjectFilterTests/testFilteredRowOpensDetailsOfFilteredStudent() -> XCTAssertEqual failed: ("00000000-0000-0000-0000-000000000002") is not equal to ("00000000-0000-0000-0000-000000000006") - Rule: a filtered row opens the student shown in that row
+failure: SubjectFilterTests/testTappingSubjectPushesListTitledWithSubject() -> XCTAssertEqual failed: ("1") is not equal to ("2") - Rule: tapping a subject pushes one screen
+failure: SubjectFilterTests/testTappingSubjectPushesListTitledWithSubject() -> XCTUnwrap failed: expected non-nil value of type "StudentListViewController" - Rule: the pushed screen is a student list
+failure: SubjectFilterUITests/testFilteredListRowOpensCorrectDetails() -> failed - Rule: Ada's details show the subject button subjectButton.Design
+failure: SubjectFilterUITests/testFilteredListRowOpensCorrectDetails() -> failed: caught error: "MissingElement(rule: "Ada\'s details show the subject button subjectButton.Design")"
+failure: SubjectFilterUITests/testSubjectButtonOpensFilteredList() -> failed - Rule: Ada's details show the subject button subjectButton.Design
+failure: SubjectFilterUITests/testSubjectButtonOpensFilteredList() -> failed: caught error: "MissingElement(rule: "Ada\'s details show the subject button subjectButton.Design")"
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
+test: StudentDetailTests.testDetailsForMissingStudentShowNoStudentData() -> Passed
+test: StudentDetailTests.testDetailsShowEveryStudentField() -> Passed
+test: StudentDetailTests.testDetailsTextSupportsDynamicType() -> Passed
+test: StudentDetailTests.testDetailsViewHasStudentDetailsIdentifier() -> Passed
+test: StudentDetailTests.testSelectingRowPushesDetailsOfThatStudent() -> Passed
+test: StudentListTests.testCellAccessibilityLabelSummarizesStudent() -> Passed
+test: StudentListTests.testCellShowsNameAgeGradeAndScholarship() -> Passed
+test: StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes() -> Passed
+test: StudentListTests.testCellTextSupportsDynamicType() -> Passed
+test: StudentListTests.testGradeFormattingFollowsLocale() -> Passed
+test: StudentListTests.testListHasOneRowPerStoreStudent() -> Passed
+test: StudentListTests.testListReflectsStoreChangesAfterReload() -> Passed
+test: StudentListTests.testListRowsFollowStoreOrder() -> Passed
+test: StudentListTests.testListTableHasStudentListIdentifier() -> Passed
+test: StudentListTests.testListTitleIsStudents() -> Passed
+test: StudentListTests.testReusedCellResetsScholarshipState() -> Passed
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed
+test: SubjectFilterTests.testDetailsHaveButtonForEachSubject() -> Failed
+test: SubjectFilterTests.testFilteredListIsCaseSensitive() -> Failed
+test: SubjectFilterTests.testFilteredListShowsExactMatchesInStoreOrder() -> Failed
+test: SubjectFilterTests.testFilteredRowOpensDetailsOfFilteredStudent() -> Failed
+test: SubjectFilterTests.testTappingSubjectPushesListTitledWithSubject() -> Failed
+test: SubjectFilterUITests.testFilteredListRowOpensCorrectDetails() -> Failed
+test: SubjectFilterUITests.testSubjectButtonOpensFilteredList() -> Failed

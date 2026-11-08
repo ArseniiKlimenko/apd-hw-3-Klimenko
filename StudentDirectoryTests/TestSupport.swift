@@ -33,13 +33,22 @@ func makeLoadedList(store: StudentStore) -> StudentListViewController {
     return list
 }
 
-/// A list inside a navigation controller, as `SceneDelegate` builds it.
+/// A list inside a navigation controller, as `SceneDelegate` builds it;
+/// with a `subject` it is the filtered list (R-6).
 @MainActor
-func makeListInNavigation(store: StudentStore) -> (navigation: UINavigationController, list: StudentListViewController) {
-    let list = StudentListViewController(store: store)
+func makeListInNavigation(store: StudentStore, subject: String? = nil) -> (navigation: UINavigationController, list: StudentListViewController) {
+    let list = StudentListViewController(store: store, subject: subject)
     let navigation = UINavigationController(rootViewController: list)
     list.loadViewIfNeeded()
     return (navigation, list)
+}
+
+/// A filtered list with its view loaded.
+@MainActor
+func makeLoadedFilteredList(store: StudentStore, subject: String) -> StudentListViewController {
+    let list = StudentListViewController(store: store, subject: subject)
+    list.loadViewIfNeeded()
+    return list
 }
 
 /// A details controller with its view loaded; grades use `en_US_POSIX` (R-9).

@@ -5,14 +5,17 @@ import UIKit
 final class StudentListViewController: UIViewController {
     let tableView = UITableView(frame: .zero, style: .plain)
     private let store: StudentStore
+    // T4 red: stored only; filtering and the title follow in feat(T4).
+    let subject: String?
 
     /// R-7: read from the store on every call, never cached.
     private var students: [Student] {
         store.students
     }
 
-    init(store: StudentStore) {
+    init(store: StudentStore, subject: String? = nil) {
         self.store = store
+        self.subject = subject
         super.init(nibName: nil, bundle: nil)
     }
 

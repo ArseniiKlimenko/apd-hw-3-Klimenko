@@ -106,6 +106,8 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-33 | Details texts | name as a large title, `ID <uuid>`, `Age 22`, `Grade 91.5`, `No scholarship`, `Avatar avatar-03`, heading `Subjects` + subjects; the navigation title is the name | consistent with R-21, reuses `StudentFormatting` |
 | R-34 | Details for a student that is no longer in the store | one label `Student not found`, no fields, no subjects | simple and unit-testable; needed for the bonus delete |
 | R-35 | Dynamic Type test for the details screen (not in the original list) | add `testDetailsTextSupportsDynamicType` | rubric item 4; catches a forgotten `adjustsFontForContentSizeCategory` |
+| R-36 | Data for `testFilteredListShowsExactMatchesInStoreOrder` (revises the planned Physics data, as R-20) | a custom store with ids and names out of order (`Zed`(3), `Amy`(1), `Mia`(2), `Bob`(4)) | seed Physics is already in id and name order; the UI test covers the real `Design` data |
+| R-37 | How a subject button starts the push | `UIAction` with a closure (`addAction(_:for:)`) | no `@objc`, no lookup of the subject by tag or title |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -124,7 +126,10 @@ has the accessibility label `Avatar of <name>`; no disclosure indicator in the
 list cells (not required, would be untested); UI tests use Grace Hopper (row
 3, always on screen); helpers `makeListInNavigation(store:)`,
 `makeLoadedDetails(store:studentID:)`, `assertFollowsDynamicType(_:_:)` in
-`TestSupport.swift` (the T2 test keeps its own inline check).
+`TestSupport.swift` (the T2 test keeps its own inline check). T4: buttons are
+tapped in unit tests with `sendActions(for: .touchUpInside)` (fact 35);
+`makeLoadedFilteredList(store:subject:)`; `makeListInNavigation` got a
+defaulted `subject` parameter.
 
 ## Milestones
 
@@ -248,6 +253,9 @@ in `StudentDirectoryUITests/`.
   `testFilteredRowOpensDetailsOfFilteredStudent`.
   `SubjectFilterUITests` (UI): `testSubjectButtonOpensFilteredList`,
   `testFilteredListRowOpensCorrectDetails`.
+  Red (`artifacts/T4-red.log`): with `subject` stored but unused and subject
+  buttons without identifier and action, all 7 fail on their rule; the 24
+  older unit tests stay green.
 - T5 (accessibility/MVC audit) and T6 (bonus): tests agreed before each task.
 - T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
   clean anonymous clone green at the submitted SHA.
@@ -406,6 +414,11 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
 34. CI (Xcode 16.4, fresh simulator) builds and passes the R-25/R-30 scene code
     (`MainActor.assumeIsolated`, `UIScene.willConnectNotification`): run
     `42532789200` for `8c275a5`, 23/23 tests.
+35. `button.sendActions(for: .touchUpInside)` in a unit test without a window
+    runs a `UIAction` added with `addAction(_:for:)` exactly once.
+36. After a push, cells of the previous screen are no longer in the XCUI tree
+    once the new screen's element exists (`studentCell.<02>` absent right
+    after `studentDetails` appeared).
 
 Not yet verified: nothing the current code relies on.
 
@@ -477,3 +490,5 @@ Not yet verified: nothing the current code relies on.
 | 2026-11-09 | T3 green: all unit tests x20; T3 UI tests x5 | 24 tests each 20/20 (13 s); 2 tests each 5/5 (88 s) | mutants |
 | 2026-11-09 | T3: 12 mutants | all failed; `hide-back-button` failed on an XCUI tap error, not on a rule message | added a `waitOrFail` on the back button |
 | 2026-11-09 | T3 UI tests x5 again and mutant `hide-back-button` again | 2 tests each 5/5; the mutant now fails with `Rule: the details screen has the standard back button` | none |
+| 2026-11-09 | T4 probe (scratchpad copy): `sendActions` without a window; previous-screen cells after a push | facts 35, 36 | none |
+| 2026-11-09 | T4 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/SubjectFilterUITests` | `TEST FAILED` as expected: 7 T4 tests fail on their rules, 24 pass, 78 s (`artifacts/T4-red.log`) | implement T4 |
