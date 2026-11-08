@@ -1,0 +1,262 @@
+===== 1/3 all unit tests =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: R-5: the 6 StudentStoreTests characterize the supplied store and pass at once (no red run possible); starter unit tests stay green
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+** TEST SUCCEEDED **
+Testing started
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (25021)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.002 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.001 seconds)
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (25021)'
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.001 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.042 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25021)' (0.000 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 8, failed 0, skipped 0, total 8
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed
+
+===== 2/3 all unit tests repeated 20x (R-14) =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests -test-iterations 20 (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: every unit test passes in all 20 repetitions (counts from xcresult)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (25431)'
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.002 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.005 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.058 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.543 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.008 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.028 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.006 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.007 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.016 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.019 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.309 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.037 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (25431)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.048 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.083 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.097 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.0012026-11-08 21:51:56.115 xcodebuild[25136:41118581] [MT] IDETestOperationsObserverDebug: 57.956 elapsed -- Testing started completed.
+** TEST SUCCEEDED **
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.049 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.010 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.000 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (25431)' (0.001 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 8, failed 0, skipped 0, total 8
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed (repetitions: 20, passed 20)
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed (repetitions: 20, passed 20)
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed (repetitions: 20, passed 20)
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed (repetitions: 20, passed 20)
+
+===== 3/3 exact required command =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test
+# Working directory: <repo>
+# Expectation: all 10 tests pass (8 unit, 2 starter UI)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+** TEST SUCCEEDED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 2 of iPhone 17 - StudentDirectory (26178)'
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.001 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.001 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.004 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.000 seconds)
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 2 of iPhone 17 - StudentDirectory (26178)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (26178)' (0.000 seconds)
+Test suite 'StudentDirectoryUITestsLaunchTests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (26148)'
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (26148)' (10.780 seconds)
+Test suite 'StudentDirectoryUITests' started on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (26408)'
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (26408)' (13.334 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 10, failed 0, skipped 0, total 10
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed

@@ -1,0 +1,32 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StudentStoreTests/testStoreUsesInjectedStudents (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:ignore-injected>
+# Expectation: init ignores the injected array -> testStoreUsesInjectedStudents fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -4,7 +4,7 @@
+     private(set) var students: [Student]
+ 
+     init(students: [Student] = StudentSeedData.students) {
+-        self.students = students
++        self.students = StudentSeedData.students
+     }
+ 
+     // R-17/R-19: keep this explicit deinit. With Xcode 26 default MainActor
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (27660)'
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (27660)' (1.799 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentStoreTests/testStoreUsesInjectedStudents() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Ada Lovelace", age: 20, averageGrade: 97.5, isScholarshipHolder: true, subjects: ["Algorithms", "Math", "Design"], avatarName: "avatar-01"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Alan Turing", age: 21, averageGrade: 94.0, isScholarshipHolder: true, subjects: ["Algorithms", "Physics"], avatarName: "avatar-02"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Grace Hopper", age: 22, averageGrade: 91.5, isScholarshipHolder: false, subjects: ["Programming", "Algorithms"], avatarName: "avatar-03"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000004, name: "Katherine Johnson", age: 20, averageGrade: 99.0, isScholarshipHolder: true, subjects: ["Math", "Physics"], avatarName: "avatar-04"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000005, name: "Edsger Dijkstra", age: 23, averageGrade: 88.5, isScholarshipHolder: false, subjects: ["Algorithms", "Programming"], avatarName: "avatar-05"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000006, name: "Mary Jackson", age: 21, averageGrade: 93.0, isScholarshipHolder: true, subjects: ["Physics", "Design"], avatarName: "avatar-06"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000007, name: "Donald Knuth", age: 24, averageGrade: 86.0, isScholarshipHolder: false, subjects: ["Algorithms", "Math"], avatarName: "avatar-07"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000008, name: "Hedy Lamarr", age: 22, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design", "Programming"], avatarName: "avatar-08"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000009, name: "Barbara Liskov", age: 23, averageGrade: 96.0, isScholarshipHolder: true, subjects: ["Programming", "Design"], avatarName: "avatar-09"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000010, name: "Tim Berners-Lee", age: 21, averageGrade: 89.5, isScholarshipHolder: false, subjects: ["Programming", "Physics"], avatarName: "avatar-10")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Math"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Art"], avatarName: "avatar-default")]") - Rule: the store keeps exactly the injected students in the given order
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Failed

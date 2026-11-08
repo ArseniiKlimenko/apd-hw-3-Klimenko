@@ -1,0 +1,32 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StudentStoreTests/testSubjectFilterRequiresExactMatch (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:substring>
+# Expectation: substring match -> testSubjectFilterRequiresExactMatch fails on "Phys"
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -14,7 +14,7 @@
+     deinit {}
+ 
+     func students(matchingSubject subject: String) -> [Student] {
+-        students.filter { $0.subjects.contains(subject) }
++        students.filter { $0.subjects.contains { $0.contains(subject) } }
+     }
+ 
+     func addStudent(name: String, age: Int) throws {
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (29938)'
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (29938)' (0.592 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentStoreTests/testSubjectFilterRequiresExactMatch() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Ada", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default")]") is not equal to ("[]") - Rule: exact match only, a substring of a subject does not match
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Failed

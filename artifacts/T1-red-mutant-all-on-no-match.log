@@ -1,0 +1,32 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StudentStoreTests/testSubjectFilterWithUnknownSubjectIsEmpty (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:all-on-no-match>
+# Expectation: no match falls back to all students -> testSubjectFilterWithUnknownSubjectIsEmpty fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -14,7 +14,7 @@
+     deinit {}
+ 
+     func students(matchingSubject subject: String) -> [Student] {
+-        students.filter { $0.subjects.contains(subject) }
++        students.contains { $0.subjects.contains(subject) } ? students.filter { $0.subjects.contains(subject) } : students
+     }
+ 
+     func addStudent(name: String, age: Int) throws {
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (31349)'
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (31349)' (0.351 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentStoreTests/testSubjectFilterWithUnknownSubjectIsEmpty() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Ada", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Math"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Alan", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default")]") is not equal to ("[]") - Rule: an unknown subject gives an empty list
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Failed

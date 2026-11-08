@@ -1,0 +1,32 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StudentStoreTests/testSubjectFilterIsCaseSensitive (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:case-insensitive>
+# Expectation: case-insensitive compare -> testSubjectFilterIsCaseSensitive fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -14,7 +14,7 @@
+     deinit {}
+ 
+     func students(matchingSubject subject: String) -> [Student] {
+-        students.filter { $0.subjects.contains(subject) }
++        students.filter { $0.subjects.contains { $0.caseInsensitiveCompare(subject) == .orderedSame } }
+     }
+ 
+     func addStudent(name: String, age: Int) throws {
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (29239)'
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (29239)' (1.649 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentStoreTests/testSubjectFilterIsCaseSensitive() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Upper", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Math"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Lower", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["math"], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Upper", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Math"], avatarName: "avatar-default")]") - Rule: the subject filter is case-sensitive
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Failed

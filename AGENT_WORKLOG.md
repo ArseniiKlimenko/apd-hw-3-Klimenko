@@ -9,10 +9,11 @@ repository and in a scratchpad outside it. Every change was reviewed by the
 student as a diff before the student committed it manually.
 
 | Date | Tool/task | Student review | Evidence |
-| --- | --- | --- | --- |
-| 2026-11-08 | Entry 1: template reading, plan, decisions R-1…R-18 | TODO (student) | `PLAN.md` |
-| 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | TODO (student) | `artifacts/T0-baseline.log` |
-| 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | TODO (student) | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
+| --- | --- | - | --- |
+| 2026-11-08 | Entry 1: template reading, plan, decisions R-1…R-18 | Read the plan and every R-n option; asked for a theory walkthrough and a test-by-test explanation; revised R-14 and chose R-15 against the recommendation. | `PLAN.md` |
+| 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | Reviewed the baseline log and the crash diagnosis; paused the probe run over macOS crash dialogs; chose R-17/R-18; restored the assets rewritten by Xcode. | `artifacts/T0-baseline.log` |
+| 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | Reviewed the 6-line StudentStore diff, the green log and both mutant logs; chose R-19 (b) after the equivalent-mutant finding. | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
+| 2026-11-08 | Entry 4: store characterization tests (T1), CI of `fix(T0)` | Reviewed the six store tests, the TestSupport factory, the green log and all seven mutant logs; chose R-20 (b); re-ran the failed CI job. | `artifacts/T1-green.log`, `artifacts/T1-red-mutant-*.log` (7) |
 
 ---
 
@@ -197,7 +198,12 @@ the supplied file minimal.
 
 ### Accepted/rejected/revised decision
 
-TODO (student)
+Accepted R-19 (b): plain `deinit {}` instead of the agreed
+`#if compiler(>=6.2) nonisolated deinit {} #endif`. The surviving mutant and
+the disassembly showed that both forms compile to the same code, so the `#if`
+and `nonisolated` only added a dependency on unverified Xcode 16.4 behaviour.
+`deinit {}` is ordinary syntax for every Swift version; the code comment and
+the `remove-deinit` mutant protect it from being deleted as dead code.
 
 ### Verification command/result
 
@@ -217,6 +223,69 @@ TODO (student)
 - `artifacts/T0-green.log` (exact command, unit 20x, UI 5x)
 - `artifacts/T0-red-mutant-remove-deinit.log` (mutant diff + crash)
 - `artifacts/T0-mutant-plain-deinit-survived.log` (failed attempt, equivalent mutant)
+
+---
+
+## Entry 4 — Store characterization tests (T1) (2026-11-08)
+
+### Tool/agent task
+
+Write the agreed unit tests for the supplied `StudentStore` (seed order,
+injected students, exact case-sensitive subject filter in store order, unknown
+subject), run them green with repeats, and prove each test with a one-line
+mutant (R-5). Also check the first CI run of `fix(T0)` (R-11, R-18).
+
+### Output reviewed
+
+- New files: `StudentDirectoryTests/StudentStoreTests.swift` (6 tests in
+  `StudentStoreTests`, `@MainActor`, every assertion message names its rule)
+  and `StudentDirectoryTests/TestSupport.swift` (`makeStudent(id:name:subjects:)`,
+  UUID built from bytes, so no `!`). No app code changed.
+- While planning the mutants, the agent noticed that the planned data for the
+  order test (seed Physics) cannot catch a sorting bug and checked it with a
+  script: every seed subject list is already in id order and Physics is also
+  in name order. New decision R-20; the student chose custom out-of-order data.
+  The same problem exists for the planned T4 order test and will be raised
+  before T4.
+- Green: 8/8 unit tests, every test 20/20 repetitions, exact command 10/10.
+- Mutants: 7 one-line changes of `StudentStore.swift`, each run against its
+  target test only; all 7 failed with the expected rule message (`substring`
+  on `"Phys"`, `trim` on `"Physics "`).
+- CI of `fix(T0)` (run `42516097673`): attempt 1 failed before building
+  (`Unable to find a device matching the provided destination specifier`).
+  Agent mistake, found by the agent itself in the next check: it first
+  explained this as "the new runner image has no simulators"; other forks were
+  green on the same image the same day. The student re-ran the job; attempt 2
+  passed 4/4 with Xcode 16.4, so `deinit {}` also builds on CI.
+
+### Accepted/rejected/revised decision
+
+Accepted R-20 (b): the order test uses a custom store with ids and names out
+of order. The planned seed Physics data is already in id and name order, so a
+sorting bug would have passed unnoticed. Accepted the T1 conventions (factory
+`makeStudent`, the error helper deferred to T6, one `test(T1)` commit as in
+R-5). CI attempt 1 of `fix(T0)` failed only because the runner had no
+simulator; I re-ran it and it passed with Xcode 16.4.
+
+### Verification command/result
+
+- `xcodebuild … test -only-testing:StudentDirectoryTests` -> 8/8 passed.
+- Same with `-test-iterations 20` -> every unit test 20/20 (from `.xcresult`).
+- Exact command -> `** TEST SUCCEEDED **`, 10/10.
+- Mutants `seed-reversed`, `ignore-injected`, `sort-by-name`,
+  `case-insensitive`, `substring`, `trim`, `all-on-no-match` -> each
+  `** TEST FAILED **` on its target test.
+- CI: https://github.com/ArseniiKlimenko/apd-hw-3-Klimenko/actions/runs/42516097673
+  -> attempt 1 failure (no simulator), attempt 2 success.
+- Protected-file check vs `938bf69`: unchanged (only the R-19 `deinit {}` in
+  `StudentStore.swift`).
+
+### Artifact links
+
+- `artifacts/T1-green.log` (all unit tests, 20x, exact command)
+- `artifacts/T1-red-mutant-seed-reversed.log`, `…-ignore-injected.log`,
+  `…-sort-by-name.log`, `…-case-insensitive.log`, `…-substring.log`,
+  `…-trim.log`, `…-all-on-no-match.log`
 
 ---
 

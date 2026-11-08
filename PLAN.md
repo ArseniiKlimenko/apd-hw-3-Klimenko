@@ -90,6 +90,7 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-17 | Starter test crashes locally (T0) | (a) minimal workaround in `StudentStore` in a separate `fix(T0)` commit + (d) student informs the instructor | reliable local red/green cycle without leaking stores in tests |
 | R-18 | Push cadence | student pushes after each task | local Xcode 26.3 and CI Xcode 16.4 differ; catch CI problems early |
 | R-19 | Form of the R-17 workaround (revises the first form) | plain `deinit {}` with a comment, no `#if` | the first form `#if compiler(>=6.2) nonisolated deinit {} #endif` compiles to the same code (fact 12); `deinit {}` is valid for every Swift version, so it does not rely on the unverified behaviour of `#if compiler` on Xcode 16.4 |
+| R-20 | Test data for "filter keeps store order" (revises the planned Physics data) | a custom store with ids and names deliberately out of order (`Zed`(3), `Amy`(1), `Mia`(2)) | in the seed every subject list is already in id order and Physics is also in name order, so seed data cannot catch a sorting bug (checked with a script) |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -104,6 +105,7 @@ clone at `<workspace>/apd-hw-3-Klimenko`.
 
 - [x] T0: fork, plan, worklog, baseline run (crash found, R-17)
 - [x] T0 fix: R-17/R-19 workaround, green run, mutants
+- [x] T1: store characterization tests (unit), 7 mutants
 - [ ] Student list and reusable cell (T2)
 - [ ] Detail screen and navigation (T3)
 - [ ] Subject-filtered list (T4)
@@ -129,12 +131,21 @@ in `StudentDirectoryUITests/`.
   - failed attempt kept as evidence: mutant `plain-deinit` against the first
     form (drop `nonisolated`) survived because it is equivalent (fact 12)
     (`artifacts/T0-mutant-plain-deinit-survived.log`).
-- T1 `StudentStoreTests` (unit): `testSeedStoreKeepsSeedStudentsInOrder`,
-  `testStoreUsesInjectedStudents`, `testSubjectFilterKeepsStoreOrder`,
-  `testSubjectFilterIsCaseSensitive`, `testSubjectFilterRequiresExactMatch`,
-  `testSubjectFilterWithUnknownSubjectIsEmpty`. Planned mutants: sort by name,
-  case-insensitive compare, substring match, return all on no match, ignore
-  injected array.
+- T1 `StudentStoreTests` (unit, `StudentDirectoryTests/StudentStoreTests.swift`,
+  helper `makeStudent(id:name:subjects:)` in `TestSupport.swift`). Green at once
+  (R-5): 8/8 unit tests, each 20/20, exact command 10/10
+  (`artifacts/T1-green.log`). Every mutant changes one line of
+  `StudentStore.swift` and fails its target test with that test's rule message
+  (`artifacts/T1-red-mutant-<name>.log`):
+
+  | Test | Mutant |
+  | --- | --- |
+  | `testSeedStoreKeepsSeedStudentsInOrder` | `seed-reversed` (default argument `StudentSeedData.students.reversed()`) |
+  | `testStoreUsesInjectedStudents` | `ignore-injected` (`self.students = StudentSeedData.students`) |
+  | `testSubjectFilterKeepsStoreOrder` | `sort-by-name` (`.sorted { $0.name < $1.name }`), R-20 data |
+  | `testSubjectFilterIsCaseSensitive` | `case-insensitive` (`caseInsensitiveCompare`) |
+  | `testSubjectFilterRequiresExactMatch` | `substring` (`$0.contains(subject)`, fails on `"Phys"`), `trim` (trimmed query, fails on `"Physics "`) |
+  | `testSubjectFilterWithUnknownSubjectIsEmpty` | `all-on-no-match` (no match returns all students) |
 - T2 `StudentListTests` (unit): `testListTitleIsStudents`,
   `testListHasOneRowPerStoreStudent`, `testListRowsFollowStoreOrder`,
   `testListTableHasStudentListIdentifier`,
@@ -180,7 +191,9 @@ in `StudentDirectoryUITests/`.
 | Personal data / absolute paths in artifacts | logs are sanitized (`<repo>`, `<home>`, `<scratch>`, `<mutant:name>`); grep before every commit |
 | Simulator app crashes during mutant runs open macOS crash dialogs | harmless; dismiss with OK / Ignore |
 | The empty `deinit {}` in `StudentStore` looks like dead code and may be deleted later | explaining comment in the code; the starter test crashes without it (mutant `remove-deinit`) |
-| `deinit {}` not yet built by CI (Xcode 16.4) | first CI run after the student pushes `fix(T0)` (R-18); result recorded in the next task's worklog entry (R-11) |
+| `deinit {}` not yet built by CI (Xcode 16.4) | resolved: CI run `42516097673` (attempt 2) built `339d150` with Xcode 16.4 and passed 4/4 (fact 14) |
+| The CI runner sometimes finds no iOS simulator (`Unable to find a device matching the provided destination specifier`, attempt 1 of `42516097673`) | the student re-runs the job; a repeated failure is raised as a decision (the workflow is protected) |
+| Seed data hides ordering bugs (every subject list is in id order; Physics also in name order) | order tests use custom out-of-order data (R-20); the T4 order test is raised again before T4 |
 
 ## Verified language facts
 
@@ -228,9 +241,14 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     shows N repetitions per test). The console output can print fewer
     `Test case` lines than repetitions (19 of 20 seen), so counts are taken
     from `.xcresult`.
+14. CI (Xcode 16.4, macOS 15 arm64 image `20261104.0514.1`, iPhone 17
+    iOS 26.2 simulator) builds the explicit `deinit {}` and passes all 4
+    starter tests (run `42516097673`, attempt 2). Attempt 1 on the same image
+    failed before building because no simulator was available; other forks
+    of the template were green on the same image the same day, so the agent's
+    first explanation ("the new image has no simulators") was wrong.
 
-Not yet verified (checked before first use): CI (Xcode 16.4) building
-`deinit {}`; synchronous update of
+Not yet verified (checked before first use): synchronous update of
 `viewControllers` after `pushViewController` without a window; XCUI finding a
 cell by identifier with a combined label; SVG avatars via `UIImage(named:)`;
 which cells exist in the XCUI hierarchy on iPhone 17.
@@ -267,3 +285,10 @@ which cells exist in the XCUI hierarchy on iPhone 17.
 | 2026-11-08 | R-19 `deinit {}`: exact command, unit 20x, UI 5x | all passed: 4/4, 20/20 per unit test, 5/5 per UI test (`artifacts/T0-green.log`) | none |
 | 2026-11-08 | mutant `remove-deinit` on `testStarterStoreIsConstructible` | failed as expected: `Test crashed with signal abrt` (`artifacts/T0-red-mutant-remove-deinit.log`) | none |
 | 2026-11-08 | protected-file check script | first version wrongly reported the allowed `deinit {}` (whitespace in the comparison); fixed; negative check on a copy with a renamed parameter fails as expected | none |
+| 2026-11-08 | CI run `42516097673` attempt 1 (push of `339d150`) | failure after ~1.5 min: `Unable to find a device matching the provided destination specifier` (exit 70), nothing built | student re-ran the job |
+| 2026-11-08 | CI run `42516097673` attempt 2 | success: Xcode 16.4, iPhone 17 iOS 26.2, 4/4 tests | fact 14 |
+| 2026-11-08 | script over `StudentSeedData.swift`: subject lists vs name/id order | every subject is in id order; Physics also in name order | R-20 |
+| 2026-11-08 | T1: `-only-testing:StudentDirectoryTests` | passed 8/8 (6 new + 2 starter), no compiler warnings | none |
+| 2026-11-08 | T1: `-only-testing:StudentDirectoryTests -test-iterations 20` | every unit test 20/20 | none |
+| 2026-11-08 | T1: exact command | passed 10/10 | none |
+| 2026-11-08 | T1: 7 mutants, each with `-only-testing` of its target test | all 7 failed on the expected rule message (`artifacts/T1-red-mutant-*.log`) | none |

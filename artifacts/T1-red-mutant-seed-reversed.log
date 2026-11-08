@@ -1,0 +1,32 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StudentStoreTests/testSeedStoreKeepsSeedStudentsInOrder (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:seed-reversed>
+# Expectation: default store returns the seed reversed -> testSeedStoreKeepsSeedStudentsInOrder fails on seed order
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -3,7 +3,7 @@
+ final class StudentStore {
+     private(set) var students: [Student]
+ 
+-    init(students: [Student] = StudentSeedData.students) {
++    init(students: [Student] = StudentSeedData.students.reversed()) {
+         self.students = students
+     }
+ 
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (26928)'
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (26928)' (1.685 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentStoreTests/testSeedStoreKeepsSeedStudentsInOrder() -> XCTAssertEqual failed: ("["00000000-0000-0000-0000-000000000010", "00000000-0000-0000-0000-000000000009", "00000000-0000-0000-0000-000000000008", "00000000-0000-0000-0000-000000000007", "00000000-0000-0000-0000-000000000006", "00000000-0000-0000-0000-000000000005", "00000000-0000-0000-0000-000000000004", "00000000-0000-0000-0000-000000000003", "00000000-0000-0000-0000-000000000002", "00000000-0000-0000-0000-000000000001"]") is not equal to ("["00000000-0000-0000-0000-000000000001", "00000000-0000-0000-0000-000000000002", "00000000-0000-0000-0000-000000000003", "00000000-0000-0000-0000-000000000004", "00000000-0000-0000-0000-000000000005", "00000000-0000-0000-0000-000000000006", "00000000-0000-0000-0000-000000000007", "00000000-0000-0000-0000-000000000008", "00000000-0000-0000-0000-000000000009", "00000000-0000-0000-0000-000000000010"]") - Rule: the default store contains the seed students in seed order
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Failed

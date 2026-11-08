@@ -1,0 +1,32 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:StudentDirectoryTests/StudentStoreTests/testSubjectFilterKeepsStoreOrder (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:sort-by-name>
+# Expectation: filter result sorted by name -> testSubjectFilterKeepsStoreOrder fails (R-20 data)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -14,7 +14,7 @@
+     deinit {}
+ 
+     func students(matchingSubject subject: String) -> [Student] {
+-        students.filter { $0.subjects.contains(subject) }
++        students.filter { $0.subjects.contains(subject) }.sorted { $0.name < $1.name }
+     }
+ 
+     func addStudent(name: String, age: Int) throws {
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (28409)'
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' failed on 'Clone 1 of iPhone 17 - StudentDirectory (28409)' (0.399 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentStoreTests/testSubjectFilterKeepsStoreOrder() -> XCTAssertEqual failed: ("["Amy", "Mia", "Zed"]") is not equal to ("["Zed", "Amy", "Mia"]") - Rule: the subject filter keeps store order
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Failed
