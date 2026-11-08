@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test
+# Working directory: <repo>
+# Expectation: untouched template 938bf69 passes all 4 starter tests (CI with Xcode 16.4 did). ACTUAL: TEST FAILED, testStarterStoreIsConstructible crashes (SIGABRT in StudentStore deinit, Xcode 26.3)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+** TEST FAILED **
+Testing started
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 2 of iPhone 17 - StudentDirectory (3952)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 2 of iPhone 17 - StudentDirectory (3952)' (0.002 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' failed on 'Clone 2 of iPhone 17 - StudentDirectory (3952)' (0.000 seconds)
+Test suite 'StudentDirectoryUITestsLaunchTests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (3975)'
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (3975)' (12.088 seconds)
+Test suite 'StudentDirectoryUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (3975)'
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (3975)' (8.396 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 3, failed 1, skipped 0, total 4
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StarterStudentDirectoryTests/testStarterStoreIsConstructible() -> Test crashed with signal abrt.
+
+--- crash report: faulting thread, top 13 frames (DiagnosticReports .ips, image + symbol only) ---
+exception: EXC_CRASH / SIGABRT
+  libsystem_kernel.dylib  __pthread_kill
+  libsystem_pthread.dylib  pthread_kill
+  libsystem_c.dylib  abort
+  libsystem_malloc.dylib  malloc_vreport
+  libsystem_malloc.dylib  malloc_report
+  libsystem_malloc.dylib  ___BUG_IN_CLIENT_OF_LIBMALLOC_POINTER_BEING_FREED_WAS_NOT_ALLOCATED
+  libswift_Concurrency.dylib  swift::TaskLocal::StopLookupScope::~StopLookupScope()
+  libswift_Concurrency.dylib  swift_task_deinitOnExecutorImpl(void*, void (void*) swiftcall*, swift::SerialExecutorRef, unsigned long)
+  StudentDirectory.debug.dylib  swift_task_deinitOnExecutorMainActorBackDeploy
+  StudentDirectory.debug.dylib  StudentStore.__deallocating_deinit
+  libswiftCore.dylib  _swift_release_dealloc
+  libswiftCore.dylib  bool swift::RefCounts<swift::RefCountBitsT<(swift::RefCountInlinedness)1>>::doDecrementSlow<(swift::PerformDeinit)1>(swift::RefCountBitsT<(swift::RefCountInlinedness)1>, unsigned int)
+  StudentDirectoryTests  implicit closure #1 in StarterStudentDirectoryTests.testStarterStoreIsConstructible()

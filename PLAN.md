@@ -1,22 +1,239 @@
 # HW3 Student Plan
 
+## Scope
+
+In scope:
+
+- Three UIKit flows on one shared `StudentStore`: student list, student
+  details, subject-filtered list (base, 12 points).
+- SnapKit layouts, required accessibility identifiers, meaningful
+  accessibility labels, Dynamic Type, no force-unwrapped user input.
+- Student-authored unit tests (`StudentDirectoryTests`) and UI tests
+  (`StudentDirectoryUITests`).
+- Optional add/edit/delete bonus (R-2), only after the base is green and
+  committed.
+
+Non-goals:
+
+- MVVM, coordinators (HW4), SwiftLint.
+- Persistence, networking, random or time-dependent data.
+- Changing the supplied model, seed data, assets, starter tests, project file,
+  build settings, CI workflow or assignment documents.
+- Fixing the Swift runtime/toolchain problem found in T0 beyond a minimal,
+  documented workaround (R-17).
+
 ## Approach
 
-Describe your MVC boundary, how one `StudentStore` is shared across screens,
-how subject filtering is tested, and which UI/accessibility decisions you will
-make.
+MVC boundary:
+
+| Layer | Types | Responsibility |
+| --- | --- | --- |
+| Model | `Student`, `StudentStore` (supplied) | data, subject filter, bonus validation |
+| View | `StudentCell` | show what it is given; no store access |
+| Controller | `StudentListViewController`, `StudentDetailViewController` | read from the store, configure views, react to taps, navigate |
+
+- One shared store: `SceneDelegate` is the composition root. It creates the
+  only `StudentStore()` and injects it into every controller. No controller
+  creates a store.
+- No duplicated authoritative arrays (R-7): the list reads
+  `store.students` or `store.students(matchingSubject:)` on every data-source
+  call; details keep only the student `id` and look the student up in the
+  store.
+- Subject filter (R-6): the filtered screen is the same
+  `StudentListViewController` with `subject: String?`; the rows come only from
+  `store.students(matchingSubject:)` (exact, case-sensitive, store order); the
+  title is the subject.
+- Identifiers: `studentList` (table, also on the filtered list),
+  `studentCell.<student.id.uuidString>`, `studentDetails` (details root view),
+  `subjectButton.<subject>`.
+- Accessibility (R-10): each cell is one accessibility element with a combined
+  label (name, age, grade, scholarship status); scholarship is always text,
+  never only colour; the avatar has a label.
+- Dynamic Type: `preferredFont(forTextStyle:)`,
+  `adjustsFontForContentSizeCategory = true`, `numberOfLines = 0`,
+  self-sizing cells, details in a scroll view.
+- Details (R-8) show all seven fields: avatar image plus ID, name, age, grade,
+  scholarship, subjects (buttons), avatar asset name.
+- Grade text (R-9) comes from one locale-aware formatting function with a
+  `locale` parameter; unit tests pass `en_US_POSIX`, UI tests do not assert
+  grade text.
+- Missing avatar asset falls back to `avatar-default` without `!`.
+
+Testing approach (R-3): exact rules (counts, order, case, texts, identifiers,
+navigation stack) in unit tests with `@testable import StudentDirectory`;
+end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
+`waitForExistence(timeout: 10)` as a guard only, then `XCTFail` + `throw`
+(R-4); no sleeps, polling or timing assertions. One file and one
+`XCTestCase` subclass per task; shared helpers in `TestSupport.swift` /
+`UITestSupport.swift`.
+
+## Decisions
+
+| R | Question | Decision | Reason |
+| --- | --- | --- | --- |
+| R-1 | Fork name | `ArseniiKlimenko/apd-hw-3-Klimenko` | consistent with HW2 |
+| R-2 | Bonus | do it after the base (T6) | base stays safe and committed first |
+| R-3 | Test layers | hybrid: unit tests for rules, XCUITest for flows | each rule is checked where it is most visible |
+| R-4 | Waiting in UI tests | `waitForExistence(timeout:)` only as a guard, then `XCTFail` + `throw` | assignment forbids sleeps/polling/timing thresholds |
+| R-5 | T1 cannot be red (store already implemented) | characterization tests, green run, mutants as proof, one `test(T1)` commit | no artificial edits of supplied code |
+| R-6 | Filtered list | reuse `StudentListViewController` with `subject: String?`, same `studentList` identifier | one code path; UI tests wait for the title before checking cells |
+| R-7 | Data source in controllers | read from the store on every access; details hold `id` + store | no second source of truth; correct after bonus mutations |
+| R-8 | Detail fields | all seven fields, including ID and avatar asset name | "every student field" literally |
+| R-9 | Grade format | locale-aware, one function with `locale` parameter | correct for any locale; tests pin `en_US_POSIX` |
+| R-10 | Cell accessibility | one element with a combined label | one VoiceOver stop per student |
+| R-11 | CI evidence | worklog records the CI run of the last code commit; CI of the final docs commit is checked after push and reported in chat | recording CI would change the SHA |
+| R-12 | Worklog format | template table as index + "Entry N" sections + template "Final review" bullets | template requirements plus the student's format |
+| R-13 | Artifact logs | filtered excerpt + `.xcresult` summary, sanitized; raw logs stay outside the repo | readable, no absolute paths |
+| R-14 | Repeats of green runs | revised: first "no repeats", then unit tests 20x and UI tests 5x (`-test-iterations`) | student reconsidered the flaky-test risk |
+| R-15 | `upstream` remote | none (student's choice; agent recommended keeping it read-only) | see Risks: template updates are checked with `git ls-remote` |
+| R-16 | Template reference SHA | `938bf69c34131616d693a67c3706d8dd41543388` | deterministic protected-file checks |
+| R-17 | Starter test crashes locally (T0) | (a) minimal workaround in `StudentStore` in a separate `fix(T0)` commit + (d) student informs the instructor | reliable local red/green cycle without leaking stores in tests |
+| R-18 | Push cadence | student pushes after each task | local Xcode 26.3 and CI Xcode 16.4 differ; catch CI problems early |
+
+Agent-proposed conventions accepted by the student: task order T0-T7; app
+files `StudentListViewController.swift`, `StudentCell.swift`,
+`StudentDetailViewController.swift`, `StudentFormatting.swift`; test files and
+classes listed under Acceptance criteria; `@MainActor` test classes; log names
+`T<n>-red.log`, `T<n>-green.log`, `T<n>-red-mutant-<name>.log`,
+`T0-baseline.log`, `final-xcodebuild-test.log`; commits
+`test(Tn)` / `feat(Tn)` / `docs(Tn)` (plus `fix(T0)` from R-17) on `main`;
+clone at `<workspace>/apd-hw-3-Klimenko`.
 
 ## Milestones
 
-- [ ] Student list and reusable cell
-- [ ] Detail screen and navigation
-- [ ] Subject-filtered list
-- [ ] Unit and UI tests
-- [ ] Optional add/edit/delete bonus, if attempted
-- [ ] Local verification and CI review
-- [ ] Final diff and evidence review
+- [x] T0: fork, plan, worklog, baseline run (crash found, R-17)
+- [ ] T0 fix: R-17 workaround, green run, mutants
+- [ ] Student list and reusable cell (T2)
+- [ ] Detail screen and navigation (T3)
+- [ ] Subject-filtered list (T4)
+- [ ] Unit and UI tests (T1-T5, per task)
+- [ ] Optional add/edit/delete bonus, if attempted (T6)
+- [ ] Local verification and CI review (each task, final in T7)
+- [ ] Final diff and evidence review (T7)
+
+## Acceptance criteria
+
+Test names for T1-T4 are the agreed plan; they are fixed before each task and
+not renamed afterwards. Unit tests live in `StudentDirectoryTests/`, UI tests
+in `StudentDirectoryUITests/`.
+
+- T0: `artifacts/T0-baseline.log` records the exact command on the untouched
+  template (actual: `TEST FAILED`, R-17).
+- T1 `StudentStoreTests` (unit): `testSeedStoreKeepsSeedStudentsInOrder`,
+  `testStoreUsesInjectedStudents`, `testSubjectFilterKeepsStoreOrder`,
+  `testSubjectFilterIsCaseSensitive`, `testSubjectFilterRequiresExactMatch`,
+  `testSubjectFilterWithUnknownSubjectIsEmpty`. Planned mutants: sort by name,
+  case-insensitive compare, substring match, return all on no match, ignore
+  injected array.
+- T2 `StudentListTests` (unit): `testListTitleIsStudents`,
+  `testListHasOneRowPerStoreStudent`, `testListRowsFollowStoreOrder`,
+  `testListTableHasStudentListIdentifier`,
+  `testCellShowsNameAgeGradeAndScholarship`,
+  `testReusedCellResetsScholarshipState`,
+  `testCellAccessibilityLabelSummarizesStudent`,
+  `testCellTextSupportsDynamicType`, `testGradeFormattingFollowsLocale`,
+  `testListReflectsStoreChangesAfterReload`.
+  `StudentListUITests` (UI): `testLaunchShowsStudentsList`,
+  `testSeedStudentCellIsFoundByIdentifier`.
+- T3 `StudentDetailTests` (unit):
+  `testSelectingRowPushesDetailsOfThatStudent`,
+  `testDetailsShowEveryStudentField`,
+  `testDetailsViewHasStudentDetailsIdentifier`,
+  `testDetailsForMissingStudentShowNoStudentData` (agent-proposed rule, a
+  consequence of R-7, not an assignment requirement).
+  `StudentDetailUITests` (UI): `testTappingStudentOpensDetails`,
+  `testBackReturnsToStudentsList`.
+- T4 `SubjectFilterTests` (unit): `testDetailsHaveButtonForEachSubject`,
+  `testTappingSubjectPushesListTitledWithSubject`,
+  `testFilteredListShowsExactMatchesInStoreOrder`,
+  `testFilteredListIsCaseSensitive`,
+  `testFilteredRowOpensDetailsOfFilteredStudent`.
+  `SubjectFilterUITests` (UI): `testSubjectButtonOpensFilteredList`,
+  `testFilteredListRowOpensCorrectDetails`.
+- T5 (accessibility/MVC audit) and T6 (bonus): tests agreed before each task.
+- T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
+  clean anonymous clone green at the submitted SHA.
+
+## Risks and checks
+
+| Risk | Check / mitigation |
+| --- | --- |
+| Local toolchain (Xcode 26.3, Swift 6.2.4) differs from CI (Xcode 16.4, Swift 6.1); code may compile differently | push after each task (R-18) and read the CI result |
+| Implicit deinit of a plain (non-UIKit) app class is MainActor-isolated under Xcode 26 and crashes when released inside XCTest (T0) | R-17 workaround for `StudentStore`; any new plain app class released in tests is raised as a decision before it is added |
+| R-15: without `upstream`, template fixes by the instructor are not visible automatically | `git ls-remote https://github.com/Mat-CauThon/apd-hw-3.git HEAD` compared with R-16 in T0 (unchanged) and T7 |
+| Off-screen cells are not in the XCUI hierarchy | row counts are unit-tested; UI tests use short lists (`Design`, `Physics`: 4 rows) |
+| Two `studentList` tables during a push transition (R-6) | UI tests first wait for a screen-unique element (navigation bar title, `studentDetails`) |
+| Grade text depends on locale (R-9) | unit tests pass `en_US_POSIX`; UI tests do not assert grade text |
+| Xcode deletes older `.xcresult` bundles; console output may drop `Test case` lines under `-test-iterations` | logs are generated right after each run; repetition counts are taken from `.xcresult`; focused runs use `-resultBundlePath` in the scratchpad |
+| Protected files or `StudentStore` declarations change by accident | scratchpad script compares with R-16 after every task (git diff of protected paths + declaration lines) |
+| The Xcode GUI rewrites asset catalog `Contents.json` files (seen in T0: 11 avatar files changed and staged while Xcode was open) | protected-file check right before every `git add`; avoid opening `Assets.xcassets` in Xcode; restore with `git restore --staged --worktree StudentDirectory/Assets.xcassets` |
+| Personal data / absolute paths in artifacts | logs are sanitized (`<repo>`, `<home>`, `<scratch>`, `<mutant:name>`); grep before every commit |
+| Simulator app crashes during mutant runs open macOS crash dialogs | harmless; dismiss with OK / Ignore |
+
+## Verified language facts
+
+Checked locally with throwaway projects/scripts in the scratchpad (never
+committed). Environment: Xcode 26.3 (17C529), Swift 6.2.4, iPhone 17
+simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
+`SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor` (app target only).
+
+1. The `StudentDirectory` scheme is auto-generated (`xcodebuild -list`) and
+   the exact command runs both test targets (baseline: 2 unit + 2 UI tests).
+2. A new `.swift` file in a synchronized folder is compiled into its target
+   without editing `project.pbxproj` (probe file used from a test).
+3. Releasing an instance of a plain app class inside the XCTest-hosted app
+   process crashes with `SIGABRT` (`swift_task_deinitOnExecutorImpl` ->
+   `TaskLocal::StopLookupScope` -> "pointer being freed was not allocated"):
+   an empty class, a class with an array, `StudentStore`, also when released
+   on a later main-queue turn. Deterministic in every run.
+4. `@MainActor` on the test class does not prevent that crash. Test classes
+   calling app types compile without warnings with and without `@MainActor`.
+5. The deployment target is not the cause: with
+   `IPHONEOS_DEPLOYMENT_TARGET=26.0` (command-line override) the crash
+   persists; only the back-deploy shim disappears from the stack.
+6. A `UIViewController` subclass released in a unit test did not crash
+   (not verified that its deinit ran inside the test).
+7. The app process creating and releasing a store during launch did not crash
+   (starter UI launch test passed, no crash report; deinit execution not
+   separately proven).
+8. The template CI run (`40850987361`) used Xcode 16.4 (Swift 6.1, iOS 18.5
+   SDK) with an iPhone 17 iOS 26.2 simulator and passed all 4 tests.
+   Not verified (inference only): Xcode 16.4 ignores
+   `SWIFT_DEFAULT_ACTOR_ISOLATION`.
+9. `UUID.uuidString` is uppercase; lowercase input is normalized.
+10. `xcodebuild` supports `-only-testing`, `-test-iterations`,
+    `-clonedSourcePackagesDirPath`, `-resultBundlePath` (`xcodebuild -help`).
+11. The template `.xcresult` from the baseline run was deleted by Xcode after
+    later runs (only the three newest bundles remained).
+
+Not yet verified (checked before first use): synchronous update of
+`viewControllers` after `pushViewController` without a window; XCUI finding a
+cell by identifier with a combined label; SVG avatars via `UIImage(named:)`;
+which cells exist in the XCUI hierarchy on iPhone 17.
 
 ## Verification plan
 
-Record the focused tests you will run and the exact final command from the
-README.
+- Focused runs while a task is in progress:
+  `xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test -only-testing:<Target>/<Class>`.
+- Each green run is repeated (R-14): unit tests `-test-iterations 20`, UI
+  tests `-test-iterations 5`; counts are read from `.xcresult`.
+- Mutants run in a scratchpad copy with their own `-derivedDataPath`; logs as
+  `artifacts/T<n>-red-mutant-<name>.log` with the mutant diff.
+- After each task: protected-file check (R-16), personal-data grep, CI run
+  after the student's push (R-18).
+- Final command, exactly as in the README:
+  `xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test`
+  -> `artifacts/final-xcodebuild-test.log`.
+
+## Run log
+
+| Date | Command | Result | Follow-up |
+| --- | --- | --- | --- |
+| 2026-11-08 | `git ls-remote https://github.com/Mat-CauThon/apd-hw-3.git HEAD` | `938bf69…` = R-16 | none |
+| 2026-11-08 | exact command on the untouched template | `TEST FAILED` (exit 65): `testStarterStoreIsConstructible` crashed, 3 others passed (`artifacts/T0-baseline.log`) | crash diagnosis |
+| 2026-11-08 | probe copy, `-only-testing:StudentDirectoryTests` | 3 store-releasing tests crashed (incl. `@MainActor` probe) | fact 3, 4 |
+| 2026-11-08 | same + `IPHONEOS_DEPLOYMENT_TARGET=26.0` | same crashes | fact 5; agent's hypothesis rejected |
+| 2026-11-08 | probe run C (unit probes + app-launch probe together) | interrupted by the student; design flaw found (launch probe would crash the unit-test host too) | split into C1/C2 |
+| 2026-11-08 | C1: deinit probes | empty class, class with array, store on later main-queue turn crashed; `UIViewController` subclass and kept-alive store passed | facts 3, 6 |
+| 2026-11-08 | C2: app releases a store at launch + starter UI launch test | passed, no crash report | fact 7 |
+| 2026-11-08 | D: probe copy with `#if compiler(>=6.2) nonisolated deinit {} #endif` in `StudentStore` | starter + probe tests passed, no crash | R-17 options |
