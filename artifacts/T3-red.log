@@ -1,0 +1,160 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentDetailUITests (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: neutral placeholders: the 5 StudentDetailTests and both StudentDetailUITests fail on their rule (no push, empty details screen); the 19 older unit tests stay green
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:08:24.900.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 01:08:24.904.
+Test Suite 'StudentDetailUITests' started at 2026-11-09 01:08:24.904.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' failed (25.544 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' failed (25.207 seconds).
+Test Suite 'StudentDetailUITests' failed at 2026-11-09 01:09:15.658.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 01:09:15.659.
+Test Suite 'Selected tests' failed at 2026-11-09 01:09:15.659.
+Test Suite 'All tests' started at 2026-11-09 01:09:17.535.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:09:17.535.
+Test Suite 'StarterStudentDirectoryTests' started at 2026-11-09 01:09:17.535.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Suite 'StarterStudentDirectoryTests' passed at 2026-11-09 01:09:17.537.
+Test Suite 'StudentDetailTests' started at 2026-11-09 01:09:17.537.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' failed (0.144 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' failed (0.016 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsTextSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsTextSupportsDynamicType]' failed (0.021 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsViewHasStudentDetailsIdentifier]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsViewHasStudentDetailsIdentifier]' failed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' failed (0.012 seconds).
+Test Suite 'StudentDetailTests' failed at 2026-11-09 01:09:17.734.
+Test Suite 'StudentListTests' started at 2026-11-09 01:09:17.734.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.005 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.007 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Suite 'StudentListTests' passed at 2026-11-09 01:09:17.759.
+Test Suite 'StudentStoreTests' started at 2026-11-09 01:09:17.759.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Suite 'StudentStoreTests' passed at 2026-11-09 01:09:17.763.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:09:17.764.
+Test Suite 'All tests' failed at 2026-11-09 01:09:17.764.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 19, failed 7, skipped 0, total 26
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StudentDetailTests/testDetailsForMissingStudentShowNoStudentData() -> XCTAssertTrue failed - Rule: a missing student shows a not-found message
+failure: StudentDetailTests/testDetailsForMissingStudentShowNoStudentData() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Student not found")") - Rule: the not-found message text (R-34)
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the avatar is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the name is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the ID is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the age is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the grade is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the scholarship is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the avatar name is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the subjects title is shown on the details screen
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Grace Hopper")") - Rule: the details title is the student's name (R-33)
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertTrue failed - Rule: the details show the student's avatar
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Grace Hopper")") - Rule: the details show the name
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("ID 00000000-0000-0000-0000-000000000003")") - Rule: the details show the id
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Age 22")") - Rule: the details show the age
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Grade 91.5")") - Rule: the details show the average grade
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("No scholarship")") - Rule: the details show the scholarship status
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Avatar avatar-03")") - Rule: the details show the avatar name
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Subjects")") - Rule: the subjects have a heading
+failure: StudentDetailTests/testDetailsShowEveryStudentField() -> XCTAssertEqual failed: ("[]") is not equal to ("[Optional("Programming"), Optional("Algorithms")]") - Rule: the details show every subject in model order (R-32)
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the name label uses a text style font, got CTFontRegularUsage
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the name label follows Dynamic Type changes
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the name label wraps instead of truncating
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the ID label uses a text style font, got CTFontRegularUsage
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the ID label follows Dynamic Type changes
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the ID label wraps instead of truncating
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the age label uses a text style font, got CTFontRegularUsage
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the age label follows Dynamic Type changes
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the age label wraps instead of truncating
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the grade label uses a text style font, got CTFontRegularUsage
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the grade label follows Dynamic Type changes
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the grade label wraps instead of truncating
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the scholarship label uses a text style font, got CTFontRegularUsage
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the scholarship label follows Dynamic Type changes
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the scholarship label wraps instead of truncating
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the avatar name label uses a text style font, got CTFontRegularUsage
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the avatar name label follows Dynamic Type changes
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the avatar name label wraps instead of truncating
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the subjects title uses a text style font, got CTFontRegularUsage
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertTrue failed - Rule: the subjects title follows Dynamic Type changes
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the subjects title wraps instead of truncating
+failure: StudentDetailTests/testDetailsTextSupportsDynamicType() -> XCTAssertFalse failed - Precondition: Grace Hopper has subjects
+failure: StudentDetailTests/testDetailsViewHasStudentDetailsIdentifier() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("studentDetails")") - Rule: the details screen is identified as studentDetails
+failure: StudentDetailTests/testSelectingRowPushesDetailsOfThatStudent() -> XCTAssertEqual failed: ("1") is not equal to ("2") - Rule: tapping a row pushes one screen
+failure: StudentDetailTests/testSelectingRowPushesDetailsOfThatStudent() -> XCTUnwrap failed: expected non-nil value of type "StudentDetailViewController" - Rule: the pushed screen is the details screen
+failure: StudentDetailUITests/testBackReturnsToStudentsList() -> failed - Rule: the details screen opens
+failure: StudentDetailUITests/testBackReturnsToStudentsList() -> failed: caught error: "MissingElement(rule: "the details screen opens")"
+failure: StudentDetailUITests/testTappingStudentOpensDetails() -> failed - Rule: tapping a row opens the screen identified as studentDetails
+failure: StudentDetailUITests/testTappingStudentOpensDetails() -> failed: caught error: "MissingElement(rule: "tapping a row opens the screen identified as studentDetails")"
+test: StudentDetailUITests.testBackReturnsToStudentsList() -> Failed
+test: StudentDetailUITests.testTappingStudentOpensDetails() -> Failed
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
+test: StudentDetailTests.testDetailsForMissingStudentShowNoStudentData() -> Failed
+test: StudentDetailTests.testDetailsShowEveryStudentField() -> Failed
+test: StudentDetailTests.testDetailsTextSupportsDynamicType() -> Failed
+test: StudentDetailTests.testDetailsViewHasStudentDetailsIdentifier() -> Failed
+test: StudentDetailTests.testSelectingRowPushesDetailsOfThatStudent() -> Failed
+test: StudentListTests.testCellAccessibilityLabelSummarizesStudent() -> Passed
+test: StudentListTests.testCellShowsNameAgeGradeAndScholarship() -> Passed
+test: StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes() -> Passed
+test: StudentListTests.testCellTextSupportsDynamicType() -> Passed
+test: StudentListTests.testGradeFormattingFollowsLocale() -> Passed
+test: StudentListTests.testListHasOneRowPerStoreStudent() -> Passed
+test: StudentListTests.testListReflectsStoreChangesAfterReload() -> Passed
+test: StudentListTests.testListRowsFollowStoreOrder() -> Passed
+test: StudentListTests.testListTableHasStudentListIdentifier() -> Passed
+test: StudentListTests.testListTitleIsStudents() -> Passed
+test: StudentListTests.testReusedCellResetsScholarshipState() -> Passed
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed

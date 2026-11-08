@@ -33,6 +33,40 @@ func makeLoadedList(store: StudentStore) -> StudentListViewController {
     return list
 }
 
+/// A list inside a navigation controller, as `SceneDelegate` builds it.
+@MainActor
+func makeListInNavigation(store: StudentStore) -> (navigation: UINavigationController, list: StudentListViewController) {
+    let list = StudentListViewController(store: store)
+    let navigation = UINavigationController(rootViewController: list)
+    list.loadViewIfNeeded()
+    return (navigation, list)
+}
+
+/// A details controller with its view loaded; grades use `en_US_POSIX` (R-9).
+@MainActor
+func makeLoadedDetails(store: StudentStore, studentID: UUID) -> StudentDetailViewController {
+    let details = StudentDetailViewController(store: store, studentID: studentID, locale: Locale(identifier: "en_US_POSIX"))
+    details.loadViewIfNeeded()
+    return details
+}
+
+/// Dynamic Type check for one label. A fixed system font also carries a
+/// textStyle attribute, so only a real text style name counts (PLAN fact 19).
+@MainActor
+func assertFollowsDynamicType(_ label: UILabel?, _ name: String, file: StaticString = #filePath, line: UInt = #line) {
+    guard let label else {
+        XCTFail("Rule: the \(name) has a label", file: file, line: line)
+        return
+    }
+    let textStyles: [UIFont.TextStyle] = [
+        .largeTitle, .title1, .title2, .title3, .headline, .subheadline, .body, .callout, .footnote, .caption1, .caption2
+    ]
+    let style = label.font.fontDescriptor.object(forKey: .textStyle) as? String ?? "<none>"
+    XCTAssertTrue(textStyles.map(\.rawValue).contains(style), "Rule: the \(name) uses a text style font, got \(style)", file: file, line: line)
+    XCTAssertTrue(label.adjustsFontForContentSizeCategory, "Rule: the \(name) follows Dynamic Type changes", file: file, line: line)
+    XCTAssertEqual(label.numberOfLines, 0, "Rule: the \(name) wraps instead of truncating", file: file, line: line)
+}
+
 @MainActor
 extension StudentListViewController {
     /// Row count as UIKit asks the table's data source for it.

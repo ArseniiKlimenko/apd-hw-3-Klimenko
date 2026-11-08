@@ -102,6 +102,10 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-29 | First fix for saved delegate-less sessions | (a) destroy such sessions in `didFinishLaunching` | **did not work** (fact 27); never committed |
 | R-30 | Second fix | (a) `StudentDirectoryApp` observes `UIScene.willConnectNotification`; a scene without a delegate gets a new `SceneDelegate`, which builds the window through `connect(_:)` | works on a device with a saved delegate-less session and on a fresh one (fact 28) |
 | R-31 | The R-25 line became redundant after R-30 (equivalent mutant) | (a) keep both: R-25 is the standard path, R-30 the fallback; the R-25 line is not proven by any test | two independent mechanisms; recorded honestly as an equivalent mutant |
+| R-32 | Subjects on the details screen in T3 | buttons with the subject titles from T3; T4 adds the action and `subjectButton.<subject>` | no rework in T4, no T4 rule in T3 |
+| R-33 | Details texts | name as a large title, `ID <uuid>`, `Age 22`, `Grade 91.5`, `No scholarship`, `Avatar avatar-03`, heading `Subjects` + subjects; the navigation title is the name | consistent with R-21, reuses `StudentFormatting` |
+| R-34 | Details for a student that is no longer in the store | one label `Student not found`, no fields, no subjects | simple and unit-testable; needed for the bonus delete |
+| R-35 | Dynamic Type test for the details screen (not in the original list) | add `testDetailsTextSupportsDynamicType` | rubric item 4; catches a forgotten `adjustsFontForContentSizeCategory` |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -115,7 +119,12 @@ clone at `<workspace>/apd-hw-3-Klimenko`. T1: factory
 T2: `StudentFormatting` is an `enum` with static functions shared by the cell
 and the details screen; `UITestSupport.swift` with `launchApp()` and
 `waitOrFail(_:rule:)`; one extra unit test for R-23
-(`testCellStacksVerticallyForAccessibilityTextSizes`).
+(`testCellStacksVerticallyForAccessibilityTextSizes`). T3: the details avatar
+has the accessibility label `Avatar of <name>`; no disclosure indicator in the
+list cells (not required, would be untested); UI tests use Grace Hopper (row
+3, always on screen); helpers `makeListInNavigation(store:)`,
+`makeLoadedDetails(store:studentID:)`, `assertFollowsDynamicType(_:_:)` in
+`TestSupport.swift` (the T2 test keeps its own inline check).
 
 ## Milestones
 
@@ -210,9 +219,13 @@ in `StudentDirectoryUITests/`.
   `testDetailsShowEveryStudentField`,
   `testDetailsViewHasStudentDetailsIdentifier`,
   `testDetailsForMissingStudentShowNoStudentData` (agent-proposed rule, a
-  consequence of R-7, not an assignment requirement).
+  consequence of R-7, not an assignment requirement),
+  `testDetailsTextSupportsDynamicType` (R-35).
   `StudentDetailUITests` (UI): `testTappingStudentOpensDetails`,
   `testBackReturnsToStudentsList`.
+  Red (`artifacts/T3-red.log`): with a neutral
+  `StudentDetailViewController(store:studentID:locale:)` and an empty
+  `didSelectRow` all 7 fail on their rule; the 19 older unit tests stay green.
 - T4 `SubjectFilterTests` (unit): `testDetailsHaveButtonForEachSubject`,
   `testTappingSubjectPushesListTitledWithSubject`,
   `testFilteredListShowsExactMatchesInStoreOrder`,
@@ -367,6 +380,14 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     R-25-only mutant without `delegateClass` passed on the main iPhone 17
     (sessions saved by builds with a delegate) and failed on a fresh device
     (E1 on `APD Probe`).
+31. An `accessibilityIdentifier` on a view controller's root view is visible
+    to XCUI as `app.otherElements["<id>"]` (type *other*), not as a scroll
+    view.
+32. On iOS 26 the standard back button is identified as `BackButton` and its
+    label is the previous screen's title (`Students`); tapping it returns to
+    that screen.
+33. Calling `tableView.delegate?.tableView?(_:didSelectRowAt:)` in a unit test
+    on a list inside a navigation controller pushes at once (as fact 21).
 
 Not yet verified (checked before first use): CI behaviour of the R-25/R-30
 scene code (Xcode 16.4).
@@ -433,3 +454,5 @@ scene code (Xcode 16.4).
 | 2026-11-09 | W1-W3: R-30 candidate (adopt the scene) over a saved session / fresh | W2 list 8/8 + both UI tests pass; W3 list 8/8, no adoption on the normal path | fact 28; R-30 applied to the repo |
 | 2026-11-09 | T2 final: all unit tests x20, all UI tests x5 (main iPhone 17), both list UI tests on `APD Probe` after a delegate-less launch | 20/20, 5/5, passed (`artifacts/T2-green.log`) | none |
 | 2026-11-09 | T2 mutants on the final code: `adopt-without-window` (`APD Probe`, saved session), `no-scene-delegate-class` (fresh `APD Probe`), `no-navigation-controller`, `cell-id-dash` | killed, **passed (equivalent)**, killed, killed | R-31 |
+| 2026-11-09 | T3 probe (scratchpad copy): details identifier, back button, delegate push | facts 31-33 | none |
+| 2026-11-09 | T3 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/StudentDetailUITests` | `TEST FAILED` as expected: 7 T3 tests fail on their rules, 19 pass, 81 s (`artifacts/T3-red.log`) | implement T3 |

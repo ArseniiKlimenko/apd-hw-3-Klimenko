@@ -27,6 +27,7 @@ final class StudentListViewController: UIViewController {
 
         tableView.accessibilityIdentifier = "studentList"
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 88
         tableView.register(StudentCell.self, forCellReuseIdentifier: StudentCell.reuseIdentifier)
@@ -47,4 +48,9 @@ extension StudentListViewController: UITableViewDataSource {
         (cell as? StudentCell)?.configure(with: students[indexPath.row])
         return cell
     }
+}
+
+// T3 red: neutral placeholder; the push follows in feat(T3).
+extension StudentListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {}
 }
