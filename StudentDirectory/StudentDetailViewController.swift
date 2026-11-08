@@ -81,7 +81,6 @@ final class StudentDetailViewController: UIViewController {
         configure(avatarNameLabel, text: StudentFormatting.avatarName(student.avatarName), style: .footnote, secondary: true)
         configure(subjectsTitleLabel, text: "Subjects", style: .headline)
 
-        // R-32: buttons from T3; the action and identifiers follow in T4.
         subjectButtons = student.subjects.map(makeSubjectButton)
 
         let rows: [UIView] = [avatarView, nameLabel, idLabel, ageLabel, gradeLabel, scholarshipLabel, avatarNameLabel, subjectsTitleLabel]
@@ -99,10 +98,17 @@ final class StudentDetailViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle(subject, for: .normal)
         button.contentHorizontalAlignment = .leading
+        button.accessibilityIdentifier = "subjectButton.\(subject)"
         if let titleLabel = button.titleLabel {
             configure(titleLabel, text: subject, style: .body)
         }
+        // R-37: the action captures its subject, so no lookup by tag or title.
+        button.addAction(UIAction { [weak self] _ in self?.showStudents(with: subject) }, for: .touchUpInside)
         return button
+    }
+
+    private func showStudents(with subject: String) {
+        navigationController?.pushViewController(StudentListViewController(store: store, subject: subject), animated: true)
     }
 
     private func configure(_ label: UILabel, text: String, style: UIFont.TextStyle, secondary: Bool = false) {

@@ -9,13 +9,14 @@ repository and in a scratchpad outside it. Every change was reviewed by the
 student as a diff before the student committed it manually.
 
 | Date | Tool/task | Student review | Evidence |
-| --- | --- | - | --- |
+| --- | --- |  | --- |
 | 2026-11-08 | Entry 1: template reading, plan, decisions R-1…R-18 | Read the plan and every R-n option; asked for a theory walkthrough and a test-by-test explanation; revised R-14 and chose R-15 against the recommendation. | `PLAN.md` |
 | 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | Reviewed the baseline log and the crash diagnosis; paused the probe run over macOS crash dialogs; chose R-17/R-18; restored the assets rewritten by Xcode. | `artifacts/T0-baseline.log` |
 | 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | Reviewed the 6-line StudentStore diff, the green log and both mutant logs; chose R-19 (b) after the equivalent-mutant finding. | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
 | 2026-11-08 | Entry 4: store characterization tests (T1), CI of `fix(T0)` | Reviewed the six store tests, the TestSupport factory, the green log and all seven mutant logs; chose R-20 (b); re-ran the failed CI job. | `artifacts/T1-green.log`, `artifacts/T1-red-mutant-*.log` (7) |
 | 2026-11-09 | Entry 5: student list and cell (T2), scene fixes R-25/R-30, R-21…R-31 | Reviewed the list, cell, formatting and scene code, the red and green logs, the flaky attempt and all mutant logs; chose R-21…R-31, R-23 and R-27 against the recommendation. | `artifacts/T2-red.log`, `artifacts/T2-green.log`, `artifacts/T2-green-ui5-flaky-attempt.log`, `artifacts/T2-red-mutant-*.log` (17), `artifacts/T2-mutant-no-scene-delegate-class-equivalent.log` |
 | 2026-11-09 | Entry 6: details screen and navigation (T3), R-32…R-35, CI of `feat(T2)` | Reviewed the details screen and push code, the red and green logs and all twelve mutant logs; accepted R-32…R-35 and the back-button guard added after red. | `artifacts/T3-red.log`, `artifacts/T3-green.log`, `artifacts/T3-red-mutant-*.log` (12) |
+| 2026-11-09 | Entry 7: subject filter (T4), R-36…R-37 | Reviewed the filter and subject-button code, the red and green logs and all eleven mutant logs; accepted R-36 and R-37 and pushed feat(T3) before the red commit. | `artifacts/T4-red.log`, `artifacts/T4-green.log`, `artifacts/T4-red-mutant-*.log` (11) |
 
 ---
 
@@ -428,6 +429,62 @@ that the T2 scene fixes also work on Xcode 16.4.
 
 - `artifacts/T3-red.log`, `artifacts/T3-green.log`
 - `artifacts/T3-red-mutant-<name>.log` (12 mutants, table in `PLAN.md`)
+
+---
+
+## Entry 7 — Subject filter (T4) (2026-11-09)
+
+### Tool/agent task
+
+Make every subject on the details screen a button identified as
+`subjectButton.<subject>` that pushes a list of the students with exactly that
+subject, in store order, titled with the subject (R-6), test-first.
+
+### Output reviewed
+
+- Facts checked first in a scratchpad copy (`PLAN.md` facts 35-36):
+  `sendActions(for:)` runs a `UIAction` without a window; cells of the
+  previous screen leave the XCUI tree after a push, so "02 is absent" is a
+  valid UI check.
+- Decisions: R-36 (custom out-of-order data for the order test, because seed
+  Physics would not catch a sorting bug, as found in T1) and R-37 (`UIAction`
+  closures), both as recommended; the agent's T4 conventions accepted.
+- Red (`test(T4)`): 7 tests fail on their rules with `subject` stored but
+  unused and buttons without identifier or action; 24 older unit tests stay
+  green. Before this commit the agent told the student to push `feat(T3)`
+  first, so that CI would not run on the red commit.
+- Implementation: `StudentListViewController(store:subject:)` reads
+  `store.students(matchingSubject:)` and uses the subject as title; subject
+  buttons get the identifier and a `UIAction` that pushes the filtered list.
+- Green with R-26: 29 unit tests 20/20, the 2 new UI tests 5/5; 11 mutants
+  killed, including the typical bug "a filtered row opens the student of the
+  full list" in both a unit and a UI variant.
+- CI of `feat(T3)` (run `42536402652`) was still running when this entry was
+  written; its result goes into the next entry (R-11).
+
+### Accepted/rejected/revised decision
+
+Accepted R-36 (custom out-of-order data, the same lesson as R-20 in T1:
+seed Physics would hide a sorting bug) and R-37 (UIAction closures) as
+recommended, and the agent's T4 conventions. Followed the advice to push
+feat(T3) before committing the red T4 tests, so CI never ran on a red
+commit. The typical bug "a filtered row opens a student of the full list"
+is caught by both a unit and a UI test.
+
+### Verification command/result
+
+- Red: `-only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/SubjectFilterUITests`
+  -> 7 T4 tests fail on their rules, 24 pass.
+- Green: all unit tests `-test-iterations 20` -> 29 tests, each 20/20;
+  `SubjectFilterUITests` `-test-iterations 5` -> 2 tests, each 5/5.
+- Mutants: 11 killed, each on its target test's rule.
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit and `StudentDirectoryApp`.
+
+### Artifact links
+
+- `artifacts/T4-red.log`, `artifacts/T4-green.log`
+- `artifacts/T4-red-mutant-<name>.log` (11 mutants, table in `PLAN.md`)
 
 ---
 

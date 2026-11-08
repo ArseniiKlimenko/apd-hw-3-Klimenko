@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/SubjectFilterTests/testTappingSubjectPushesListTitledWithSubject (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:no-button-action>
+# Expectation: subject buttons do nothing -> testTappingSubjectPushesListTitledWithSubject fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -103,7 +103,7 @@
+             configure(titleLabel, text: subject, style: .body)
+         }
+         // R-37: the action captures its subject, so no lookup by tag or title.
+-        button.addAction(UIAction { [weak self] _ in self?.showStudents(with: subject) }, for: .touchUpInside)
++
+         return button
+     }
+ 
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:48:33.531.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:48:33.532.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 01:48:33.532.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' failed (0.159 seconds).
+Test Suite 'SubjectFilterTests' failed at 2026-11-09 01:48:33.691.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:48:33.691.
+Test Suite 'Selected tests' failed at 2026-11-09 01:48:33.692.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterTests/testTappingSubjectPushesListTitledWithSubject() -> XCTAssertEqual failed: ("1") is not equal to ("2") - Rule: tapping a subject pushes one screen
+failure: SubjectFilterTests/testTappingSubjectPushesListTitledWithSubject() -> XCTUnwrap failed: expected non-nil value of type "StudentListViewController" - Rule: the pushed screen is a student list
+test: SubjectFilterTests.testTappingSubjectPushesListTitledWithSubject() -> Failed

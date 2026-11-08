@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/SubjectFilterTests/testFilteredRowOpensDetailsOfFilteredStudent (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:row-from-full-list>
+# Expectation: filtered row indexes the full list -> testFilteredRowOpensDetailsOfFilteredStudent fails (opens Alan Turing)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -57,7 +57,7 @@
+ extension StudentListViewController: UITableViewDelegate {
+     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+         tableView.deselectRow(at: indexPath, animated: true)
+-        let details = StudentDetailViewController(store: store, studentID: students[indexPath.row].id)
++        let details = StudentDetailViewController(store: store, studentID: store.students[indexPath.row].id)
+         navigationController?.pushViewController(details, animated: true)
+     }
+ }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:47:33.992.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:47:33.993.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 01:47:33.993.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredRowOpensDetailsOfFilteredStudent]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredRowOpensDetailsOfFilteredStudent]' failed (0.137 seconds).
+Test Suite 'SubjectFilterTests' failed at 2026-11-09 01:47:34.130.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:47:34.131.
+Test Suite 'Selected tests' failed at 2026-11-09 01:47:34.131.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterTests/testFilteredRowOpensDetailsOfFilteredStudent() -> XCTAssertEqual failed: ("00000000-0000-0000-0000-000000000002") is not equal to ("00000000-0000-0000-0000-000000000006") - Rule: a filtered row opens the student shown in that row
+test: SubjectFilterTests.testFilteredRowOpensDetailsOfFilteredStudent() -> Failed

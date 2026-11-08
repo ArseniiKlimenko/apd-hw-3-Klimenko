@@ -138,7 +138,7 @@ defaulted `subject` parameter.
 - [x] T1: store characterization tests (unit), 7 mutants
 - [x] Student list and reusable cell (T2), including the scene fixes R-25/R-30
 - [x] Detail screen and navigation (T3)
-- [ ] Subject-filtered list (T4)
+- [x] Subject-filtered list (T4)
 - [ ] Unit and UI tests (T1-T5, per task)
 - [ ] Optional add/edit/delete bonus, if attempted (T6)
 - [ ] Local verification and CI review (each task, final in T7)
@@ -256,6 +256,18 @@ in `StudentDirectoryUITests/`.
   Red (`artifacts/T4-red.log`): with `subject` stored but unused and subject
   buttons without identifier and action, all 7 fail on their rule; the 24
   older unit tests stay green.
+  Green (`artifacts/T4-green.log`, R-26): all 29 unit tests 20/20, both T4 UI
+  tests 5/5. Mutants (one changed line each, `artifacts/T4-red-mutant-<name>.log`):
+
+  | Test | Mutant |
+  | --- | --- |
+  | `testDetailsHaveButtonForEachSubject` | `button-id-typo` |
+  | `testTappingSubjectPushesListTitledWithSubject` | `title-not-subject`, `button-opens-full-list`, `no-button-action` |
+  | `testFilteredListShowsExactMatchesInStoreOrder` | `filter-ignored`, `filtered-sorted` (R-36 data) |
+  | `testFilteredListIsCaseSensitive` | `vc-case-insensitive` (the list filters by itself, ignoring case) |
+  | `testFilteredRowOpensDetailsOfFilteredStudent` | `row-from-full-list` (`store.students[row]` instead of the filtered rows) |
+  | UI `testSubjectButtonOpensFilteredList` | `button-id-typo-ui`, `filter-ignored-ui` |
+  | UI `testFilteredListRowOpensCorrectDetails` | `row-from-full-list-ui` |
 - T5 (accessibility/MVC audit) and T6 (bonus): tests agreed before each task.
 - T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
   clean anonymous clone green at the submitted SHA.
@@ -492,3 +504,5 @@ Not yet verified: nothing the current code relies on.
 | 2026-11-09 | T3 UI tests x5 again and mutant `hide-back-button` again | 2 tests each 5/5; the mutant now fails with `Rule: the details screen has the standard back button` | none |
 | 2026-11-09 | T4 probe (scratchpad copy): `sendActions` without a window; previous-screen cells after a push | facts 35, 36 | none |
 | 2026-11-09 | T4 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/SubjectFilterUITests` | `TEST FAILED` as expected: 7 T4 tests fail on their rules, 24 pass, 78 s (`artifacts/T4-red.log`) | implement T4 |
+| 2026-11-09 | T4 green: all unit tests x20; T4 UI tests x5 | 29 tests each 20/20 (14 s); 2 tests each 5/5 (104 s) | mutants |
+| 2026-11-09 | T4: 11 mutants | all failed on their rule messages | none |

@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/SubjectFilterTests/testDetailsHaveButtonForEachSubject (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:button-id-typo>
+# Expectation: wrong button identifier -> testDetailsHaveButtonForEachSubject fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -98,7 +98,7 @@
+         let button = UIButton(type: .system)
+         button.setTitle(subject, for: .normal)
+         button.contentHorizontalAlignment = .leading
+-        button.accessibilityIdentifier = "subjectButton.\(subject)"
++        button.accessibilityIdentifier = "subjectButton-\(subject)"
+         if let titleLabel = button.titleLabel {
+             configure(titleLabel, text: subject, style: .body)
+         }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:47:52.924.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:47:52.924.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 01:47:52.924.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testDetailsHaveButtonForEachSubject]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testDetailsHaveButtonForEachSubject]' failed (0.138 seconds).
+Test Suite 'SubjectFilterTests' failed at 2026-11-09 01:47:53.063.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:47:53.063.
+Test Suite 'Selected tests' failed at 2026-11-09 01:47:53.063.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterTests/testDetailsHaveButtonForEachSubject() -> XCTAssertEqual failed: ("[Optional("subjectButton-Algorithms"), Optional("subjectButton-Math"), Optional("subjectButton-Design")]") is not equal to ("[Optional("subjectButton.Algorithms"), Optional("subjectButton.Math"), Optional("subjectButton.Design")]") - Rule: every subject is a button identified as subjectButton.<subject>, in model order
+test: SubjectFilterTests.testDetailsHaveButtonForEachSubject() -> Failed

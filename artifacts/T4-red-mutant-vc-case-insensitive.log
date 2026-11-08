@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/SubjectFilterTests/testFilteredListIsCaseSensitive (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:vc-case-insensitive>
+# Expectation: the list filters case-insensitively itself -> testFilteredListIsCaseSensitive fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -11,7 +11,7 @@
+     /// R-7: read from the store on every call, never cached.
+     private var students: [Student] {
+         guard let subject else { return store.students }
+-        return store.students(matchingSubject: subject)
++        return store.students.filter { $0.subjects.contains { $0.caseInsensitiveCompare(subject) == .orderedSame } }
+     }
+ 
+     init(store: StudentStore, subject: String? = nil) {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:46:36.041.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:46:36.041.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 01:46:36.041.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListIsCaseSensitive]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListIsCaseSensitive]' failed (0.150 seconds).
+Test Suite 'SubjectFilterTests' failed at 2026-11-09 01:46:36.191.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:46:36.192.
+Test Suite 'Selected tests' failed at 2026-11-09 01:46:36.192.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterTests/testFilteredListIsCaseSensitive() -> XCTAssertEqual failed: ("["studentCell.00000000-0000-0000-0000-000000000001", "studentCell.00000000-0000-0000-0000-000000000002"]") is not equal to ("["studentCell.00000000-0000-0000-0000-000000000001"]") - Rule: the filtered list matches the subject case-sensitively
+test: SubjectFilterTests.testFilteredListIsCaseSensitive() -> Failed

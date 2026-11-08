@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/SubjectFilterTests/testTappingSubjectPushesListTitledWithSubject (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:title-not-subject>
+# Expectation: filtered list titled Students -> testTappingSubjectPushesListTitledWithSubject fails on the title
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -26,7 +26,7 @@
+ 
+     override func viewDidLoad() {
+         super.viewDidLoad()
+-        title = subject ?? "Students"
++        title = "Students"
+         view.backgroundColor = .systemBackground
+ 
+         tableView.accessibilityIdentifier = "studentList"
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 01:47:14.820.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:47:14.821.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 01:47:14.821.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' failed (0.179 seconds).
+Test Suite 'SubjectFilterTests' failed at 2026-11-09 01:47:15.001.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:47:15.001.
+Test Suite 'Selected tests' failed at 2026-11-09 01:47:15.001.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterTests/testTappingSubjectPushesListTitledWithSubject() -> XCTAssertEqual failed: ("Optional("Students")") is not equal to ("Optional("Design")") - Rule: the filtered list is titled with the subject
+test: SubjectFilterTests.testTappingSubjectPushesListTitledWithSubject() -> Failed

@@ -5,12 +5,13 @@ import UIKit
 final class StudentListViewController: UIViewController {
     let tableView = UITableView(frame: .zero, style: .plain)
     private let store: StudentStore
-    // T4 red: stored only; filtering and the title follow in feat(T4).
+    /// R-6: with a subject this is the filtered list.
     let subject: String?
 
     /// R-7: read from the store on every call, never cached.
     private var students: [Student] {
-        store.students
+        guard let subject else { return store.students }
+        return store.students(matchingSubject: subject)
     }
 
     init(store: StudentStore, subject: String? = nil) {
@@ -25,7 +26,7 @@ final class StudentListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Students"
+        title = subject ?? "Students"
         view.backgroundColor = .systemBackground
 
         tableView.accessibilityIdentifier = "studentList"

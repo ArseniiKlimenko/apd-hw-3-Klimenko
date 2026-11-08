@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/SubjectFilterUITests/testSubjectButtonOpensFilteredList (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:filter-ignored-ui>
+# Expectation: subject ignored -> the Design list shows Alan Turing (02)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -11,7 +11,7 @@
+     /// R-7: read from the store on every call, never cached.
+     private var students: [Student] {
+         guard let subject else { return store.students }
+-        return store.students(matchingSubject: subject)
++        return store.students
+     }
+ 
+     init(store: StudentStore, subject: String? = nil) {
+
+--- excerpt ---
+<scratch>/mutants/work/StudentDirectory/StudentListViewController.swift:13:19: warning: value 'subject' was defined but never used; consider replacing with boolean test
+Test Suite 'Selected tests' started at 2026-11-09 01:49:43.872.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 01:49:43.872.
+Test Suite 'SubjectFilterUITests' started at 2026-11-09 01:49:43.873.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' failed (8.603 seconds).
+Test Suite 'SubjectFilterUITests' failed at 2026-11-09 01:49:52.476.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 01:49:52.477.
+Test Suite 'Selected tests' failed at 2026-11-09 01:49:52.478.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterUITests/testSubjectButtonOpensFilteredList() -> XCTAssertFalse failed - Rule: the Design list hides Alan Turing, who has no Design
+test: SubjectFilterUITests.testSubjectButtonOpensFilteredList() -> Failed

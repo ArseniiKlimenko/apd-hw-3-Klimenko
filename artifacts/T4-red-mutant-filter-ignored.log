@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/SubjectFilterTests/testFilteredListShowsExactMatchesInStoreOrder (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:filter-ignored>
+# Expectation: subject ignored, all students listed -> testFilteredListShowsExactMatchesInStoreOrder fails
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -11,7 +11,7 @@
+     /// R-7: read from the store on every call, never cached.
+     private var students: [Student] {
+         guard let subject else { return store.students }
+-        return store.students(matchingSubject: subject)
++        return store.students
+     }
+ 
+     init(store: StudentStore, subject: String? = nil) {
+
+--- excerpt ---
+<scratch>/mutants/work/StudentDirectory/StudentListViewController.swift:13:19: warning: value 'subject' was defined but never used; consider replacing with boolean test
+Test Suite 'Selected tests' started at 2026-11-09 01:46:15.016.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 01:46:15.019.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 01:46:15.019.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListShowsExactMatchesInStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListShowsExactMatchesInStoreOrder]' failed (0.177 seconds).
+Test Suite 'SubjectFilterTests' failed at 2026-11-09 01:46:15.196.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 01:46:15.196.
+Test Suite 'Selected tests' failed at 2026-11-09 01:46:15.197.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: SubjectFilterTests/testFilteredListShowsExactMatchesInStoreOrder() -> XCTAssertEqual failed: ("["studentCell.00000000-0000-0000-0000-000000000003", "studentCell.00000000-0000-0000-0000-000000000001", "studentCell.00000000-0000-0000-0000-000000000002", "studentCell.00000000-0000-0000-0000-000000000004"]") is not equal to ("["studentCell.00000000-0000-0000-0000-000000000003", "studentCell.00000000-0000-0000-0000-000000000002", "studentCell.00000000-0000-0000-0000-000000000004"]") - Rule: the filtered list shows only students with the subject, in store order
+test: SubjectFilterTests.testFilteredListShowsExactMatchesInStoreOrder() -> Failed
