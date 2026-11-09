@@ -1,0 +1,93 @@
+===== 1/2 new T5 UI test repeated 5x (R-14, R-26 C; R-5: green at once, proven by mutants) =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/AccessibilityUITests -test-iterations 5 (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: testLargestTextSizeKeepsListDetailsAndFilterUsable passes in all 5 repetitions
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:19:14.142.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 02:19:14.153.
+Test Suite 'AccessibilityUITests' started at 2026-11-09 02:19:14.153.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.281 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.064 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.053 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.224 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.382 seconds).
+Test Suite 'AccessibilityUITests' passed at 2026-11-09 02:20:25.173.
+Test Suite 'StudentDirectoryUITests.xctest' passed at 2026-11-09 02:20:25.174.
+Test Suite 'Selected tests' passed at 2026-11-09 02:20:25.175.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 1, failed 0, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Passed (repetitions: 5, passed 5)
+
+===== 2/2 all UI tests once (launchApp gained an arguments parameter) =====
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: all 9 UI tests (1 T5, 2 T4, 2 T3, 2 T2, 2 starter) pass
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'All tests' started at 2026-11-09 02:20:45.608.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 02:20:45.609.
+Test Suite 'AccessibilityUITests' started at 2026-11-09 02:20:45.609.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (13.609 seconds).
+Test Suite 'AccessibilityUITests' passed at 2026-11-09 02:20:59.224.
+Test Suite 'StudentDetailUITests' started at 2026-11-09 02:20:59.225.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' passed (9.706 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' passed (6.989 seconds).
+Test Suite 'StudentDetailUITests' passed at 2026-11-09 02:21:15.922.
+Test Suite 'StudentDirectoryUITests' started at 2026-11-09 02:21:15.924.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.513 seconds).
+Test Suite 'StudentDirectoryUITests' passed at 2026-11-09 02:21:19.438.
+Test Suite 'StudentDirectoryUITestsLaunchTests' started at 2026-11-09 02:21:19.439.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.396 seconds).
+Test Suite 'StudentDirectoryUITestsLaunchTests' passed at 2026-11-09 02:21:22.837.
+Test Suite 'StudentListUITests' started at 2026-11-09 02:21:22.839.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.718 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.557 seconds).
+Test Suite 'StudentListUITests' passed at 2026-11-09 02:21:32.118.
+Test Suite 'SubjectFilterUITests' started at 2026-11-09 02:21:32.119.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' passed (10.217 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' passed (8.535 seconds).
+Test Suite 'SubjectFilterUITests' passed at 2026-11-09 02:21:50.874.
+Test Suite 'StudentDirectoryUITests.xctest' passed at 2026-11-09 02:21:50.875.
+Test Suite 'All tests' passed at 2026-11-09 02:21:50.876.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 9, failed 0, skipped 0, total 9
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Passed
+test: StudentDetailUITests.testBackReturnsToStudentsList() -> Passed
+test: StudentDetailUITests.testTappingStudentOpensDetails() -> Passed
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed
+test: StudentListUITests.testLaunchShowsStudentsList() -> Passed
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Passed
+test: SubjectFilterUITests.testFilteredListRowOpensCorrectDetails() -> Passed
+test: SubjectFilterUITests.testSubjectButtonOpensFilteredList() -> Passed

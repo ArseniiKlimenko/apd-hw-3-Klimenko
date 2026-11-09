@@ -1,0 +1,48 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/StudentDetailUITests -only-testing:StudentDirectoryUITests/SubjectFilterUITests (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:detail-no-scroll-bottom>
+# Expectation: the T3/T4 UI tests still pass with this mutant: at the default size the Design button is on screen, so only the T5 test catches the defect
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -57,7 +57,7 @@
+             make.edges.equalToSuperview()
+         }
+         stack.snp.makeConstraints { make in
+-            make.edges.equalTo(scrollView.contentLayoutGuide).inset(20)
++            make.top.leading.equalTo(scrollView.contentLayoutGuide).inset(20)
+             make.width.equalTo(scrollView.frameLayoutGuide).inset(20)
+         }
+     }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:25:53.706.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 02:25:53.706.
+Test Suite 'StudentDetailUITests' started at 2026-11-09 02:25:53.706.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' passed (9.355 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' passed (6.949 seconds).
+Test Suite 'StudentDetailUITests' passed at 2026-11-09 02:26:10.012.
+Test Suite 'SubjectFilterUITests' started at 2026-11-09 02:26:10.012.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' passed (10.653 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' passed (8.631 seconds).
+Test Suite 'SubjectFilterUITests' passed at 2026-11-09 02:26:29.298.
+Test Suite 'StudentDirectoryUITests.xctest' passed at 2026-11-09 02:26:29.299.
+Test Suite 'Selected tests' passed at 2026-11-09 02:26:29.300.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 4, failed 0, skipped 0, total 4
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: StudentDetailUITests.testBackReturnsToStudentsList() -> Passed
+test: StudentDetailUITests.testTappingStudentOpensDetails() -> Passed
+test: SubjectFilterUITests.testFilteredListRowOpensCorrectDetails() -> Passed
+test: SubjectFilterUITests.testSubjectButtonOpensFilteredList() -> Passed

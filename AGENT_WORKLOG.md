@@ -9,7 +9,7 @@ repository and in a scratchpad outside it. Every change was reviewed by the
 student as a diff before the student committed it manually.
 
 | Date | Tool/task | Student review | Evidence |
-| --- | --- |  | --- |
+| --- | --- | --- | --- |
 | 2026-11-08 | Entry 1: template reading, plan, decisions R-1…R-18 | Read the plan and every R-n option; asked for a theory walkthrough and a test-by-test explanation; revised R-14 and chose R-15 against the recommendation. | `PLAN.md` |
 | 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | Reviewed the baseline log and the crash diagnosis; paused the probe run over macOS crash dialogs; chose R-17/R-18; restored the assets rewritten by Xcode. | `artifacts/T0-baseline.log` |
 | 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | Reviewed the 6-line StudentStore diff, the green log and both mutant logs; chose R-19 (b) after the equivalent-mutant finding. | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
@@ -17,6 +17,7 @@ student as a diff before the student committed it manually.
 | 2026-11-09 | Entry 5: student list and cell (T2), scene fixes R-25/R-30, R-21…R-31 | Reviewed the list, cell, formatting and scene code, the red and green logs, the flaky attempt and all mutant logs; chose R-21…R-31, R-23 and R-27 against the recommendation. | `artifacts/T2-red.log`, `artifacts/T2-green.log`, `artifacts/T2-green-ui5-flaky-attempt.log`, `artifacts/T2-red-mutant-*.log` (17), `artifacts/T2-mutant-no-scene-delegate-class-equivalent.log` |
 | 2026-11-09 | Entry 6: details screen and navigation (T3), R-32…R-35, CI of `feat(T2)` | Reviewed the details screen and push code, the red and green logs and all twelve mutant logs; accepted R-32…R-35 and the back-button guard added after red. | `artifacts/T3-red.log`, `artifacts/T3-green.log`, `artifacts/T3-red-mutant-*.log` (12) |
 | 2026-11-09 | Entry 7: subject filter (T4), R-36…R-37 | Reviewed the filter and subject-button code, the red and green logs and all eleven mutant logs; accepted R-36 and R-37 and pushed feat(T3) before the red commit. | `artifacts/T4-red.log`, `artifacts/T4-green.log`, `artifacts/T4-red-mutant-*.log` (11) |
+| 2026-11-09 | Entry 8: accessibility/MVC audit and largest-text-size UI test (T5), R-38…R-41, CI of `feat(T3)` and `feat(T4)` | Reviewed the T5 UI test, the launchApp change, the audit table and both mutant logs; chose R-38…R-41 as recommended after the probes showed a silent false green. | `artifacts/T5-green.log`, `artifacts/T5-red-mutant-*.log` (2), `artifacts/T5-mutant-detail-no-scroll-bottom-default-size-survives.log` |
 
 ---
 
@@ -485,6 +486,74 @@ is caught by both a unit and a UI test.
 
 - `artifacts/T4-red.log`, `artifacts/T4-green.log`
 - `artifacts/T4-red-mutant-<name>.log` (11 mutants, table in `PLAN.md`)
+
+---
+
+## Entry 8 — Accessibility/MVC audit and largest text size (T5) (2026-11-09)
+
+### Tool/agent task
+
+Audit the rubric's architecture and accessibility items on the code (one
+shared store, no duplicated arrays, MVC, SnapKit, no `!`, identifiers, labels,
+Dynamic Type) and check the one item not yet tested end to end: the real app
+at the largest Dynamic Type size (R-38).
+
+### Output reviewed
+
+- CI of the previous code commits (R-11): `feat(T3)` run `42536402652`
+  success, 30/30 tests; `feat(T4)` run `42537854911` success, 37/37 tests
+  (Xcode 16.4). The agent's working notes said "31/31" for `feat(T3)`; the
+  agent found the wrong count while writing this entry by counting the passed
+  tests in the CI log (agent mistake; it did not reach the repository).
+- Facts checked first in a scratchpad copy (`PLAN.md` facts 37-40): only the
+  raw value `UICTContentSizeCategoryAccessibilityXXXL` sets the text size, the
+  Swift constant name is ignored silently (row 111 pt instead of 344 pt);
+  `tap()` scrolls to the off-screen `Design` button; a failed tap marks the
+  surrounding activity as failed.
+- The probes showed two risks that became decisions: a silent false green
+  (R-40: compare with a default-size launch) and an XCUI failure message
+  without the rule (R-41: a `Rule:` activity; the agent's log script prints it
+  as `failure-activity:`).
+- R-39: the agent's preview said "on iPhone the app has one scene" from
+  memory. The audit found that the project allows multiple scenes and targets
+  iPad too; a probe then confirmed that iPhone refuses a second scene
+  (fact 40). The iPad case (two windows, two stores) is recorded as a risk,
+  not tested.
+- New test `AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable`;
+  `launchApp` got a defaulted `arguments` parameter. No app code changed, so
+  the test was green at once (R-5); proof by two mutants that only break at
+  the largest size. The claim "the T3/T4 UI tests do not catch
+  `detail-no-scroll-bottom`" was checked by a run, not assumed.
+- The student found in the Markdown preview that the index table above did
+  not render: its separator row had lost the third cell's `---` (`-` since
+  `test(T1)`, empty since `feat(T4)`). Restored to the template's
+  `| --- | --- | --- | --- |`. The agent's per-task checks compared protected
+  files and paths, not the Markdown, so they missed it.
+- Audit claims (no `NSLayoutConstraint`, no `!`/`try!`/`as!`, one
+  `StudentStore()`, no store in the cell) were checked with `grep` on the
+  current code.
+
+### Accepted/rejected/revised decision
+
+Accepted R-38…R-41 as recommended. The probe changed the plan: a misspelled text-size argument is ignored without an error, so I chose R-40 (compare with a default-size launch) to rule out a false green, and R-41 so that a failed scroll still names its rule. Accepted R-39 knowing that the iPad two-window case is not tested.
+
+### Verification command/result
+
+- Green: `-only-testing:StudentDirectoryUITests/AccessibilityUITests
+  -test-iterations 5` -> 5/5 (83 s); all UI tests once -> 9/9 (76 s).
+- Mutants: `detail-no-scroll-bottom` and `fixed-row-height` killed, each with
+  its rule (`failure-activity:` or the assertion message).
+- `detail-no-scroll-bottom` against `StudentDetailUITests` and
+  `SubjectFilterUITests` -> 4/4 passed, so only T5 catches it.
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit and `StudentDirectoryApp`.
+
+### Artifact links
+
+- `artifacts/T5-green.log`
+- `artifacts/T5-red-mutant-detail-no-scroll-bottom.log`,
+  `artifacts/T5-red-mutant-fixed-row-height.log`
+- `artifacts/T5-mutant-detail-no-scroll-bottom-default-size-survives.log`
 
 ---
 

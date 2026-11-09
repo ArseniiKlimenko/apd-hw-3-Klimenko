@@ -108,6 +108,10 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-35 | Dynamic Type test for the details screen (not in the original list) | add `testDetailsTextSupportsDynamicType` | rubric item 4; catches a forgotten `adjustsFontForContentSizeCategory` |
 | R-36 | Data for `testFilteredListShowsExactMatchesInStoreOrder` (revises the planned Physics data, as R-20) | a custom store with ids and names out of order (`Zed`(3), `Amy`(1), `Mia`(2), `Bob`(4)) | seed Physics is already in id and name order; the UI test covers the real `Design` data |
 | R-37 | How a subject button starts the push | `UIAction` with a closure (`addAction(_:for:)`) | no `@objc`, no lookup of the subject by tag or title |
+| R-38 | T5 scope | (a) one UI test at the largest text size (`AccessibilityXXXL`): list -> Ada's details -> `Design` button below the screen -> filtered list; plus the audit table under Acceptance criteria | the only rubric item not yet checked end to end; scrolling or overlap at large text sizes is invisible to unit tests |
+| R-39 | One store per scene | (a) keep the store in `SceneDelegate` and document it | on iPhone the app has exactly one scene (fact 40), so there is one store; a second window on iPad would get its own store (see Risks) |
+| R-40 | How the T5 test proves the large text size applied | (a) two launches in the test: default size, then the largest; the Ada row must be taller at the largest size | a wrong argument name is ignored silently (fact 37) and would give a false green; comparing two heights needs no device-specific number |
+| R-41 | Rule name when an XCUI tap fails (it reports its own message) | (c) wrap the tap in `XCTContext.runActivity(named: "Rule: ...")`; the logs print the failed `Rule:` activity as `failure-activity:` | deterministic, the rule is visible in the report (fact 39); a manual `swipeUp()` would depend on swipe speed |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -129,7 +133,10 @@ list cells (not required, would be untested); UI tests use Grace Hopper (row
 `TestSupport.swift` (the T2 test keeps its own inline check). T4: buttons are
 tapped in unit tests with `sendActions(for: .touchUpInside)` (fact 35);
 `makeLoadedFilteredList(store:subject:)`; `makeListInNavigation` got a
-defaulted `subject` parameter.
+defaulted `subject` parameter. T5: `launchApp` got a defaulted `arguments`
+parameter; the test is green at once because the code already supports it, so
+the proof is mutants (as R-5, one `test(T5)` commit); mutants chosen by the
+agent after the probes (`detail-no-scroll-bottom`, `fixed-row-height`).
 
 ## Milestones
 
@@ -139,6 +146,7 @@ defaulted `subject` parameter.
 - [x] Student list and reusable cell (T2), including the scene fixes R-25/R-30
 - [x] Detail screen and navigation (T3)
 - [x] Subject-filtered list (T4)
+- [x] Accessibility/MVC/SnapKit audit and the largest-text-size UI test (T5)
 - [ ] Unit and UI tests (T1-T5, per task)
 - [ ] Optional add/edit/delete bonus, if attempted (T6)
 - [ ] Local verification and CI review (each task, final in T7)
@@ -268,7 +276,34 @@ in `StudentDirectoryUITests/`.
   | `testFilteredRowOpensDetailsOfFilteredStudent` | `row-from-full-list` (`store.students[row]` instead of the filtered rows) |
   | UI `testSubjectButtonOpensFilteredList` | `button-id-typo-ui`, `filter-ignored-ui` |
   | UI `testFilteredListRowOpensCorrectDetails` | `row-from-full-list-ui` |
-- T5 (accessibility/MVC audit) and T6 (bonus): tests agreed before each task.
+- T5 `AccessibilityUITests` (UI):
+  `testLargestTextSizeKeepsListDetailsAndFilterUsable` (R-38, R-40, R-41).
+  Green at once (R-5; `artifacts/T5-green.log`): the new test 5/5, all 9 UI
+  tests once after the `launchApp(arguments:)` change. Mutants (one changed
+  line each, `artifacts/T5-red-mutant-<name>.log`):
+
+  | Mutant | Fails with |
+  | --- | --- |
+  | `detail-no-scroll-bottom` (details stack pinned only `top.leading` to the scroll content, so no content height) | XCUI `Failed to not hittable … subjectButton.Design` inside `Rule: at the largest text size the Design button can be scrolled to and tapped` |
+  | `fixed-row-height` (`tableView.rowHeight = 88`) | `Rule: the largest text size makes the Ada row taller than the default size` (88 vs 88) |
+
+  With `detail-no-scroll-bottom` the T3/T4 UI tests still pass at the default
+  size (`artifacts/T5-mutant-detail-no-scroll-bottom-default-size-survives.log`),
+  so only the T5 test catches this defect.
+
+  Audit (rubric item 4), checked on the code at `test(T5)`:
+
+  | Requirement | Evidence |
+  | --- | --- |
+  | One shared `StudentStore` | `StudentStore()` appears only in `SceneDelegate.connect(_:)`; every controller gets it by `init` (R-39, fact 40) |
+  | No duplicated authoritative arrays | list and details read the store on every access (R-7); mutants `seed-array`, `missing-shows-first`, `row-from-full-list` |
+  | MVC | the cell gets a `Student` and never sees the store; controllers read the store and navigate |
+  | SnapKit | every constraint uses SnapKit; no `NSLayoutConstraint` and no `translatesAutoresizingMaskIntoConstraints` in the app code |
+  | No `!` on user input | no `!`, `try!` or `as!` in the app code outside the supplied seed data; `UIImage(named:) ?? avatar-default` |
+  | Identifiers | `studentList`, `studentCell.<id>`, `studentDetails`, `subjectButton.<subject>` (unit and UI tests T2-T4) |
+  | Labels | one combined label per cell (R-10), avatar label `Avatar of <name>`, scholarship always as text |
+  | Dynamic Type | text styles + `adjustsFontForContentSizeCategory` (unit tests T2, T3), adaptive cell (R-23), details in a scroll view; end to end at `AccessibilityXXXL` (T5) |
+- T6 (bonus): tests agreed before the task.
 - T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
   clean anonymous clone green at the submitted SHA.
 
@@ -298,6 +333,9 @@ in `StudentDirectoryUITests/`.
 | The `.xcresult` summary lists only the first failure of a test | logs and fact checks read every failure from the test details (fact 23) |
 | A scene session saved by a build without a delegate (the template, an older build) is restored on every launch and bypasses `configurationForConnecting`, so the R-25 fix alone gives a blank app on such a device (fact 26) | R-30 adopts such scenes; checked on `APD Probe` with a saved delegate-less session (green log section 3, mutant `adopt-without-window`) |
 | UI test results on the main simulator depend on its saved scene sessions (fact 30) | scene-related checks and mutants run on the separate `APD Probe` simulator with an explicit setup (erase, then a delegate-less launch) |
+| A misspelled content-size launch argument is ignored without an error, so a large-text test would silently run at the default size (fact 37) | R-40: the T5 test compares the Ada row height with a default-size launch |
+| An XCUI tap that cannot scroll fails with XCUI's own message, not a `Rule:` message | R-41: the tap runs inside a `Rule:` activity; the logs print it as `failure-activity:` |
+| R-39: the project allows multiple scenes and targets iPhone and iPad (fact 40); on iPad a second window would build its own `SceneDelegate` and its own `StudentStore`, so two windows would not share data (inference, not run on iPad) | on iPhone, the assignment's device, a second scene is refused (fact 40); moving the store to `AppDelegate` would be the fix if iPad windows are ever needed |
 | R-27 (student's choice): the cause of the blank-screen repetition is unknown; a longer guard only helps if the launch was slow, and a real scene-connection defect could show up again on CI or for users | every UI test first waits for a screen-unique element, so a blank screen still fails with the rule name; repeats (R-14) keep looking for it; the first failed series is kept in `artifacts/T2-green-ui5-flaky-attempt.log` |
 
 ## Verified language facts
@@ -431,6 +469,25 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
 36. After a push, cells of the previous screen are no longer in the XCUI tree
     once the new screen's element exists (`studentCell.<02>` absent right
     after `studentDetails` appeared).
+37. The launch arguments `-UIPreferredContentSizeCategoryName
+    UICTContentSizeCategoryAccessibilityXXXL` (the raw value of
+    `UIContentSizeCategory.accessibilityExtraExtraExtraLarge`) set the largest
+    text size: the Ada row is 344 pt instead of 111 pt. The constant's Swift
+    name `UIContentSizeCategoryAccessibilityExtraExtraExtraLarge` as the value
+    is ignored without an error (111 pt).
+38. At the largest text size the `subjectButton.Design` button in Ada's details
+    is below the screen (y = 1072, window height 874, not hittable); XCUI
+    `tap()` scrolls it into view and taps it. If the scroll view has no content
+    height, `tap()` fails with `Failed to not hittable: Button … identifier:
+    'subjectButton.Design'`, and the test stops there.
+39. A failure inside `XCTContext.runActivity(named:)` marks that activity with
+    `isAssociatedWithFailure` in `xcresulttool get test-results activities`, so
+    the rule in the activity name can be printed next to XCUI's message.
+40. The built `Info.plist` has `UIApplicationSupportsMultipleScenes = 1` and
+    `UIDeviceFamily` 1 and 2 (iPhone, iPad). On the iPhone 17 simulator
+    `UIApplication.shared.supportsMultipleScenes` is `false`, one scene is
+    connected, and `requestSceneSessionActivation` fails with "The current
+    device does not support multiple scenes." iPad was not checked.
 
 Not yet verified: nothing the current code relies on.
 
@@ -506,3 +563,9 @@ Not yet verified: nothing the current code relies on.
 | 2026-11-09 | T4 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/SubjectFilterUITests` | `TEST FAILED` as expected: 7 T4 tests fail on their rules, 24 pass, 78 s (`artifacts/T4-red.log`) | implement T4 |
 | 2026-11-09 | T4 green: all unit tests x20; T4 UI tests x5 | 29 tests each 20/20 (14 s); 2 tests each 5/5 (104 s) | mutants |
 | 2026-11-09 | T4: 11 mutants | all failed on their rule messages | none |
+| 2026-11-09 | T5 probe (scratchpad copy): two argument names, row heights, `tap()` on the off-screen `Design` button, the same with the `detail-no-scroll-bottom` mutant | facts 37, 38; the mutant fails with an XCUI message, not a rule | R-40, R-41 |
+| 2026-11-09 | T5 probe: tap inside a `Rule:` activity with the mutant; `make-log.py` extended to print `failure-activity:` | the activity is marked as failed and printed | fact 39 |
+| 2026-11-09 | T5 probe: second scene on iPhone 17 (unit test in the hosted app), built `Info.plist` | refused, `supportsMultipleScenes` false | fact 40, R-39 |
+| 2026-11-09 | T5 green: new UI test x5; all UI tests once | 5/5 (83 s); 9/9 (76 s) (`artifacts/T5-green.log`) | mutants |
+| 2026-11-09 | T5: mutants `detail-no-scroll-bottom`, `fixed-row-height` | both failed, with the rule as `failure-activity:` and as the assertion message | none |
+| 2026-11-09 | `detail-no-scroll-bottom` against the T3/T4 UI tests | 4/4 passed (survives at the default size) | only T5 catches it |

@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/AccessibilityUITests (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:fixed-row-height>
+# Expectation: the T5 UI test fails on the rule that the largest text size makes the Ada row taller than the default size
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -32,7 +32,7 @@
+         tableView.accessibilityIdentifier = "studentList"
+         tableView.dataSource = self
+         tableView.delegate = self
+-        tableView.rowHeight = UITableView.automaticDimension
++        tableView.rowHeight = 88
+         tableView.estimatedRowHeight = 88
+         tableView.register(StudentCell.self, forCellReuseIdentifier: StudentCell.reuseIdentifier)
+         view.addSubview(tableView)
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:24:26.005.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 02:24:26.006.
+Test Suite 'AccessibilityUITests' started at 2026-11-09 02:24:26.006.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' failed (14.292 seconds).
+Test Suite 'AccessibilityUITests' failed at 2026-11-09 02:24:40.299.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 02:24:40.300.
+Test Suite 'Selected tests' failed at 2026-11-09 02:24:40.301.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AccessibilityUITests/testLargestTextSizeKeepsListDetailsAndFilterUsable() -> XCTAssertGreaterThan failed: ("88.0") is not greater than ("88.0") - Rule: the largest text size makes the Ada row taller than the default size
+test: AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Failed

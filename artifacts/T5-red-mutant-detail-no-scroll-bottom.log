@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/AccessibilityUITests (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:detail-no-scroll-bottom>
+# Expectation: the T5 UI test fails: without the bottom edge the details scroll view has no content height, so the Design button cannot be scrolled to (failure-activity names the rule)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -57,7 +57,7 @@
+             make.edges.equalToSuperview()
+         }
+         stack.snp.makeConstraints { make in
+-            make.edges.equalTo(scrollView.contentLayoutGuide).inset(20)
++            make.top.leading.equalTo(scrollView.contentLayoutGuide).inset(20)
+             make.width.equalTo(scrollView.frameLayoutGuide).inset(20)
+         }
+     }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:23:47.862.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 02:23:47.862.
+Test Suite 'AccessibilityUITests' started at 2026-11-09 02:23:47.862.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' failed (14.592 seconds).
+Test Suite 'AccessibilityUITests' failed at 2026-11-09 02:24:02.455.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 02:24:02.456.
+Test Suite 'Selected tests' failed at 2026-11-09 02:24:02.457.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AccessibilityUITests/testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Failed to not hittable: Button, {{20.0, 1072.0}, {158.0, 76.0}}, identifier: 'subjectButton.Design', label: 'Design'
+failure-activity: AccessibilityUITests/testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Rule: at the largest text size the Design button can be scrolled to and tapped
+test: AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Failed

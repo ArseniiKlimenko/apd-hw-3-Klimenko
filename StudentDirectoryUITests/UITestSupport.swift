@@ -8,8 +8,9 @@ struct MissingElement: Error {
 @MainActor
 extension XCTestCase {
     /// A fresh app process, so every test starts from the seed store.
-    func launchApp() -> XCUIApplication {
+    func launchApp(arguments: [String] = []) -> XCUIApplication {
         let app = XCUIApplication()
+        app.launchArguments = arguments
         app.launch()
         return app
     }
