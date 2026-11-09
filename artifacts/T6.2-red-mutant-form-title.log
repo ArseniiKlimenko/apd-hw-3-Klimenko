@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testAddButtonPresentsEmptyAddForm (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:form-title>
+# Expectation: fails on 'Rule: the add form is titled New Student'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -27,7 +27,7 @@
+ 
+     override func viewDidLoad() {
+         super.viewDidLoad()
+-        title = "New Student"
++        title = "Add"
+         view.backgroundColor = .systemBackground
+ 
+         let save = UIBarButtonItem(systemItem: .save, primaryAction: UIAction { [weak self] _ in self?.save() })
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:07:31.051.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:07:31.051.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:07:31.052.
+Test Case '-[StudentDirectoryTests.AddStudentTests testAddButtonPresentsEmptyAddForm]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testAddButtonPresentsEmptyAddForm]' failed (0.176 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:07:31.228.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:07:31.228.
+Test Suite 'Selected tests' failed at 2026-11-09 03:07:31.229.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testAddButtonPresentsEmptyAddForm() -> XCTAssertEqual failed: ("Optional("Add")") is not equal to ("Optional("New Student")") - Rule: the add form is titled New Student
+test: AddStudentTests.testAddButtonPresentsEmptyAddForm() -> Failed

@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testNonNumericAgeShowsErrorAndKeepsStore (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:age-trimmed>
+# Expectation: fails on the rule for the age text " 19" and on 'a non-numeric age does not change the store'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -63,7 +63,7 @@
+ 
+     func save() {
+         // R-47, R-54: the age must be a whole number exactly as typed.
+-        guard let age = Int(ageField.text ?? "") else {
++        guard let age = Int((ageField.text ?? "").trimmingCharacters(in: .whitespaces)) else {
+             showError(Self.invalidAgeMessage)
+             return
+         }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:10:10.364.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:10:10.365.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:10:10.365.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonNumericAgeShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonNumericAgeShowsErrorAndKeepsStore]' failed (0.159 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:10:10.525.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:10:10.525.
+Test Suite 'Selected tests' failed at 2026-11-09 03:10:10.526.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testNonNumericAgeShowsErrorAndKeepsStore() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("Age must be a positive whole number")") - Rule: the age text " 19" shows Age must be a positive whole number
+failure: AddStudentTests/testNonNumericAgeShowsErrorAndKeepsStore() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: C17CE75F-47A5-4C8D-ADF3-FAA9C89E025E, name: "Noa", age: 19, averageGrade: 0.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") - Rule: a non-numeric age does not change the store
+test: AddStudentTests.testNonNumericAgeShowsErrorAndKeepsStore() -> Failed

@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/AddStudentUITests/testAddingStudentShowsItInList (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:no-scroll>
+# Expectation: fails on 'Rule: the list scrolls to the added student (R-52)'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -60,7 +60,7 @@
+         tableView.reloadData()
+         let lastRow = tableView.numberOfRows(inSection: 0) - 1
+         guard lastRow >= 0 else { return }
+-        tableView.scrollToRow(at: IndexPath(row: lastRow, section: 0), at: .bottom, animated: true)
++        // mutant: no scroll
+     }
+ }
+ 
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:11:36.237.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 03:11:36.237.
+Test Suite 'AddStudentUITests' started at 2026-11-09 03:11:36.237.
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' started.
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' failed (12.784 seconds).
+Test Suite 'AddStudentUITests' failed at 2026-11-09 03:11:49.022.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 03:11:49.023.
+Test Suite 'Selected tests' failed at 2026-11-09 03:11:49.023.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentUITests/testAddingStudentShowsItInList() -> XCTAssertTrue failed - Rule: the list scrolls to the added student (R-52)
+test: AddStudentUITests.testAddingStudentShowsItInList() -> Failed

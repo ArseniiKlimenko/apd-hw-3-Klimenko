@@ -27,6 +27,13 @@ final class StudentListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = subject ?? "Students"
+        // R-44: only the main list can add (a new student has no subjects).
+        if subject == nil {
+            let add = UIBarButtonItem(systemItem: .add, primaryAction: UIAction { [weak self] _ in self?.showAddForm() })
+            add.accessibilityIdentifier = "addStudentButton"
+            add.accessibilityLabel = "Add student"
+            navigationItem.rightBarButtonItem = add
+        }
         view.backgroundColor = .systemBackground
 
         tableView.accessibilityIdentifier = "studentList"
@@ -41,8 +48,20 @@ final class StudentListViewController: UIViewController {
         }
     }
 
-    /// T6.2 red stub.
-    func showAddForm() {}
+    /// Presents the add form (R-43); after a save the list reloads and shows
+    /// the new last row (R-46, R-52).
+    func showAddForm() {
+        let form = StudentFormViewController(store: store)
+        form.onSave = { [weak self] in self?.showAddedStudent() }
+        present(UINavigationController(rootViewController: form), animated: true)
+    }
+
+    private func showAddedStudent() {
+        tableView.reloadData()
+        let lastRow = tableView.numberOfRows(inSection: 0) - 1
+        guard lastRow >= 0 else { return }
+        tableView.scrollToRow(at: IndexPath(row: lastRow, section: 0), at: .bottom, animated: true)
+    }
 }
 
 extension StudentListViewController: UITableViewDataSource {

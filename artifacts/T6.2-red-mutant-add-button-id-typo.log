@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testMainListHasAddStudentButton (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:add-button-id-typo>
+# Expectation: fails on 'Rule: the Students list has the addStudentButton'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -30,7 +30,7 @@
+         // R-44: only the main list can add (a new student has no subjects).
+         if subject == nil {
+             let add = UIBarButtonItem(systemItem: .add, primaryAction: UIAction { [weak self] _ in self?.showAddForm() })
+-            add.accessibilityIdentifier = "addStudentButton"
++            add.accessibilityIdentifier = "addButton"
+             add.accessibilityLabel = "Add student"
+             navigationItem.rightBarButtonItem = add
+         }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:06:44.962.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:06:44.962.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:06:44.962.
+Test Case '-[StudentDirectoryTests.AddStudentTests testMainListHasAddStudentButton]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testMainListHasAddStudentButton]' failed (0.159 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:06:45.122.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:06:45.122.
+Test Suite 'Selected tests' failed at 2026-11-09 03:06:45.122.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testMainListHasAddStudentButton() -> XCTAssertEqual failed: ("Optional("addButton")") is not equal to ("Optional("addStudentButton")") - Rule: the Students list has the addStudentButton
+test: AddStudentTests.testMainListHasAddStudentButton() -> Failed

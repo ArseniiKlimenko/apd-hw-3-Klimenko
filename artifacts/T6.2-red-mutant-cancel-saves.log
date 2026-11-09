@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testCancelDoesNotChangeStore (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:cancel-saves>
+# Expectation: fails on 'Rule: cancel never adds, even with valid input' and 'cancel does not report a save'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -78,7 +78,7 @@
+     }
+ 
+     func cancel() {
+-        dismiss(animated: true)
++        save()
+     }
+ 
+     private func message(for error: Error) -> String {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:10:52.329.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:10:52.329.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:10:52.329.
+Test Case '-[StudentDirectoryTests.AddStudentTests testCancelDoesNotChangeStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testCancelDoesNotChangeStore]' failed (0.162 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:10:52.492.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:10:52.492.
+Test Suite 'Selected tests' failed at 2026-11-09 03:10:52.493.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testCancelDoesNotChangeStore() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 7DF81D9A-03A9-4F3D-A5B6-08142BCD8793, name: "Noa", age: 19, averageGrade: 0.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") - Rule: cancel never adds, even with valid input
+failure: AddStudentTests/testCancelDoesNotChangeStore() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: cancel does not report a save
+test: AddStudentTests.testCancelDoesNotChangeStore() -> Failed

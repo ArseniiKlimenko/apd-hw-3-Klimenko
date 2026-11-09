@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/AddStudentUITests/testCancelClosesFormWithoutAdding (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:cancel-no-dismiss>
+# Expectation: fails on 'Rule: cancel closes the form'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -78,7 +78,7 @@
+     }
+ 
+     func cancel() {
+-        dismiss(animated: true)
++        // mutant: form stays open
+     }
+ 
+     private func message(for error: Error) -> String {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:13:04.704.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 03:13:04.704.
+Test Suite 'AddStudentUITests' started at 2026-11-09 03:13:04.704.
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' started.
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' failed (29.274 seconds).
+Test Suite 'AddStudentUITests' failed at 2026-11-09 03:13:33.980.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 03:13:33.984.
+Test Suite 'Selected tests' failed at 2026-11-09 03:13:33.984.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentUITests/testCancelClosesFormWithoutAdding() -> failed - Rule: cancel closes the form
+failure: AddStudentUITests/testCancelClosesFormWithoutAdding() -> failed: caught error: "MissingElement(rule: "cancel closes the form")"
+test: AddStudentUITests.testCancelClosesFormWithoutAdding() -> Failed

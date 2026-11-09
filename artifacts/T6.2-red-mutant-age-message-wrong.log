@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testNonPositiveAgeShowsErrorAndKeepsStore (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:age-message-wrong>
+# Expectation: fails on 'Rule: age 0 shows Age must be a positive whole number'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -84,7 +84,7 @@
+     private func message(for error: Error) -> String {
+         switch error as? StudentStoreError {
+         case .blankName: Self.blankNameMessage
+-        case .nonPositiveAge: Self.invalidAgeMessage
++        case .nonPositiveAge: Self.blankNameMessage
+         case .unknownID: "Student not found"
+         case nil: error.localizedDescription
+         }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:09:26.259.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:09:26.260.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:09:26.260.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonPositiveAgeShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonPositiveAgeShowsErrorAndKeepsStore]' failed (0.160 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:09:26.420.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:09:26.420.
+Test Suite 'Selected tests' failed at 2026-11-09 03:09:26.420.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testNonPositiveAgeShowsErrorAndKeepsStore() -> XCTAssertEqual failed: ("Optional("Name must not be blank")") is not equal to ("Optional("Age must be a positive whole number")") - Rule: age 0 shows Age must be a positive whole number
+test: AddStudentTests.testNonPositiveAgeShowsErrorAndKeepsStore() -> Failed

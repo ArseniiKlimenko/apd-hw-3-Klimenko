@@ -9,7 +9,7 @@ repository and in a scratchpad outside it. Every change was reviewed by the
 student as a diff before the student committed it manually.
 
 | Date | Tool/task | Student review | Evidence |
-| --- | --- | --- | --- |
+| --- | --- | -- | --- |
 | 2026-11-08 | Entry 1: template reading, plan, decisions R-1…R-18 | Read the plan and every R-n option; asked for a theory walkthrough and a test-by-test explanation; revised R-14 and chose R-15 against the recommendation. | `PLAN.md` |
 | 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | Reviewed the baseline log and the crash diagnosis; paused the probe run over macOS crash dialogs; chose R-17/R-18; restored the assets rewritten by Xcode. | `artifacts/T0-baseline.log` |
 | 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | Reviewed the 6-line StudentStore diff, the green log and both mutant logs; chose R-19 (b) after the equivalent-mutant finding. | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
@@ -19,6 +19,7 @@ student as a diff before the student committed it manually.
 | 2026-11-09 | Entry 7: subject filter (T4), R-36…R-37 | Reviewed the filter and subject-button code, the red and green logs and all eleven mutant logs; accepted R-36 and R-37 and pushed feat(T3) before the red commit. | `artifacts/T4-red.log`, `artifacts/T4-green.log`, `artifacts/T4-red-mutant-*.log` (11) |
 | 2026-11-09 | Entry 8: accessibility/MVC audit and largest-text-size UI test (T5), R-38…R-41, CI of `feat(T3)` and `feat(T4)` | Reviewed the T5 UI test, the launchApp change, the audit table and both mutant logs; chose R-38…R-41 as recommended after the probes showed a silent false green. | `artifacts/T5-green.log`, `artifacts/T5-red-mutant-*.log` (2), `artifacts/T5-mutant-detail-no-scroll-bottom-default-size-survives.log` |
 | 2026-11-09 | Entry 9: bonus plan R-42…R-49 and store mutation tests (T6.1), R-50…R-51 | Reviewed the bonus plan, the ten store tests, the assertThrows helper and all twelve mutant logs; accepted R-42…R-51 as recommended. | `artifacts/T6.1-green.log`, `artifacts/T6.1-red-mutant-*.log` (12) |
+| 2026-11-09 | Entry 10: add form and add button (T6.2), R-52…R-56, CI of `test(T5)` | Reviewed the form and list code, the red and green logs and all sixteen mutant logs; accepted R-52…R-56 and the UI-test fallback for cancel. | `artifacts/T6.2-red.log`, `artifacts/T6.2-green.log`, `artifacts/T6.2-red-mutant-*.log` (16) |
 
 ---
 
@@ -609,6 +610,63 @@ Accepted R-42…R-51 as recommended. Split the bonus into four parts so that eac
 
 - `artifacts/T6.1-green.log`
 - `artifacts/T6.1-red-mutant-<name>.log` (12 mutants, table in `PLAN.md`)
+
+---
+
+## Entry 10 — Add form and add button (T6.2) (2026-11-09)
+
+### Tool/agent task
+
+Add a student through a two-field form opened from `addStudentButton` on the
+main list; reject blank names, non-positive and non-numeric ages without
+changing the store; refresh the list after a save (bonus points 1 and part of
+4), test-first.
+
+### Output reviewed
+
+- CI of `test(T5)` (run `42541717925`): success, 38/38 tests (Xcode 16.4),
+  including the largest-text-size UI test.
+- Decisions R-52…R-56 accepted as recommended. The student asked to reach the
+  end faster without losing quality; the agent kept every check and saved
+  time by writing the implementation in a scratchpad copy while the student
+  made the red commit, and by running the green runs and all mutants in one
+  background chain.
+- Probes (`PLAN.md` facts 42-45): a form presented from a list in a window
+  appears at once, but its dismissal is not visible synchronously even
+  without animation. So "the form closes" is checked only by UI tests, and
+  cancel got the third UI test, the agreed fallback of R-56.
+- Red (`test(T6.2)`): 11 tests fail on their rules with a neutral stub. Two
+  new tests pass on the stub because doing nothing is correct for them
+  (cancel never saves; a filtered list has no button); both are proven by
+  mutants (`cancel-saves`, `add-button-everywhere`).
+- Implementation: `StudentFormViewController` (SnapKit stack, text-style
+  fonts, R-45 identifiers, `Int(text)` without `!`, store errors mapped to the
+  agreed messages); the list's add button only without a subject, `onSave`
+  reloads and scrolls to the new last row.
+- The agent first added a VoiceOver announcement of the error message, then
+  removed it before the tests ran because it was not agreed and no test
+  checks it.
+- The red commit was kept local until the green commit, so CI never runs on
+  a red commit (`test(T6.1)` waits with it).
+
+### Accepted/rejected/revised decision
+
+Accepted R-52…R-56 as recommended. The probe showed that a unit test cannot see the form close, so I accepted the agreed fallback of R-56: a third UI test for cancel. Asked the agent to speed up without losing quality; it overlapped the implementation with my red commit instead of dropping checks.
+
+### Verification command/result
+
+- Red: `-only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/AddStudentUITests`
+  -> 11 T6.2 tests fail on their rules, 41 pass.
+- Green: all unit tests `-test-iterations 20` -> 49 tests, each 20/20;
+  `AddStudentUITests` `-test-iterations 5` -> 3 tests, each 5/5.
+- Mutants: 16 killed (13 unit, 3 UI), each on its target test's rule.
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit and `StudentDirectoryApp`.
+
+### Artifact links
+
+- `artifacts/T6.2-red.log`, `artifacts/T6.2-green.log`
+- `artifacts/T6.2-red-mutant-<name>.log` (16 mutants, table in `PLAN.md`)
 
 ---
 

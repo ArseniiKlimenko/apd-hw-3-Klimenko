@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testBlankNameShowsErrorAndKeepsStore (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:error-stays-hidden>
+# Expectation: fails on 'Rule: the error is visible'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -92,7 +92,7 @@
+ 
+     private func showError(_ message: String) {
+         errorLabel.text = message
+-        errorLabel.isHidden = false
++        errorLabel.isHidden = true
+     }
+ 
+     private func configure(_ field: UITextField, placeholder: String, identifier: String) {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:09:48.779.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:09:48.780.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:09:48.780.
+Test Case '-[StudentDirectoryTests.AddStudentTests testBlankNameShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testBlankNameShowsErrorAndKeepsStore]' failed (0.156 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:09:48.937.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:09:48.937.
+Test Suite 'Selected tests' failed at 2026-11-09 03:09:48.937.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testBlankNameShowsErrorAndKeepsStore() -> XCTAssertFalse failed - Rule: the error is visible
+test: AddStudentTests.testBlankNameShowsErrorAndKeepsStore() -> Failed

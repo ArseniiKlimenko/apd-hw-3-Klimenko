@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testSavingValidInputAddsStudentAndRefreshesList (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:no-reload>
+# Expectation: fails on 'Rule: the list shows the added student after saving (refresh)'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -57,7 +57,7 @@
+     }
+ 
+     private func showAddedStudent() {
+-        tableView.reloadData()
++        // mutant: no reload
+         let lastRow = tableView.numberOfRows(inSection: 0) - 1
+         guard lastRow >= 0 else { return }
+         tableView.scrollToRow(at: IndexPath(row: lastRow, section: 0), at: .bottom, animated: true)
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:08:18.986.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:08:18.987.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:08:18.987.
+Test Case '-[StudentDirectoryTests.AddStudentTests testSavingValidInputAddsStudentAndRefreshesList]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testSavingValidInputAddsStudentAndRefreshesList]' failed (0.182 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:08:19.170.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:08:19.170.
+Test Suite 'Selected tests' failed at 2026-11-09 03:08:19.170.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testSavingValidInputAddsStudentAndRefreshesList() -> XCTAssertEqual failed: ("2") is not equal to ("3") - Rule: the list shows the added student after saving (refresh)
+test: AddStudentTests.testSavingValidInputAddsStudentAndRefreshesList() -> Failed

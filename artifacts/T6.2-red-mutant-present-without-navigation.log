@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testAddButtonPresentsEmptyAddForm (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:present-without-navigation>
+# Expectation: fails on 'Rule: the add button presents the form in its own navigation controller'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -53,7 +53,7 @@
+     func showAddForm() {
+         let form = StudentFormViewController(store: store)
+         form.onSave = { [weak self] in self?.showAddedStudent() }
+-        present(UINavigationController(rootViewController: form), animated: true)
++        present(form, animated: true)
+     }
+ 
+     private func showAddedStudent() {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:07:55.847.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:07:55.849.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:07:55.849.
+Test Case '-[StudentDirectoryTests.AddStudentTests testAddButtonPresentsEmptyAddForm]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testAddButtonPresentsEmptyAddForm]' failed (0.195 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:07:56.045.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:07:56.045.
+Test Suite 'Selected tests' failed at 2026-11-09 03:07:56.045.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testAddButtonPresentsEmptyAddForm() -> XCTUnwrap failed: expected non-nil value of type "UINavigationController" - Rule: the add button presents the form in its own navigation controller
+test: AddStudentTests.testAddButtonPresentsEmptyAddForm() -> Failed

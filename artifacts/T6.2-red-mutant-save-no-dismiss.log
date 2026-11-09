@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/AddStudentUITests/testAddingStudentShowsItInList (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:save-no-dismiss>
+# Expectation: fails on 'Rule: a valid save closes the form'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -74,7 +74,7 @@
+             return
+         }
+         onSave?()
+-        dismiss(animated: true)
++        // mutant: form stays open
+     }
+ 
+     func cancel() {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:12:11.442.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 03:12:11.443.
+Test Suite 'AddStudentUITests' started at 2026-11-09 03:12:11.443.
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' started.
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' failed (31.162 seconds).
+Test Suite 'AddStudentUITests' failed at 2026-11-09 03:12:42.606.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 03:12:42.607.
+Test Suite 'Selected tests' failed at 2026-11-09 03:12:42.608.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentUITests/testAddingStudentShowsItInList() -> failed - Rule: a valid save closes the form
+failure: AddStudentUITests/testAddingStudentShowsItInList() -> failed: caught error: "MissingElement(rule: "a valid save closes the form")"
+test: AddStudentUITests.testAddingStudentShowsItInList() -> Failed

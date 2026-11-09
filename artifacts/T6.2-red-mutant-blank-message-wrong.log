@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testBlankNameShowsErrorAndKeepsStore (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:blank-message-wrong>
+# Expectation: fails on 'Rule: a blank name shows Name must not be blank'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -83,7 +83,7 @@
+ 
+     private func message(for error: Error) -> String {
+         switch error as? StudentStoreError {
+-        case .blankName: Self.blankNameMessage
++        case .blankName: Self.invalidAgeMessage
+         case .nonPositiveAge: Self.invalidAgeMessage
+         case .unknownID: "Student not found"
+         case nil: error.localizedDescription
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:09:03.443.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:09:03.443.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:09:03.443.
+Test Case '-[StudentDirectoryTests.AddStudentTests testBlankNameShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testBlankNameShowsErrorAndKeepsStore]' failed (0.155 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:09:03.598.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:09:03.598.
+Test Suite 'Selected tests' failed at 2026-11-09 03:09:03.599.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testBlankNameShowsErrorAndKeepsStore() -> XCTAssertEqual failed: ("Optional("Age must be a positive whole number")") is not equal to ("Optional("Name must not be blank")") - Rule: a blank name shows Name must not be blank
+test: AddStudentTests.testBlankNameShowsErrorAndKeepsStore() -> Failed

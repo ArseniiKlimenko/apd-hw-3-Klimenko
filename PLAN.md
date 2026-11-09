@@ -166,7 +166,7 @@ one `test(T6.1)` commit (as T1), T6.2-T6.4 are `test(T6.n)` red then
 - [ ] Unit and UI tests (T1-T5, per task)
 - [ ] Optional add/edit/delete bonus, if attempted (T6, split by R-42)
   - [x] T6.1 store mutation tests
-  - [ ] T6.2 form and add
+  - [x] T6.2 form and add
   - [ ] T6.3 edit
   - [ ] T6.4 swipe-delete and list refresh
 - [ ] Local verification and CI review (each task, final in T7)
@@ -344,7 +344,40 @@ in `StudentDirectoryUITests/`.
   | `testUpdateUnknownIDThrowsWithoutChange` | `update-unknown-silent` (`return` instead of `throw`) |
   | `testDeleteRemovesOnlyThatStudent` | `delete-removes-first` (`remove(at: 0)`) |
   | `testDeleteUnknownIDThrowsWithoutChange` | `delete-unknown-silent` (`return` instead of `throw`) |
-- T6.2-T6.4 (bonus UI): tests agreed before each sub-task.
+- T6.2 `AddStudentTests` (unit): `testMainListHasAddStudentButton`,
+  `testFilteredListHasNoAddStudentButton`, `testAddButtonPresentsEmptyAddForm`,
+  `testSavingValidInputAddsStudentAndRefreshesList`,
+  `testBlankNameShowsErrorAndKeepsStore`,
+  `testNonPositiveAgeShowsErrorAndKeepsStore`,
+  `testNonNumericAgeShowsErrorAndKeepsStore`, `testNameIsSavedAsTyped`,
+  `testCancelDoesNotChangeStore`, `testFormSupportsDynamicType`.
+  `AddStudentUITests` (UI): `testAddingStudentShowsItInList`,
+  `testInvalidInputShowsErrorAndKeepsForm`, `testCancelClosesFormWithoutAdding`
+  (R-56 fallback, fact 43). Helpers: `makeListInWindow(store:)`,
+  `assertFieldFollowsDynamicType`, `waitForDisappearanceOrFail`,
+  `cells(labelStartingWith:in:)`.
+  Red (`artifacts/T6.2-red.log`): with a neutral form stub and no add button
+  11 tests fail on their rules; `testCancelDoesNotChangeStore` and
+  `testFilteredListHasNoAddStudentButton` pass on the stub (doing nothing
+  never saves; no button anywhere) and are proven by mutants.
+  Green (`artifacts/T6.2-green.log`): all 49 unit tests 20/20, the 3 new UI
+  tests 5/5. Mutants (`artifacts/T6.2-red-mutant-<name>.log`):
+
+  | Test | Mutant |
+  | --- | --- |
+  | `testMainListHasAddStudentButton` | `add-button-id-typo` |
+  | `testFilteredListHasNoAddStudentButton` | `add-button-everywhere` (`if true`) |
+  | `testAddButtonPresentsEmptyAddForm` | `form-title`, `present-without-navigation` |
+  | `testSavingValidInputAddsStudentAndRefreshesList` | `no-reload`, `no-on-save` |
+  | `testBlankNameShowsErrorAndKeepsStore` | `blank-message-wrong`, `error-stays-hidden` |
+  | `testNonPositiveAgeShowsErrorAndKeepsStore` | `age-message-wrong` |
+  | `testNonNumericAgeShowsErrorAndKeepsStore` | `age-trimmed` (R-54) |
+  | `testNameIsSavedAsTyped` | `name-trimmed` (R-48) |
+  | `testCancelDoesNotChangeStore` | `cancel-saves` |
+  | `testFormSupportsDynamicType` | `field-fixed-font` |
+  | UI `testAddingStudentShowsItInList` | `no-scroll` (R-52), `save-no-dismiss` |
+  | UI `testCancelClosesFormWithoutAdding` | `cancel-no-dismiss` |
+- T6.3-T6.4 (bonus UI): tests agreed before each sub-task.
 - T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
   clean anonymous clone green at the submitted SHA.
 
@@ -533,6 +566,20 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     on macOS (`swift` script) and in the iPhone 17 test host, including the id
     that `StudentStore.addStudent` creates. The fixed test ids built from bytes
     (`00…01`) have version 0, so a new store id can never equal one of them.
+42. `present(_:animated: true)` from a controller in a visible `UIWindow`
+    sets `presentedViewController` at once (unit test); without a window
+    nothing is presented.
+43. `dismiss(animated:)` does not clear `presentedViewController` at once,
+    not even with `animated: false` or with `UIView.setAnimationsEnabled(false)`.
+    So unit tests cannot see a form close without waiting; closing is checked
+    in UI tests (R-56 fallback).
+44. A `UIBarButtonItem` with an `accessibilityIdentifier` is
+    `app.buttons["<id>"]` in XCUI; `typeText("19")` works in a `numberPad`
+    field.
+45. After `scrollToRow` to the new 11th row, its cell is in the XCUI tree and
+    hittable; its label ends with the locale's grade text (`grade 0,0` with
+    `en_UA`), so UI tests match new students by the label prefix
+    `<name>, age <age>,`.
 
 Not yet verified: nothing the current code relies on.
 
@@ -617,3 +664,7 @@ Not yet verified: nothing the current code relies on.
 | 2026-11-09 | T6.1 probe: `UUID()` version on macOS and in the iPhone 17 test host | version 4 in 100 000 of 100 000, also for the store's id | fact 41, R-50 |
 | 2026-11-09 | T6.1 green: all unit tests x20 | 39 tests each 20/20, no compiler warnings (`artifacts/T6.1-green.log`) | mutants |
 | 2026-11-09 | T6.1: 12 mutants | 11 failed on their rules; `add-reuse-id` did not compile: the agent's batch script built the line with a zsh `${…/…/…}` substitution, where `()` in the pattern is a glob group, so the mutant became `UUID()()` (agent mistake) | re-run with the line written out: failed on its rule; the invalid log was replaced by the re-run (the invalid run proved nothing) |
+| 2026-11-09 | T6.2 probes (scratchpad copy): present/dismiss in a window, bar button id, `numberPad` typing, the 11th row after `scrollToRow` | facts 42-45; dismissal is not visible synchronously | R-56 fallback: cancel closing checked by a UI test |
+| 2026-11-09 | T6.2 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/AddStudentUITests` | `TEST FAILED` as expected: 11 T6.2 tests fail on their rules; 41 pass (39 older + 2 that a stub cannot break), 99 s (`artifacts/T6.2-red.log`) | implement T6.2 |
+| 2026-11-09 | T6.2 green: all unit tests x20; T6.2 UI tests x5 | 49 tests each 20/20; 3 tests each 5/5, no compiler warnings (`artifacts/T6.2-green.log`) | mutants |
+| 2026-11-09 | T6.2: 16 mutants (13 unit, 3 UI) | all failed on their rule messages | none |

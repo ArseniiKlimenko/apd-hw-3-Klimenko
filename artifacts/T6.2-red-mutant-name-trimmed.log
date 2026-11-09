@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/AddStudentTests/testNameIsSavedAsTyped (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:name-trimmed>
+# Expectation: fails on 'Rule: the form passes the name to the store as typed (R-48)'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -68,7 +68,7 @@
+             return
+         }
+         do {
+-            try store.addStudent(name: nameField.text ?? "", age: age)
++            try store.addStudent(name: (nameField.text ?? "").trimmingCharacters(in: .whitespaces), age: age)
+         } catch {
+             showError(message(for: error))
+             return
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 03:10:31.536.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 03:10:31.537.
+Test Suite 'AddStudentTests' started at 2026-11-09 03:10:31.537.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNameIsSavedAsTyped]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNameIsSavedAsTyped]' failed (0.151 seconds).
+Test Suite 'AddStudentTests' failed at 2026-11-09 03:10:31.688.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 03:10:31.688.
+Test Suite 'Selected tests' failed at 2026-11-09 03:10:31.688.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: AddStudentTests/testNameIsSavedAsTyped() -> XCTAssertEqual failed: ("Optional("Noa")") is not equal to ("Optional("  Noa  ")") - Rule: the form passes the name to the store as typed (R-48)
+test: AddStudentTests.testNameIsSavedAsTyped() -> Failed
