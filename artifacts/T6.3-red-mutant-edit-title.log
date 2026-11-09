@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/EditStudentTests/testEditButtonPresentsFilledEditForm (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:edit-title>
+# Expectation: fails on 'Rule: the edit form is titled Edit Student'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -31,7 +31,7 @@
+ 
+     override func viewDidLoad() {
+         super.viewDidLoad()
+-        title = studentID == nil ? "New Student" : "Edit Student"
++        title = studentID == nil ? "New Student" : "Edit"
+         view.backgroundColor = .systemBackground
+ 
+         let save = UIBarButtonItem(systemItem: .save, primaryAction: UIAction { [weak self] _ in self?.save() })
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:46:57.197.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:46:57.197.
+Test Suite 'EditStudentTests' started at 2026-11-09 09:46:57.197.
+Test Case '-[StudentDirectoryTests.EditStudentTests testEditButtonPresentsFilledEditForm]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testEditButtonPresentsFilledEditForm]' failed (0.220 seconds).
+Test Suite 'EditStudentTests' failed at 2026-11-09 09:46:57.418.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:46:57.418.
+Test Suite 'Selected tests' failed at 2026-11-09 09:46:57.418.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: EditStudentTests/testEditButtonPresentsFilledEditForm() -> XCTAssertEqual failed: ("Optional("Edit")") is not equal to ("Optional("Edit Student")") - Rule: the edit form is titled Edit Student
+test: EditStudentTests.testEditButtonPresentsFilledEditForm() -> Failed

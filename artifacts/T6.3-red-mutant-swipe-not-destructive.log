@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/DeleteStudentTests/testSwipeOffersDestructiveDeleteAction (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:swipe-not-destructive>
+# Expectation: fails on 'Rule: Delete is a destructive action'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -110,7 +110,7 @@
+     /// R-59: swipe offers Delete, which asks for confirmation (R-58).
+     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+         let student = students[indexPath.row]
+-        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
++        let delete = UIContextualAction(style: .normal, title: "Delete") { [weak self] _, _, completion in
+             self?.confirmDelete(of: student, completion: completion)
+         }
+         return UISwipeActionsConfiguration(actions: [delete])
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:50:40.513.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:50:40.513.
+Test Suite 'DeleteStudentTests' started at 2026-11-09 09:50:40.513.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeOffersDestructiveDeleteAction]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeOffersDestructiveDeleteAction]' failed (0.139 seconds).
+Test Suite 'DeleteStudentTests' failed at 2026-11-09 09:50:40.652.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:50:40.653.
+Test Suite 'Selected tests' failed at 2026-11-09 09:50:40.653.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: DeleteStudentTests/testSwipeOffersDestructiveDeleteAction() -> XCTAssertEqual failed: ("Optional(__C.UIContextualActionStyle)") is not equal to ("Optional(__C.UIContextualActionStyle)") - Rule: Delete is a destructive action
+test: DeleteStudentTests.testSwipeOffersDestructiveDeleteAction() -> Failed

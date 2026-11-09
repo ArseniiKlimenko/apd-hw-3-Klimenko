@@ -1,0 +1,40 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/DeleteStudentUITests/testConfirmedSwipeDeleteRemovesStudent (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:confirm-does-not-delete>
+# Expectation: fails on 'Rule: a confirmed delete removes Grace Hopper from the list'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -58,7 +58,7 @@
+     func confirmDelete(of student: Student, completion: @escaping (Bool) -> Void) {
+         let alert = UIAlertController(title: "Delete \(student.name)?", message: "This cannot be undone.", preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+-            self?.deleteStudent(withID: student.id)
++            // mutant: confirmation does not delete
+             completion(true)
+         })
+         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completion(false) })
+
+--- excerpt ---
+<scratch>/mutants/work/StudentDirectory/StudentListViewController.swift:60:85: warning: variable 'self' was written to, but never read
+Test Suite 'Selected tests' started at 2026-11-09 09:52:36.423.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 09:52:36.424.
+Test Suite 'DeleteStudentUITests' started at 2026-11-09 09:52:36.424.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' started.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' failed (30.544 seconds).
+Test Suite 'DeleteStudentUITests' failed at 2026-11-09 09:53:06.969.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 09:53:06.970.
+Test Suite 'Selected tests' failed at 2026-11-09 09:53:06.970.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: DeleteStudentUITests/testConfirmedSwipeDeleteRemovesStudent() -> failed - Rule: a confirmed delete removes Grace Hopper from the list
+failure: DeleteStudentUITests/testConfirmedSwipeDeleteRemovesStudent() -> failed: caught error: "MissingElement(rule: "a confirmed delete removes Grace Hopper from the list")"
+test: DeleteStudentUITests.testConfirmedSwipeDeleteRemovesStudent() -> Failed

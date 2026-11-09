@@ -1,0 +1,40 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/DeleteStudentTests/testConfirmedDeleteOnFilteredListRemovesStudentEverywhere (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:filtered-delete-skipped>
+# Expectation: fails on 'Rule: deleting on a filtered list deletes from the shared store (R-49)'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -68,7 +68,7 @@
+     /// Deletes from the shared store (R-49) and shows what the store holds now.
+     func deleteStudent(withID id: UUID) {
+         // An unknown id means the student is already gone; the reload shows that.
+-        try? store.deleteStudent(id: id)
++        if subject == nil { try? store.deleteStudent(id: id) }
+         tableView.reloadData()
+     }
+ 
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:52:13.930.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:52:13.931.
+Test Suite 'DeleteStudentTests' started at 2026-11-09 09:52:13.931.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteOnFilteredListRemovesStudentEverywhere]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteOnFilteredListRemovesStudentEverywhere]' failed (0.163 seconds).
+Test Suite 'DeleteStudentTests' failed at 2026-11-09 09:52:14.094.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:52:14.094.
+Test Suite 'Selected tests' failed at 2026-11-09 09:52:14.094.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: DeleteStudentTests/testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default")]") - Rule: deleting on a filtered list deletes from the shared store (R-49)
+failure: DeleteStudentTests/testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the filtered list drops the deleted row
+failure: DeleteStudentTests/testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> XCTAssertEqual failed: ("2") is not equal to ("1") - Rule: the main list no longer has the deleted student
+test: DeleteStudentTests.testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> Failed

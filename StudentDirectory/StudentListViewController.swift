@@ -48,8 +48,29 @@ final class StudentListViewController: UIViewController {
         }
     }
 
-    /// T6.4 red stub.
-    func deleteStudent(withID id: UUID) {}
+    /// R-46: the store may have changed while another screen was on top.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+
+    /// Asks before deleting (R-58); only the alert's Delete removes the student.
+    func confirmDelete(of student: Student, completion: @escaping (Bool) -> Void) {
+        let alert = UIAlertController(title: "Delete \(student.name)?", message: "This cannot be undone.", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.deleteStudent(withID: student.id)
+            completion(true)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completion(false) })
+        present(alert, animated: true)
+    }
+
+    /// Deletes from the shared store (R-49) and shows what the store holds now.
+    func deleteStudent(withID id: UUID) {
+        // An unknown id means the student is already gone; the reload shows that.
+        try? store.deleteStudent(id: id)
+        tableView.reloadData()
+    }
 
     /// Presents the add form (R-43); after a save the list reloads and shows
     /// the new last row (R-46, R-52).
@@ -84,5 +105,14 @@ extension StudentListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let details = StudentDetailViewController(store: store, studentID: students[indexPath.row].id)
         navigationController?.pushViewController(details, animated: true)
+    }
+
+    /// R-59: swipe offers Delete, which asks for confirmation (R-58).
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let student = students[indexPath.row]
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completion in
+            self?.confirmDelete(of: student, completion: completion)
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
     }
 }

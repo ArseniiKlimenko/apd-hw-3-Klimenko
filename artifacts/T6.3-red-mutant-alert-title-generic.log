@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/DeleteStudentTests/testSwipeDeleteAsksForConfirmationFirst (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:alert-title-generic>
+# Expectation: fails on 'Rule: the confirmation names the student of the swiped row'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -56,7 +56,7 @@
+ 
+     /// Asks before deleting (R-58); only the alert's Delete removes the student.
+     func confirmDelete(of student: Student, completion: @escaping (Bool) -> Void) {
+-        let alert = UIAlertController(title: "Delete \(student.name)?", message: "This cannot be undone.", preferredStyle: .alert)
++        let alert = UIAlertController(title: "Delete?", message: "This cannot be undone.", preferredStyle: .alert)
+         alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+             self?.deleteStudent(withID: student.id)
+             completion(true)
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:51:27.463.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:51:27.465.
+Test Suite 'DeleteStudentTests' started at 2026-11-09 09:51:27.465.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeDeleteAsksForConfirmationFirst]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeDeleteAsksForConfirmationFirst]' failed (0.180 seconds).
+Test Suite 'DeleteStudentTests' failed at 2026-11-09 09:51:27.645.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:51:27.646.
+Test Suite 'Selected tests' failed at 2026-11-09 09:51:27.646.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: DeleteStudentTests/testSwipeDeleteAsksForConfirmationFirst() -> XCTAssertEqual failed: ("Optional("Delete?")") is not equal to ("Optional("Delete Amy?")") - Rule: the confirmation names the student of the swiped row
+test: DeleteStudentTests.testSwipeDeleteAsksForConfirmationFirst() -> Failed

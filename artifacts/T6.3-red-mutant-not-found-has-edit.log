@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/EditStudentTests/testNotFoundDetailsHaveNoEditButton (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:not-found-has-edit>
+# Expectation: fails on 'Rule: Student not found has no edit button (R-44)'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -110,7 +110,7 @@
+     }
+ 
+     private func showNotFound() {
+-        navigationItem.rightBarButtonItem = nil
++        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .edit)
+         configure(notFoundLabel, text: "Student not found", style: .body)
+         stack.addArrangedSubview(notFoundLabel)
+     }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:49:12.338.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:49:12.339.
+Test Suite 'EditStudentTests' started at 2026-11-09 09:49:12.339.
+Test Case '-[StudentDirectoryTests.EditStudentTests testNotFoundDetailsHaveNoEditButton]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testNotFoundDetailsHaveNoEditButton]' failed (0.150 seconds).
+Test Suite 'EditStudentTests' failed at 2026-11-09 09:49:12.490.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:49:12.490.
+Test Suite 'Selected tests' failed at 2026-11-09 09:49:12.490.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: EditStudentTests/testNotFoundDetailsHaveNoEditButton() -> XCTAssertNil failed: "<UIBarButtonItem: 0x101a9a680> systemItem=Edit" - Rule: Student not found has no edit button (R-44)
+test: EditStudentTests.testNotFoundDetailsHaveNoEditButton() -> Failed

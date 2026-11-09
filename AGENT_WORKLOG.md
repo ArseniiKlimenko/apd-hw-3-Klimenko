@@ -9,7 +9,7 @@ repository and in a scratchpad outside it. Every change was reviewed by the
 student as a diff before the student committed it manually.
 
 | Date | Tool/task | Student review | Evidence |
-| --- | --- | -- | --- |
+| --- | --- | - | --- |
 | 2026-11-08 | Entry 1: template reading, plan, decisions R-1…R-18 | Read the plan and every R-n option; asked for a theory walkthrough and a test-by-test explanation; revised R-14 and chose R-15 against the recommendation. | `PLAN.md` |
 | 2026-11-08 | Entry 2: baseline run and crash diagnosis (T0) | Reviewed the baseline log and the crash diagnosis; paused the probe run over macOS crash dialogs; chose R-17/R-18; restored the assets rewritten by Xcode. | `artifacts/T0-baseline.log` |
 | 2026-11-08 | Entry 3: starter crash workaround, R-19 (T0 fix) | Reviewed the 6-line StudentStore diff, the green log and both mutant logs; chose R-19 (b) after the equivalent-mutant finding. | `artifacts/T0-green.log`, `artifacts/T0-red-mutant-remove-deinit.log`, `artifacts/T0-mutant-plain-deinit-survived.log` |
@@ -20,6 +20,7 @@ student as a diff before the student committed it manually.
 | 2026-11-09 | Entry 8: accessibility/MVC audit and largest-text-size UI test (T5), R-38…R-41, CI of `feat(T3)` and `feat(T4)` | Reviewed the T5 UI test, the launchApp change, the audit table and both mutant logs; chose R-38…R-41 as recommended after the probes showed a silent false green. | `artifacts/T5-green.log`, `artifacts/T5-red-mutant-*.log` (2), `artifacts/T5-mutant-detail-no-scroll-bottom-default-size-survives.log` |
 | 2026-11-09 | Entry 9: bonus plan R-42…R-49 and store mutation tests (T6.1), R-50…R-51 | Reviewed the bonus plan, the ten store tests, the assertThrows helper and all twelve mutant logs; accepted R-42…R-51 as recommended. | `artifacts/T6.1-green.log`, `artifacts/T6.1-red-mutant-*.log` (12) |
 | 2026-11-09 | Entry 10: add form and add button (T6.2), R-52…R-56, CI of `test(T5)` | Reviewed the form and list code, the red and green logs and all sixteen mutant logs; accepted R-52…R-56 and the UI-test fallback for cancel. | `artifacts/T6.2-red.log`, `artifacts/T6.2-green.log`, `artifacts/T6.2-red-mutant-*.log` (16) |
+| 2026-11-09 | Entry 11: edit and swipe-delete with confirmation (T6.3, includes T6.4), R-57…R-59, CI of `feat(T6.2)` |Reviewed the edit and delete code, the red and green logs and all eighteen mutant logs; chose R-57 and R-59 as recommended and R-58 against the recommendation.| `artifacts/T6.3-red.log`, `artifacts/T6.3-green.log`, `artifacts/T6.3-red-mutant-*.log` (18) |
 
 ---
 
@@ -667,6 +668,64 @@ Accepted R-52…R-56 as recommended. The probe showed that a unit test cannot se
 
 - `artifacts/T6.2-red.log`, `artifacts/T6.2-green.log`
 - `artifacts/T6.2-red-mutant-<name>.log` (16 mutants, table in `PLAN.md`)
+
+---
+
+## Entry 11 — Edit and swipe-delete (T6.3, includes T6.4) (2026-11-09)
+
+### Tool/agent task
+
+Edit a student's name and age from `editStudentButton` on the details screen
+with the add form's validation, and delete a student by swipe from any list
+with a confirmation alert; refresh the details and lists after every change
+(bonus points 2, 3 and the rest of 4), test-first.
+
+### Output reviewed
+
+- CI of `feat(T6.2)` (run `42544689820`, pushed together with `test(T6.1)`
+  and `test(T6.2)`): success, 61/61 tests (Xcode 16.4).
+- Decisions: R-57 (one cycle for edit and delete, to save time) and R-59 as
+  recommended; R-58 (confirmation alert) against the recommendation. The
+  agent stated the risk once (alert handlers are not reachable from unit
+  tests) and split the tests so that none depends on it: unit tests check the
+  alert and the delete method, two UI tests check the confirmed and the
+  cancelled path (`PLAN.md` Risks).
+- To save time the agent wrote the tests and the implementation together in a
+  scratchpad copy and ran them green first; this also checked the XCUI
+  behaviour the UI tests rely on (fact 46). Only then the tests went into the
+  repository with neutral stubs for the red run.
+- Red (`test(T6.3)`): 13 tests fail on their rules. In the first red run one
+  `XCTUnwrap` had no rule message; the agent's first fix used a wrong text
+  pattern and did not apply, so one run was wasted before the fix (agent
+  mistake, found by the agent).
+- Implementation: the form gets an `editing` id (title `Edit Student`, fields
+  filled, `updateStudent`); the details screen rebuilds itself from the store
+  after a save and has no edit button on `Student not found`; lists reload in
+  `viewWillAppear` (R-46), offer a destructive `Delete` swipe action that
+  presents `Delete <name>?`, and only the alert's `Delete` deletes from the
+  shared store (also from a filtered list, R-49).
+- While writing this entry the agent found that R-52…R-56 (T6.2) had been
+  used in tests, commits and Entry 10 but were missing from the `PLAN.md`
+  decisions table (agent mistake); the rows were added.
+
+### Accepted/rejected/revised decision
+
+Chose R-58 (a confirmation alert) against the recommendation: deleting a student cannot be undone, so I want a second, explicit step. I accept the risk that the alert’s buttons are proven only by UI tests; the unit tests check the alert and the delete method separately. Accepted R-57 to finish faster with the same tests and mutants.
+
+### Verification command/result
+
+- Red: `-only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/EditStudentUITests -only-testing:StudentDirectoryUITests/DeleteStudentUITests`
+  -> 13 tests fail on their rules, 50 pass.
+- Green: all unit tests `-test-iterations 20` -> 60 tests, each 20/20; the
+  3 new UI tests `-test-iterations 5` -> each 5/5.
+- Mutants: 18 killed (14 unit, 4 UI), each on its target test's rule.
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit and `StudentDirectoryApp`.
+
+### Artifact links
+
+- `artifacts/T6.3-red.log`, `artifacts/T6.3-green.log`
+- `artifacts/T6.3-red-mutant-<name>.log` (18 mutants, table in `PLAN.md`)
 
 ---
 

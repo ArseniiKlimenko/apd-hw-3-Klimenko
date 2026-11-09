@@ -1,0 +1,42 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:edit-adds-instead>
+# Expectation: fails on 'Rule: saving an edit updates only that student's name and age in the shared store'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentFormViewController.swift
++++ b/StudentDirectory/StudentFormViewController.swift
+@@ -77,7 +77,7 @@
+         }
+         do {
+             if let studentID {
+-                try store.updateStudent(id: studentID, name: nameField.text ?? "", age: age)
++                try store.addStudent(name: nameField.text ?? "", age: age)
+             } else {
+                 try store.addStudent(name: nameField.text ?? "", age: age)
+             }
+
+--- excerpt ---
+<scratch>/mutants/work/StudentDirectory/StudentFormViewController.swift:79:20: warning: value 'studentID' was defined but never used; consider replacing with boolean test
+Test Suite 'Selected tests' started at 2026-11-09 09:47:42.147.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:47:42.147.
+Test Suite 'EditStudentTests' started at 2026-11-09 09:47:42.147.
+Test Case '-[StudentDirectoryTests.EditStudentTests testSavingEditUpdatesStoreAndRefreshesDetails]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testSavingEditUpdatesStoreAndRefreshesDetails]' failed (0.192 seconds).
+Test Suite 'EditStudentTests' failed at 2026-11-09 09:47:42.340.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:47:42.341.
+Test Suite 'Selected tests' failed at 2026-11-09 09:47:42.341.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: B6F0CAB3-340B-4A12-BBF9-D5CDC2005D27, name: "Ann", age: 33, averageGrade: 0.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Ann", age: 33, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") - Rule: saving an edit updates only that student's name and age in the shared store
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTAssertEqual failed: ("Optional("Amy")") is not equal to ("Optional("Ann")") - Rule: the details title shows the new name after saving
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTAssertEqual failed: ("Optional("Amy")") is not equal to ("Optional("Ann")") - Rule: the details show the new name after saving
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTAssertEqual failed: ("Optional("Age 20")") is not equal to ("Optional("Age 33")") - Rule: the details show the new age after saving
+test: EditStudentTests.testSavingEditUpdatesStoreAndRefreshesDetails() -> Failed

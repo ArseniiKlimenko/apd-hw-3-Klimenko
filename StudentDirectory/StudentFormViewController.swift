@@ -1,8 +1,9 @@
 import SnapKit
 import UIKit
 
-/// Two-field form for a new student (R-43). The store is the only validation
-/// authority (R-48); the form only turns the age text into a number (R-47).
+/// Two-field form to add a student or edit one's name and age (R-43). The
+/// store is the only validation authority (R-48); the form only turns the age
+/// text into a number (R-47).
 final class StudentFormViewController: UIViewController {
     static let blankNameMessage = "Name must not be blank"
     static let invalidAgeMessage = "Age must be a positive whole number"
@@ -14,11 +15,13 @@ final class StudentFormViewController: UIViewController {
     var onSave: (() -> Void)?
 
     private let store: StudentStore
+    /// nil: add a new student; otherwise edit this student.
+    private let studentID: UUID?
     private let stack = UIStackView()
 
-    /// T6.3 red stub: `editing` is accepted but ignored.
     init(store: StudentStore, editing studentID: UUID? = nil) {
         self.store = store
+        self.studentID = studentID
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -28,7 +31,7 @@ final class StudentFormViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "New Student"
+        title = studentID == nil ? "New Student" : "Edit Student"
         view.backgroundColor = .systemBackground
 
         let save = UIBarButtonItem(systemItem: .save, primaryAction: UIAction { [weak self] _ in self?.save() })
@@ -43,6 +46,10 @@ final class StudentFormViewController: UIViewController {
         nameField.autocorrectionType = .no
         configure(ageField, placeholder: "Age", identifier: "studentAgeField")
         ageField.keyboardType = .numberPad
+        if let studentID, let student = store.students.first(where: { $0.id == studentID }) {
+            nameField.text = student.name
+            ageField.text = String(student.age)
+        }
 
         errorLabel.accessibilityIdentifier = "studentFormError"
         errorLabel.font = .preferredFont(forTextStyle: .footnote)
@@ -69,7 +76,11 @@ final class StudentFormViewController: UIViewController {
             return
         }
         do {
-            try store.addStudent(name: nameField.text ?? "", age: age)
+            if let studentID {
+                try store.updateStudent(id: studentID, name: nameField.text ?? "", age: age)
+            } else {
+                try store.addStudent(name: nameField.text ?? "", age: age)
+            }
         } catch {
             showError(message(for: error))
             return

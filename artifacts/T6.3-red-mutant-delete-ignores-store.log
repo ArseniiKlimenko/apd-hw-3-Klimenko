@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/DeleteStudentTests/testConfirmedDeleteRemovesStudentFromStoreAndList (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:delete-ignores-store>
+# Expectation: fails on 'Rule: a confirmed delete removes the student from the shared store'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -68,7 +68,7 @@
+     /// Deletes from the shared store (R-49) and shows what the store holds now.
+     func deleteStudent(withID id: UUID) {
+         // An unknown id means the student is already gone; the reload shows that.
+-        try? store.deleteStudent(id: id)
++        // mutant: store not changed
+         tableView.reloadData()
+     }
+ 
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:51:50.958.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:51:50.959.
+Test Suite 'DeleteStudentTests' started at 2026-11-09 09:51:50.959.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteRemovesStudentFromStoreAndList]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteRemovesStudentFromStoreAndList]' failed (0.185 seconds).
+Test Suite 'DeleteStudentTests' failed at 2026-11-09 09:51:51.145.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:51:51.145.
+Test Suite 'Selected tests' failed at 2026-11-09 09:51:51.146.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: DeleteStudentTests/testConfirmedDeleteRemovesStudentFromStoreAndList() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default")]") - Rule: a confirmed delete removes the student from the shared store
+failure: DeleteStudentTests/testConfirmedDeleteRemovesStudentFromStoreAndList() -> XCTAssertEqual failed: ("2") is not equal to ("1") - Rule: the list drops the deleted row (refresh)
+test: DeleteStudentTests.testConfirmedDeleteRemovesStudentFromStoreAndList() -> Failed

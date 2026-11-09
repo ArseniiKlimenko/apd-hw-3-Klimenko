@@ -122,6 +122,14 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-49 | Swipe-delete on the filtered list | (a) yes: the same controller (R-6) deletes from the shared store, so the student disappears everywhere | one code path, no special case |
 | R-50 | Testing "a new UUID" without relying on random values | (a) compare the new id with the fixed test ids | `UUID()` is always version 4 and the fixed ids are version 0 (fact 41), so they can never be equal, whatever random value comes out |
 | R-51 | Blank name and non-positive age together: which error | (a) not tested; every test has one invalid field | the assignment does not define the order; a test would pin an unrequired detail |
+| R-52 | After adding, the new student is the 11th row below the screen | (a) the list scrolls to the new row | the user sees the result of the save; without it nothing visible changes |
+| R-53 | How unit tests press Save | (a) the form's internal `save()` is called directly; the wiring of the button is proven by UI tests | no `action!` in tests |
+| R-54 | Age text with spaces (`" 19"`) | (a) strict `Int(text)`: an age error | input taken as typed, like R-48 |
+| R-55 | Form titles | `New Student` (add), `Edit Student` (edit) | one form, the title tells which mode is open |
+| R-56 | How cancel is tested | (a) a unit test if a presented form's closing is visible synchronously, otherwise (b) a UI test | fact 43: it is not visible, so (b) `testCancelClosesFormWithoutAdding`; the unit test `testCancelDoesNotChangeStore` checks only the store |
+| R-57 | Speed-up asked by the student | (a) edit (T6.3) and swipe-delete (T6.4) in one cycle named T6.3: one red and one green commit, one mutant batch | same tests and mutants; saves one full round of messages; risk: stopping midway leaves both parts uncommitted |
+| R-58 | Confirmation before deleting | (b) an alert `Delete <name>?` / `This cannot be undone.` with `Delete` (destructive) and `Cancel` (student's choice; the agent recommended no extra alert, as swipe + Delete is already two steps) | see Risks |
+| R-59 | How the swipe is built | (a) `trailingSwipeActionsConfigurationForRowAt` with a destructive `UIContextualAction` `Delete` | its `handler` can be called from a unit test, no window or `!` needed |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -167,8 +175,7 @@ one `test(T6.1)` commit (as T1), T6.2-T6.4 are `test(T6.n)` red then
 - [ ] Optional add/edit/delete bonus, if attempted (T6, split by R-42)
   - [x] T6.1 store mutation tests
   - [x] T6.2 form and add
-  - [ ] T6.3 edit
-  - [ ] T6.4 swipe-delete and list refresh
+  - [x] T6.3 edit and swipe-delete with confirmation (T6.3 + T6.4 in one cycle, R-57)
 - [ ] Local verification and CI review (each task, final in T7)
 - [ ] Final diff and evidence review (T7)
 
@@ -377,7 +384,43 @@ in `StudentDirectoryUITests/`.
   | `testFormSupportsDynamicType` | `field-fixed-font` |
   | UI `testAddingStudentShowsItInList` | `no-scroll` (R-52), `save-no-dismiss` |
   | UI `testCancelClosesFormWithoutAdding` | `cancel-no-dismiss` |
-- T6.3-T6.4 (bonus UI): tests agreed before each sub-task.
+- T6.3 (edit and swipe-delete in one cycle, R-57). `EditStudentTests` (unit):
+  `testDetailsHaveEditStudentButton`, `testNotFoundDetailsHaveNoEditButton`,
+  `testEditButtonPresentsFilledEditForm`,
+  `testSavingEditUpdatesStoreAndRefreshesDetails`,
+  `testInvalidEditShowsErrorAndKeepsStore`,
+  `testEditOfDeletedStudentShowsNotFound`, `testListReloadsWhenItAppearsAgain`.
+  `DeleteStudentTests` (unit): `testSwipeOffersDestructiveDeleteAction`,
+  `testSwipeDeleteAsksForConfirmationFirst`,
+  `testConfirmedDeleteRemovesStudentFromStoreAndList`,
+  `testConfirmedDeleteOnFilteredListRemovesStudentEverywhere`.
+  UI: `EditStudentUITests.testEditingStudentUpdatesDetailsAndList`,
+  `DeleteStudentUITests.testConfirmedSwipeDeleteRemovesStudent`,
+  `DeleteStudentUITests.testCancelledDeleteKeepsStudent`. Helper
+  `makeDetailsInWindow(store:studentID:)`.
+  Red (`artifacts/T6.3-red.log`): with neutral stubs (the form ignores
+  `editing`, no edit button, no swipe action, empty `deleteStudent`, no
+  reload on appear) 13 tests fail on their rules;
+  `testNotFoundDetailsHaveNoEditButton` passes on the stub and is proven by a
+  mutant. Green (`artifacts/T6.3-green.log`): all 60 unit tests 20/20, the 3
+  new UI tests 5/5. Mutants (`artifacts/T6.3-red-mutant-<name>.log`):
+
+  | Test | Mutant |
+  | --- | --- |
+  | `testDetailsHaveEditStudentButton` | `edit-button-id-typo` |
+  | `testNotFoundDetailsHaveNoEditButton` | `not-found-has-edit` |
+  | `testEditButtonPresentsFilledEditForm` | `edit-title`, `edit-not-prefilled` |
+  | `testSavingEditUpdatesStoreAndRefreshesDetails` | `edit-adds-instead`, `details-no-refresh` |
+  | `testInvalidEditShowsErrorAndKeepsStore` | `edit-errors-swallowed` (`try?`) |
+  | `testEditOfDeletedStudentShowsNotFound` | `not-found-message-wrong` |
+  | `testListReloadsWhenItAppearsAgain` | `no-reload-on-appear` |
+  | `testSwipeOffersDestructiveDeleteAction` | `swipe-not-destructive` |
+  | `testSwipeDeleteAsksForConfirmationFirst` | `swipe-deletes-at-once`, `alert-title-generic` |
+  | `testConfirmedDeleteRemovesStudentFromStoreAndList` | `delete-ignores-store`, `delete-no-reload` |
+  | `testConfirmedDeleteOnFilteredListRemovesStudentEverywhere` | `filtered-delete-skipped` |
+  | UI `testConfirmedSwipeDeleteRemovesStudent` | `confirm-does-not-delete` |
+  | UI `testCancelledDeleteKeepsStudent` | `cancel-deletes` |
+  | UI `testEditingStudentUpdatesDetailsAndList` | `no-reload-on-appear-ui` |
 - T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
   clean anonymous clone green at the submitted SHA.
 
@@ -410,6 +453,7 @@ in `StudentDirectoryUITests/`.
 | A misspelled content-size launch argument is ignored without an error, so a large-text test would silently run at the default size (fact 37) | R-40: the T5 test compares the Ada row height with a default-size launch |
 | An XCUI tap that cannot scroll fails with XCUI's own message, not a `Rule:` message | R-41: the tap runs inside a `Rule:` activity; the logs print it as `failure-activity:` |
 | R-39: the project allows multiple scenes and targets iPhone and iPad (fact 40); on iPad a second window would build its own `SceneDelegate` and its own `StudentStore`, so two windows would not share data (inference, not run on iPad) | on iPhone, the assignment's device, a second scene is refused (fact 40); moving the store to `AppDelegate` would be the fix if iPad windows are ever needed |
+| R-58 (student's choice): an alert's button handlers cannot be called from a unit test, so "the alert's Delete deletes" and "Cancel keeps" are proven only by UI tests | unit tests check that the swipe shows the alert and deletes nothing, and that `deleteStudent(withID:)` deletes; two UI tests cover the confirmed and the cancelled path |
 | R-27 (student's choice): the cause of the blank-screen repetition is unknown; a longer guard only helps if the launch was slow, and a real scene-connection defect could show up again on CI or for users | every UI test first waits for a screen-unique element, so a blank screen still fails with the rule name; repeats (R-14) keep looking for it; the first failed series is kept in `artifacts/T2-green-ui5-flaky-attempt.log` |
 
 ## Verified language facts
@@ -580,6 +624,11 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     hittable; its label ends with the locale's grade text (`grade 0,0` with
     `en_UA`), so UI tests match new students by the label prefix
     `<name>, age <age>,`.
+46. XCUI: `swipeLeft()` on a cell shows its swipe action as
+    `app.buttons["Delete"]`; an alert is `app.alerts["<title>"]` with
+    `app.alerts.buttons["<title>"]`; after `tap()` on a filled text field the
+    cursor is at the end, so `typeText(" Jr")` appends (checked in the T6.3
+    scratch green run before the red commit).
 
 Not yet verified: nothing the current code relies on.
 
@@ -668,3 +717,8 @@ Not yet verified: nothing the current code relies on.
 | 2026-11-09 | T6.2 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/AddStudentUITests` | `TEST FAILED` as expected: 11 T6.2 tests fail on their rules; 41 pass (39 older + 2 that a stub cannot break), 99 s (`artifacts/T6.2-red.log`) | implement T6.2 |
 | 2026-11-09 | T6.2 green: all unit tests x20; T6.2 UI tests x5 | 49 tests each 20/20; 3 tests each 5/5, no compiler warnings (`artifacts/T6.2-green.log`) | mutants |
 | 2026-11-09 | T6.2: 16 mutants (13 unit, 3 UI) | all failed on their rule messages | none |
+| 2026-11-09 | T6.3: tests and implementation first run together in a scratchpad copy (R-57 speed-up) | green with the implementation; XCUI swipe, alert and cursor behaviour as expected | fact 46; tests copied to the repo with neutral stubs |
+| 2026-11-09 | T6.3 red: `-parallel-testing-enabled NO -only-testing:StudentDirectoryTests -only-testing:EditStudentUITests -only-testing:DeleteStudentUITests` | first run: 13 failed, but one `XCTUnwrap` had no rule message; the agent's first fix did not apply (wrong pattern) and a run was wasted; after the fix: 13 fail on their rules, 50 pass (`artifacts/T6.3-red.log`) | implement T6.3 |
+| 2026-11-09 | T6.3 green: all unit tests x20; new UI tests x5 | 60 tests each 20/20; 3 tests each 5/5 (`artifacts/T6.3-green.log`) | mutants |
+| 2026-11-09 | T6.3: 18 mutants (14 unit, 4 UI) | all failed on their rule messages | none |
+| 2026-11-09 | PLAN review during T6.3 | R-52…R-56 were used in T6.2 but missing from the decisions table (agent mistake, found by the agent) | rows added |

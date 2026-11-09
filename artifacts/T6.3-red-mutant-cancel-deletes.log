@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/DeleteStudentUITests/testCancelledDeleteKeepsStudent (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:cancel-deletes>
+# Expectation: fails on 'Rule: a cancelled delete keeps Grace Hopper in the list'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -61,7 +61,7 @@
+             self?.deleteStudent(withID: student.id)
+             completion(true)
+         })
+-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in completion(false) })
++        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { [weak self] _ in self?.deleteStudent(withID: student.id); completion(false) })
+         present(alert, animated: true)
+     }
+ 
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:53:29.653.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 09:53:29.653.
+Test Suite 'DeleteStudentUITests' started at 2026-11-09 09:53:29.653.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' started.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' failed (10.016 seconds).
+Test Suite 'DeleteStudentUITests' failed at 2026-11-09 09:53:39.671.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 09:53:39.672.
+Test Suite 'Selected tests' failed at 2026-11-09 09:53:39.674.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: DeleteStudentUITests/testCancelledDeleteKeepsStudent() -> XCTAssertTrue failed - Rule: a cancelled delete keeps Grace Hopper in the list
+test: DeleteStudentUITests.testCancelledDeleteKeepsStudent() -> Failed

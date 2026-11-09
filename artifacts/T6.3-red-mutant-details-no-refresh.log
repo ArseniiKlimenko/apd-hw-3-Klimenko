@@ -1,0 +1,40 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:details-no-refresh>
+# Expectation: fails on the rules that the details show the new name and age after saving
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentDetailViewController.swift
++++ b/StudentDirectory/StudentDetailViewController.swift
+@@ -58,7 +58,7 @@
+     /// Presents the edit form for this student (R-43, R-44).
+     func showEditForm() {
+         let form = StudentFormViewController(store: store, editing: studentID)
+-        form.onSave = { [weak self] in self?.showCurrentStudent() }
++        form.onSave = nil
+         present(UINavigationController(rootViewController: form), animated: true)
+     }
+ 
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:49:34.120.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:49:34.121.
+Test Suite 'EditStudentTests' started at 2026-11-09 09:49:34.121.
+Test Case '-[StudentDirectoryTests.EditStudentTests testSavingEditUpdatesStoreAndRefreshesDetails]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testSavingEditUpdatesStoreAndRefreshesDetails]' failed (0.186 seconds).
+Test Suite 'EditStudentTests' failed at 2026-11-09 09:49:34.308.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:49:34.308.
+Test Suite 'Selected tests' failed at 2026-11-09 09:49:34.308.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTAssertEqual failed: ("Optional("Amy")") is not equal to ("Optional("Ann")") - Rule: the details title shows the new name after saving
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTAssertEqual failed: ("Optional("Amy")") is not equal to ("Optional("Ann")") - Rule: the details show the new name after saving
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTAssertEqual failed: ("Optional("Age 20")") is not equal to ("Optional("Age 33")") - Rule: the details show the new age after saving
+test: EditStudentTests.testSavingEditUpdatesStoreAndRefreshesDetails() -> Failed

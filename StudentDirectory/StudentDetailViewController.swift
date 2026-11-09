@@ -38,7 +38,16 @@ final class StudentDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.accessibilityIdentifier = "studentDetails"
         setUpLayout()
+        showCurrentStudent()
+    }
 
+    /// Rebuilds the screen from the store (R-7); also called after an edit (R-46).
+    func showCurrentStudent() {
+        for row in stack.arrangedSubviews {
+            stack.removeArrangedSubview(row)
+            row.removeFromSuperview()
+        }
+        subjectButtons = []
         if let student = store.students.first(where: { $0.id == studentID }) {
             show(student)
         } else {
@@ -46,8 +55,12 @@ final class StudentDetailViewController: UIViewController {
         }
     }
 
-    /// T6.3 red stub.
-    func showEditForm() {}
+    /// Presents the edit form for this student (R-43, R-44).
+    func showEditForm() {
+        let form = StudentFormViewController(store: store, editing: studentID)
+        form.onSave = { [weak self] in self?.showCurrentStudent() }
+        present(UINavigationController(rootViewController: form), animated: true)
+    }
 
     private func setUpLayout() {
         stack.axis = .vertical
@@ -67,12 +80,16 @@ final class StudentDetailViewController: UIViewController {
 
     private func show(_ student: Student) {
         title = student.name
+        let edit = UIBarButtonItem(systemItem: .edit, primaryAction: UIAction { [weak self] _ in self?.showEditForm() })
+        edit.accessibilityIdentifier = "editStudentButton"
+        edit.accessibilityLabel = "Edit student"
+        navigationItem.rightBarButtonItem = edit
 
         avatarView.image = UIImage(named: student.avatarName) ?? UIImage(named: "avatar-default")
         avatarView.contentMode = .scaleAspectFit
         avatarView.isAccessibilityElement = true
         avatarView.accessibilityLabel = "Avatar of \(student.name)"
-        avatarView.snp.makeConstraints { make in
+        avatarView.snp.remakeConstraints { make in
             make.size.equalTo(120)
         }
 
@@ -93,6 +110,7 @@ final class StudentDetailViewController: UIViewController {
     }
 
     private func showNotFound() {
+        navigationItem.rightBarButtonItem = nil
         configure(notFoundLabel, text: "Student not found", style: .body)
         stack.addArrangedSubview(notFoundLabel)
     }

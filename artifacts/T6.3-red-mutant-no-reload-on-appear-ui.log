@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests/EditStudentUITests/testEditingStudentUpdatesDetailsAndList (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:no-reload-on-appear-ui>
+# Expectation: fails on 'Rule: the list shows the edited name'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentListViewController.swift
++++ b/StudentDirectory/StudentListViewController.swift
+@@ -51,7 +51,7 @@
+     /// R-46: the store may have changed while another screen was on top.
+     override func viewWillAppear(_ animated: Bool) {
+         super.viewWillAppear(animated)
+-        tableView.reloadData()
++        // mutant: no reload on appear
+     }
+ 
+     /// Asks before deleting (R-58); only the alert's Delete removes the student.
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:54:02.660.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 09:54:02.661.
+Test Suite 'EditStudentUITests' started at 2026-11-09 09:54:02.661.
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' started.
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' failed (14.310 seconds).
+Test Suite 'EditStudentUITests' failed at 2026-11-09 09:54:16.971.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 09:54:16.972.
+Test Suite 'Selected tests' failed at 2026-11-09 09:54:16.972.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: EditStudentUITests/testEditingStudentUpdatesDetailsAndList() -> XCTAssertTrue failed - Rule: the list shows the edited name, got Grace Hopper, age 22, grade 91,5, no scholarship
+test: EditStudentUITests.testEditingStudentUpdatesDetailsAndList() -> Failed
