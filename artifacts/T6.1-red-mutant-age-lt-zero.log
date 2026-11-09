@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testAddRejectsNonPositiveAgeWithoutChange (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:age-lt-zero>
+# Expectation: fails on 'adding with age 0 throws nonPositiveAge' and on 'a rejected add does not change the store'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -42,7 +42,7 @@
+         if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+             throw StudentStoreError.blankName
+         }
+-        if age <= 0 {
++        if age < 0 {
+             throw StudentStoreError.nonPositiveAge
+         }
+     }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:43:37.196.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:43:37.197.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:43:37.197.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsNonPositiveAgeWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsNonPositiveAgeWithoutChange]' failed (0.175 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:43:37.372.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:43:37.372.
+Test Suite 'Selected tests' failed at 2026-11-09 02:43:37.373.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testAddRejectsNonPositiveAgeWithoutChange() -> failed - Rule: adding with age 0 throws nonPositiveAge (no error thrown)
+failure: StoreMutationTests/testAddRejectsNonPositiveAgeWithoutChange() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"), StudentDirectory.Student(id: 2FDDA6A2-7D7E-4DD5-90B3-2502A7D0C263, name: "Noa", age: 0, averageGrade: 0.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") - Rule: a rejected add does not change the store
+test: StoreMutationTests.testAddRejectsNonPositiveAgeWithoutChange() -> Failed

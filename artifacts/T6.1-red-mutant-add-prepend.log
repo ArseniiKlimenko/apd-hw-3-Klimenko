@@ -1,0 +1,41 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testAddAppendsStudentWithBonusDefaults (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:add-prepend>
+# Expectation: fails on 'Rule: adding keeps the existing students and their order'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -19,7 +19,7 @@
+ 
+     func addStudent(name: String, age: Int) throws {
+         try validate(name: name, age: age)
+-        students.append(Student(id: UUID(), name: name, age: age, averageGrade: 0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"))
++        students.insert(Student(id: UUID(), name: name, age: age, averageGrade: 0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"), at: 0)
+     }
+ 
+     func updateStudent(id: UUID, name: String, age: Int) throws {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:42:47.191.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:42:47.192.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:42:47.192.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAppendsStudentWithBonusDefaults]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAppendsStudentWithBonusDefaults]' failed (0.152 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:42:47.344.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:42:47.344.
+Test Suite 'Selected tests' failed at 2026-11-09 02:42:47.345.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testAddAppendsStudentWithBonusDefaults() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 9F0E3EB3-C399-4D12-9917-377BED8C78DA, name: "Noa", age: 19, averageGrade: 0.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") - Rule: adding keeps the existing students and their order
+failure: StoreMutationTests/testAddAppendsStudentWithBonusDefaults() -> XCTAssertEqual failed: ("Mia") is not equal to ("Noa") - Rule: the new student has the given name
+failure: StoreMutationTests/testAddAppendsStudentWithBonusDefaults() -> XCTAssertEqual failed: ("20") is not equal to ("19") - Rule: the new student has the given age
+failure: StoreMutationTests/testAddAppendsStudentWithBonusDefaults() -> XCTAssertEqual failed: ("90.0") is not equal to ("0.0") - Rule: a new student has grade 0
+test: StoreMutationTests.testAddAppendsStudentWithBonusDefaults() -> Failed

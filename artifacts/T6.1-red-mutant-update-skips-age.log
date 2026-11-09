@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testUpdateChangesOnlyNameAndAge (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:update-skips-age>
+# Expectation: fails on 'Rule: an update changes only that student's name and age, in place'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -28,7 +28,7 @@
+             throw StudentStoreError.unknownID(id)
+         }
+         students[index].name = name
+-        students[index].age = age
++        // mutant: age not updated
+     }
+ 
+     func deleteStudent(id: UUID) throws {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:45:15.672.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:45:15.672.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:45:15.673.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateChangesOnlyNameAndAge]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateChangesOnlyNameAndAge]' failed (0.149 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:45:15.822.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:45:15.822.
+Test Suite 'Selected tests' failed at 2026-11-09 02:45:15.823.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testUpdateChangesOnlyNameAndAge() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Ann", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Ann", age: 33, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") - Rule: an update changes only that student's name and age, in place
+test: StoreMutationTests.testUpdateChangesOnlyNameAndAge() -> Failed

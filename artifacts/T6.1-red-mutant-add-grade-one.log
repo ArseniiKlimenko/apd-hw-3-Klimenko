@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testAddAppendsStudentWithBonusDefaults (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:add-grade-one>
+# Expectation: fails on 'Rule: a new student has grade 0'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -19,7 +19,7 @@
+ 
+     func addStudent(name: String, age: Int) throws {
+         try validate(name: name, age: age)
+-        students.append(Student(id: UUID(), name: name, age: age, averageGrade: 0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"))
++        students.append(Student(id: UUID(), name: name, age: age, averageGrade: 1, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"))
+     }
+ 
+     func updateStudent(id: UUID, name: String, age: Int) throws {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:42:22.527.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:42:22.527.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:42:22.527.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAppendsStudentWithBonusDefaults]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAppendsStudentWithBonusDefaults]' failed (0.173 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:42:22.701.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:42:22.701.
+Test Suite 'Selected tests' failed at 2026-11-09 02:42:22.701.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testAddAppendsStudentWithBonusDefaults() -> XCTAssertEqual failed: ("1.0") is not equal to ("0.0") - Rule: a new student has grade 0
+test: StoreMutationTests.testAddAppendsStudentWithBonusDefaults() -> Failed

@@ -112,6 +112,16 @@ end-to-end flows in XCUITest. UI tests wait for a screen-unique element with
 | R-39 | One store per scene | (a) keep the store in `SceneDelegate` and document it | on iPhone the app has exactly one scene (fact 40), so there is one store; a second window on iPad would get its own store (see Risks) |
 | R-40 | How the T5 test proves the large text size applied | (a) two launches in the test: default size, then the largest; the Ada row must be taller at the largest size | a wrong argument name is ignored silently (fact 37) and would give a false green; comparing two heights needs no device-specific number |
 | R-41 | Rule name when an XCUI tap fails (it reports its own message) | (c) wrap the tap in `XCTContext.runActivity(named: "Rule: ...")`; the logs print the failed `Rule:` activity as `failure-activity:` | deterministic, the rule is visible in the report (fact 39); a manual `swipeUp()` would depend on swipe speed |
+| R-42 | How to split the bonus (T6) | (a) four sub-tasks with their own tests, commits and logs: T6.1 store tests, T6.2 form and add, T6.3 edit, T6.4 swipe-delete and list refresh | each finished part is committed on its own; a missing part does not risk the others or the base (R-2) |
+| R-43 | Form for add and edit | (a) own `StudentFormViewController` (two fields, Save, Cancel, error label) in a modal `UINavigationController`, shared by add and edit | unit-testable save path; the form stays open on invalid input (a `UIAlertController` closes on any button and its handlers are not reachable from tests) |
+| R-44 | Where the bonus buttons are | `addStudentButton`: right bar button only on the main `Students` list (a new student has no subjects, so a filtered list would not show it); `editStudentButton`: right bar button on the details screen, not on `Student not found` | buttons only where they make sense |
+| R-45 | Identifiers of the form (not given by the assignment) | `studentNameField`, `studentAgeField`, `saveStudentButton`, `cancelStudentButton`, `studentFormError` | fixed now, not renamed later |
+| R-46 | How screens refresh after a mutation | (a) the list calls `reloadData()` in `viewWillAppear` and right after a delete; details re-read the store after the form saves (`onSave` closure) | no change to the protected store; R-7 already makes the store the only source |
+| R-47 | Age text that is not a number (pasted `abc`) | (a) the form shows `Age must be a positive whole number` and does not call the store; `Int(...)`, no `!` | a clear message, no hidden conversion; a `numberPad` field still accepts pasted text |
+| R-48 | Name with spaces around it | (a) passed to the store as typed; the store is the only validation authority and keeps the name as given | one validation rule, no second rule in the form |
+| R-49 | Swipe-delete on the filtered list | (a) yes: the same controller (R-6) deletes from the shared store, so the student disappears everywhere | one code path, no special case |
+| R-50 | Testing "a new UUID" without relying on random values | (a) compare the new id with the fixed test ids | `UUID()` is always version 4 and the fixed ids are version 0 (fact 41), so they can never be equal, whatever random value comes out |
+| R-51 | Blank name and non-positive age together: which error | (a) not tested; every test has one invalid field | the assignment does not define the order; a test would pin an unrequired detail |
 
 Agent-proposed conventions accepted by the student: task order T0-T7; app
 files `StudentListViewController.swift`, `StudentCell.swift`,
@@ -137,6 +147,12 @@ defaulted `subject` parameter. T5: `launchApp` got a defaulted `arguments`
 parameter; the test is green at once because the code already supports it, so
 the proof is mutants (as R-5, one `test(T5)` commit); mutants chosen by the
 agent after the probes (`detail-no-scroll-bottom`, `fixed-row-height`).
+T6 (accepted with R-42…R-51): the T1 exact-error helper is
+`assertThrows(_:error:rule:)` in `TestSupport.swift`; every rejected mutation
+also checks that `store.students` is unchanged; error texts
+`Name must not be blank` and `Age must be a positive whole number`; T6.1 is
+one `test(T6.1)` commit (as T1), T6.2-T6.4 are `test(T6.n)` red then
+`feat(T6.n)` green; UI-level test names are fixed before each sub-task.
 
 ## Milestones
 
@@ -148,7 +164,11 @@ agent after the probes (`detail-no-scroll-bottom`, `fixed-row-height`).
 - [x] Subject-filtered list (T4)
 - [x] Accessibility/MVC/SnapKit audit and the largest-text-size UI test (T5)
 - [ ] Unit and UI tests (T1-T5, per task)
-- [ ] Optional add/edit/delete bonus, if attempted (T6)
+- [ ] Optional add/edit/delete bonus, if attempted (T6, split by R-42)
+  - [x] T6.1 store mutation tests
+  - [ ] T6.2 form and add
+  - [ ] T6.3 edit
+  - [ ] T6.4 swipe-delete and list refresh
 - [ ] Local verification and CI review (each task, final in T7)
 - [ ] Final diff and evidence review (T7)
 
@@ -303,7 +323,28 @@ in `StudentDirectoryUITests/`.
   | Identifiers | `studentList`, `studentCell.<id>`, `studentDetails`, `subjectButton.<subject>` (unit and UI tests T2-T4) |
   | Labels | one combined label per cell (R-10), avatar label `Avatar of <name>`, scholarship always as text |
   | Dynamic Type | text styles + `adjustsFontForContentSizeCategory` (unit tests T2, T3), adaptive cell (R-23), details in a scroll view; end to end at `AccessibilityXXXL` (T5) |
-- T6 (bonus): tests agreed before the task.
+- T6.1 `StoreMutationTests` (unit, `StudentDirectoryTests/StoreMutationTests.swift`,
+  helper `assertThrows(_:error:rule:)` in `TestSupport.swift`): store of
+  `Zed`(1), `Amy`(2), `Mia`(3), unknown id `…09`. Green at once (R-5;
+  `artifacts/T6.1-green.log`): all 39 unit tests 20/20. Every mutant changes
+  one line of `StudentStore.swift` (where a line occurs twice, the mutant
+  names the occurrence: 1 = `addStudent`/`updateStudent`, 2 =
+  `updateStudent`/`deleteStudent`) and fails its target test with that test's
+  rule (`artifacts/T6.1-red-mutant-<name>.log`):
+
+  | Test | Mutant |
+  | --- | --- |
+  | `testAddAppendsStudentWithBonusDefaults` | `add-grade-one` (`averageGrade: 1`), `add-prepend` (`insert(…, at: 0)`) |
+  | `testAddGivesNewStudentANewID` | `add-reuse-id` (`id: students.first?.id ?? UUID()`) |
+  | `testAddRejectsBlankNameWithoutChange` | `blank-no-trim` (`name.isEmpty`), `add-no-validate` (validation line removed in `addStudent`) |
+  | `testAddRejectsNonPositiveAgeWithoutChange` | `age-lt-zero` (`age < 0`) |
+  | `testAddAcceptsSmallestPositiveAge` | `age-le-one` (`age <= 1`) |
+  | `testUpdateChangesOnlyNameAndAge` | `update-skips-age` (age assignment removed) |
+  | `testUpdateRejectsInvalidInputWithoutChange` | `update-no-validate` (validation line removed in `updateStudent`) |
+  | `testUpdateUnknownIDThrowsWithoutChange` | `update-unknown-silent` (`return` instead of `throw`) |
+  | `testDeleteRemovesOnlyThatStudent` | `delete-removes-first` (`remove(at: 0)`) |
+  | `testDeleteUnknownIDThrowsWithoutChange` | `delete-unknown-silent` (`return` instead of `throw`) |
+- T6.2-T6.4 (bonus UI): tests agreed before each sub-task.
 - T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
   clean anonymous clone green at the submitted SHA.
 
@@ -488,6 +529,10 @@ simulator iOS 26.3.1, project settings `SWIFT_VERSION = 5.0`,
     `UIApplication.shared.supportsMultipleScenes` is `false`, one scene is
     connected, and `requestSceneSessionActivation` fails with "The current
     device does not support multiple scenes." iPad was not checked.
+41. `UUID()` produces version 4 UUIDs (variant bits `10`): 100 000 of 100 000
+    on macOS (`swift` script) and in the iPhone 17 test host, including the id
+    that `StudentStore.addStudent` creates. The fixed test ids built from bytes
+    (`00…01`) have version 0, so a new store id can never equal one of them.
 
 Not yet verified: nothing the current code relies on.
 
@@ -569,3 +614,6 @@ Not yet verified: nothing the current code relies on.
 | 2026-11-09 | T5 green: new UI test x5; all UI tests once | 5/5 (83 s); 9/9 (76 s) (`artifacts/T5-green.log`) | mutants |
 | 2026-11-09 | T5: mutants `detail-no-scroll-bottom`, `fixed-row-height` | both failed, with the rule as `failure-activity:` and as the assertion message | none |
 | 2026-11-09 | `detail-no-scroll-bottom` against the T3/T4 UI tests | 4/4 passed (survives at the default size) | only T5 catches it |
+| 2026-11-09 | T6.1 probe: `UUID()` version on macOS and in the iPhone 17 test host | version 4 in 100 000 of 100 000, also for the store's id | fact 41, R-50 |
+| 2026-11-09 | T6.1 green: all unit tests x20 | 39 tests each 20/20, no compiler warnings (`artifacts/T6.1-green.log`) | mutants |
+| 2026-11-09 | T6.1: 12 mutants | 11 failed on their rules; `add-reuse-id` did not compile: the agent's batch script built the line with a zsh `${…/…/…}` substitution, where `()` in the pattern is a glob group, so the mutant became `UUID()()` (agent mistake) | re-run with the line written out: failed on its rule; the invalid log was replaced by the re-run (the invalid run proved nothing) |

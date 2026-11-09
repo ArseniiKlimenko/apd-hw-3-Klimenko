@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testDeleteUnknownIDThrowsWithoutChange (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:delete-unknown-silent>
+# Expectation: fails on 'deleting an unknown id throws unknownID with that id' (no error thrown)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -33,7 +33,7 @@
+ 
+     func deleteStudent(id: UUID) throws {
+         guard let index = students.firstIndex(where: { $0.id == id }) else {
+-            throw StudentStoreError.unknownID(id)
++            return
+         }
+         students.remove(at: index)
+     }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:46:00.931.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:46:00.932.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:46:00.932.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testDeleteUnknownIDThrowsWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testDeleteUnknownIDThrowsWithoutChange]' failed (0.143 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:46:01.075.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:46:01.075.
+Test Suite 'Selected tests' failed at 2026-11-09 02:46:01.076.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testDeleteUnknownIDThrowsWithoutChange() -> failed - Rule: deleting an unknown id throws unknownID with that id (no error thrown)
+test: StoreMutationTests.testDeleteUnknownIDThrowsWithoutChange() -> Failed

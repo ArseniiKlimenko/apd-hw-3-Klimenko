@@ -18,6 +18,7 @@ student as a diff before the student committed it manually.
 | 2026-11-09 | Entry 6: details screen and navigation (T3), R-32…R-35, CI of `feat(T2)` | Reviewed the details screen and push code, the red and green logs and all twelve mutant logs; accepted R-32…R-35 and the back-button guard added after red. | `artifacts/T3-red.log`, `artifacts/T3-green.log`, `artifacts/T3-red-mutant-*.log` (12) |
 | 2026-11-09 | Entry 7: subject filter (T4), R-36…R-37 | Reviewed the filter and subject-button code, the red and green logs and all eleven mutant logs; accepted R-36 and R-37 and pushed feat(T3) before the red commit. | `artifacts/T4-red.log`, `artifacts/T4-green.log`, `artifacts/T4-red-mutant-*.log` (11) |
 | 2026-11-09 | Entry 8: accessibility/MVC audit and largest-text-size UI test (T5), R-38…R-41, CI of `feat(T3)` and `feat(T4)` | Reviewed the T5 UI test, the launchApp change, the audit table and both mutant logs; chose R-38…R-41 as recommended after the probes showed a silent false green. | `artifacts/T5-green.log`, `artifacts/T5-red-mutant-*.log` (2), `artifacts/T5-mutant-detail-no-scroll-bottom-default-size-survives.log` |
+| 2026-11-09 | Entry 9: bonus plan R-42…R-49 and store mutation tests (T6.1), R-50…R-51 | Reviewed the bonus plan, the ten store tests, the assertThrows helper and all twelve mutant logs; accepted R-42…R-51 as recommended. | `artifacts/T6.1-green.log`, `artifacts/T6.1-red-mutant-*.log` (12) |
 
 ---
 
@@ -554,6 +555,60 @@ Accepted R-38…R-41 as recommended. The probe changed the plan: a misspelled te
 - `artifacts/T5-red-mutant-detail-no-scroll-bottom.log`,
   `artifacts/T5-red-mutant-fixed-row-height.log`
 - `artifacts/T5-mutant-detail-no-scroll-bottom-default-size-survives.log`
+
+---
+
+## Entry 9 — Bonus plan and store mutation tests (T6.1) (2026-11-09)
+
+### Tool/agent task
+
+Plan the optional bonus (add/edit/delete) and, as its first part, prove the
+supplied `addStudent`, `updateStudent` and `deleteStudent` with
+characterization tests (as T1), including "invalid input and unknown ids do
+not mutate state".
+
+### Output reviewed
+
+- The bonus store API is already implemented in the supplied (protected)
+  `StudentStore`, so the bonus is UI plus tests. The agent proposed splitting
+  it into T6.1-T6.4 (R-42) and the UI decisions R-43…R-49 (own form view
+  controller, button placement, form identifiers, refresh through
+  `viewWillAppear` and an `onSave` closure, non-numeric age, names as typed,
+  swipe-delete also on the filtered list); all accepted as recommended.
+- New questions for T6.1: R-50 (how to test "a new UUID" without relying on
+  random values) and R-51 (no test for the order of two errors); both as
+  recommended. R-50 rests on fact 41, probed on macOS and in the simulator.
+- Ten tests in `StoreMutationTests` plus the exact-error helper
+  `assertThrows(_:error:rule:)` deferred from T1; green at once, 20/20.
+- Twelve mutants. Lines that occur twice in the store (`try validate(…)`,
+  `throw StudentStoreError.unknownID(id)`) are mutated by explicit
+  occurrence, so `add` and `update` (and `update` and `delete`) are proven
+  separately. The agent's first batch built the `add-reuse-id` line with a
+  zsh substitution that treated `()` as a glob group, so that mutant did not
+  compile and proved nothing; the agent found it from the empty result
+  (0 tests) and re-ran it with the line written out (agent mistake).
+
+### Accepted/rejected/revised decision
+
+Accepted R-42…R-51 as recommended. Split the bonus into four parts so that each point is committed on its own. For R-50 I accepted comparing the new id with the fixed test ids because the probe showed UUID() is always version 4. The add-reuse-id mutant first failed to compile because of the agent’s script; I checked that the re-run fails on the rule.
+
+### Verification command/result
+
+- UUID probe: version 4 in 100 000 of 100 000 (macOS script and iPhone 17
+  test host).
+- Green: all unit tests `-test-iterations 20` -> 39 tests, each 20/20, no
+  compiler warnings.
+- Mutants: 12 killed, each on its target test's rule (one after the re-run
+  described above).
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit and `StudentDirectoryApp`.
+- CI of `test(T5)` (run `42541717925`) was still running when this entry was
+  written; its result goes into the next entry (R-11).
+
+### Artifact links
+
+- `artifacts/T6.1-green.log`
+- `artifacts/T6.1-red-mutant-<name>.log` (12 mutants, table in `PLAN.md`)
 
 ---
 

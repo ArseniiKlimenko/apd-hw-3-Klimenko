@@ -1,0 +1,39 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testAddAcceptsSmallestPositiveAge (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:age-le-one>
+# Expectation: fails on 'Rule: age 1 is a valid age'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -42,7 +42,7 @@
+         if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+             throw StudentStoreError.blankName
+         }
+-        if age <= 0 {
++        if age <= 1 {
+             throw StudentStoreError.nonPositiveAge
+         }
+     }
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:44:00.841.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:44:00.844.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:44:00.844.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAcceptsSmallestPositiveAge]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAcceptsSmallestPositiveAge]' failed (0.162 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:44:01.007.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:44:01.008.
+Test Suite 'Selected tests' failed at 2026-11-09 02:44:01.008.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testAddAcceptsSmallestPositiveAge() -> XCTAssertNoThrow failed: threw error "nonPositiveAge" - Rule: age 1 is a valid age
+failure: StoreMutationTests/testAddAcceptsSmallestPositiveAge() -> XCTAssertEqual failed: ("Optional(20)") is not equal to ("Optional(1)") - Rule: a student with age 1 is added
+test: StoreMutationTests.testAddAcceptsSmallestPositiveAge() -> Failed

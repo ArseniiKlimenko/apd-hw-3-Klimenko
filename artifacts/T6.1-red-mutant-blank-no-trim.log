@@ -1,0 +1,40 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testAddRejectsBlankNameWithoutChange (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:blank-no-trim>
+# Expectation: fails on the blank-name rule for whitespace names and on 'a rejected add does not change the store'
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -39,7 +39,7 @@
+     }
+ 
+     private func validate(name: String, age: Int) throws {
+-        if name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
++        if name.isEmpty {
+             throw StudentStoreError.blankName
+         }
+         if age <= 0 {
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:43:14.563.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:43:14.564.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:43:14.564.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsBlankNameWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsBlankNameWithoutChange]' failed (0.163 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:43:14.727.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:43:14.727.
+Test Suite 'Selected tests' failed at 2026-11-09 02:43:14.728.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testAddRejectsBlankNameWithoutChange() -> failed - Rule: adding with the blank name "   " throws blankName (no error thrown)
+failure: StoreMutationTests/testAddRejectsBlankNameWithoutChange() -> failed - Rule: adding with the blank name "\n\t" throws blankName (no error thrown)
+failure: StoreMutationTests/testAddRejectsBlankNameWithoutChange() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"), StudentDirectory.Student(id: 4D3F5E2F-1A92-4138-A979-F55EDE9A5E89, name: "   ", age: 19, averageGrade: 0.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default"), StudentDirectory.Student(id: DB09BB62-5C53-46BF-A10B-4FD481482E1E, name: "\n\t", age: 19, averageGrade: 0.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000003, name: "Mia", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: [], avatarName: "avatar-default")]") - Rule: a rejected add does not change the store
+test: StoreMutationTests.testAddRejectsBlankNameWithoutChange() -> Failed

@@ -51,6 +51,26 @@ func makeLoadedFilteredList(store: StudentStore, subject: String) -> StudentList
     return list
 }
 
+/// Fails unless `expression` throws exactly `expected`; a different error or no
+/// error fails with the rule (agreed in T1, added in T6.1).
+@MainActor
+func assertThrows(
+    _ expression: () throws -> Void,
+    error expected: StudentStoreError,
+    rule: String,
+    file: StaticString = #filePath,
+    line: UInt = #line
+) {
+    do {
+        try expression()
+        XCTFail("Rule: \(rule) (no error thrown)", file: file, line: line)
+    } catch let error as StudentStoreError {
+        XCTAssertEqual(error, expected, "Rule: \(rule)", file: file, line: line)
+    } catch {
+        XCTFail("Rule: \(rule) (unexpected error \(error))", file: file, line: line)
+    }
+}
+
 /// A details controller with its view loaded; grades use `en_US_POSIX` (R-9).
 @MainActor
 func makeLoadedDetails(store: StudentStore, studentID: UUID) -> StudentDetailViewController {

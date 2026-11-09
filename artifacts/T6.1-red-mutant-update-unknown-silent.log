@@ -1,0 +1,38 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests/StoreMutationTests/testUpdateUnknownIDThrowsWithoutChange (plus -derivedDataPath/-clonedSourcePackagesDirPath/-resultBundlePath in <scratch>)
+# Working directory: <mutant:update-unknown-silent>
+# Expectation: fails on 'updating an unknown id throws unknownID with that id' (no error thrown)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- mutant diff ---
+--- a/StudentDirectory/StudentStore.swift
++++ b/StudentDirectory/StudentStore.swift
+@@ -25,7 +25,7 @@
+     func updateStudent(id: UUID, name: String, age: Int) throws {
+         try validate(name: name, age: age)
+         guard let index = students.firstIndex(where: { $0.id == id }) else {
+-            throw StudentStoreError.unknownID(id)
++            return
+         }
+         students[index].name = name
+         students[index].age = age
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 02:45:37.668.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 02:45:37.668.
+Test Suite 'StoreMutationTests' started at 2026-11-09 02:45:37.668.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateUnknownIDThrowsWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateUnknownIDThrowsWithoutChange]' failed (0.148 seconds).
+Test Suite 'StoreMutationTests' failed at 2026-11-09 02:45:37.817.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 02:45:37.817.
+Test Suite 'Selected tests' failed at 2026-11-09 02:45:37.817.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 0, failed 1, skipped 0, total 1
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: StoreMutationTests/testUpdateUnknownIDThrowsWithoutChange() -> failed - Rule: updating an unknown id throws unknownID with that id (no error thrown)
+test: StoreMutationTests.testUpdateUnknownIDThrowsWithoutChange() -> Failed
