@@ -1,0 +1,182 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test
+# Working directory: <repo>
+# Expectation: TEST SUCCEEDED on 46e091bee133c5463d66a10eec59e6efba0104f3 (the last code commit): all 75 tests pass (60 unit: 58 student + 2 starter; 15 UI: 13 student + 2 starter)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Testing started
+Test suite 'AddStudentTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'AddStudentTests.testAddButtonPresentsEmptyAddForm()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.060 seconds)
+Test case 'AddStudentTests.testBlankNameShowsErrorAndKeepsStore()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.003 seconds)
+Test case 'AddStudentTests.testCancelDoesNotChangeStore()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.004 seconds)
+Test case 'AddStudentTests.testFilteredListHasNoAddStudentButton()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'AddStudentTests.testFormSupportsDynamicType()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.003 seconds)
+Test case 'AddStudentTests.testMainListHasAddStudentButton()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'AddStudentTests.testNameIsSavedAsTyped()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'AddStudentTests.testNonNumericAgeShowsErrorAndKeepsStore()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.004 seconds)
+Test case 'AddStudentTests.testNonPositiveAgeShowsErrorAndKeepsStore()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'AddStudentTests.testSavingValidInputAddsStudentAndRefreshesList()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.025 seconds)
+Test suite 'EditStudentTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'EditStudentTests.testDetailsHaveEditStudentButton()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.003 seconds)
+Test case 'EditStudentTests.testEditButtonPresentsFilledEditForm()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.017 seconds)
+Test case 'EditStudentTests.testEditOfDeletedStudentShowsNotFound()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'EditStudentTests.testInvalidEditShowsErrorAndKeepsStore()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'EditStudentTests.testListReloadsWhenItAppearsAgain()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.018 seconds)
+Test case 'EditStudentTests.testNotFoundDetailsHaveNoEditButton()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'EditStudentTests.testSavingEditUpdatesStoreAndRefreshesDetails()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.016 seconds)
+Test suite 'DeleteStudentTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'DeleteStudentTests.testConfirmedDeleteOnFilteredListRemovesStudentEverywhere()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'DeleteStudentTests.testConfirmedDeleteRemovesStudentFromStoreAndList()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.018 seconds)
+Test case 'DeleteStudentTests.testSwipeDeleteAsksForConfirmationFirst()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.024 seconds)
+Test case 'DeleteStudentTests.testSwipeOffersDestructiveDeleteAction()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test suite 'SubjectFilterTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'SubjectFilterTests.testDetailsHaveButtonForEachSubject()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'SubjectFilterTests.testFilteredListIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.003 seconds)
+Test case 'SubjectFilterTests.testFilteredListShowsExactMatchesInStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'SubjectFilterTests.testFilteredRowOpensDetailsOfFilteredStudent()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'SubjectFilterTests.testTappingSubjectPushesListTitledWithSubject()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.020 seconds)
+Test suite 'StudentListTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'StudentListTests.testCellAccessibilityLabelSummarizesStudent()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.005 seconds)
+Test case 'StudentListTests.testCellShowsNameAgeGradeAndScholarship()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentListTests.testCellTextSupportsDynamicType()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentListTests.testGradeFormattingFollowsLocale()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.006 seconds)
+Test case 'StudentListTests.testListHasOneRowPerStoreStudent()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'StudentListTests.testListReflectsStoreChangesAfterReload()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentListTests.testListRowsFollowStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.003 seconds)
+Test case 'StudentListTests.testListTableHasStudentListIdentifier()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentListTests.testListTitleIsStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentListTests.testReusedCellResetsScholarshipState()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test suite 'StudentDetailTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'StudentDetailTests.testDetailsForMissingStudentShowNoStudentData()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'StudentDetailTests.testDetailsShowEveryStudentField()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.002 seconds)
+Test case 'StudentDetailTests.testDetailsTextSupportsDynamicType()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentDetailTests.testDetailsViewHasStudentDetailsIdentifier()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentDetailTests.testSelectingRowPushesDetailsOfThatStudent()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.004 seconds)
+Test suite 'StoreMutationTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'StoreMutationTests.testAddAcceptsSmallestPositiveAge()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StoreMutationTests.testAddAppendsStudentWithBonusDefaults()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StoreMutationTests.testAddGivesNewStudentANewID()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StoreMutationTests.testAddRejectsBlankNameWithoutChange()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StoreMutationTests.testAddRejectsNonPositiveAgeWithoutChange()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StoreMutationTests.testDeleteRemovesOnlyThatStudent()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StoreMutationTests.testDeleteUnknownIDThrowsWithoutChange()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StoreMutationTests.testUpdateChangesOnlyNameAndAge()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StoreMutationTests.testUpdateRejectsInvalidInputWithoutChange()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StoreMutationTests.testUpdateUnknownIDThrowsWithoutChange()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test suite 'StudentStoreTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StudentStoreTests.testStoreUsesInjectedStudents()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterIsCaseSensitive()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterKeepsStoreOrder()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterRequiresExactMatch()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test case 'StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test suite 'StarterStudentDirectoryTests' started on 'Clone 1 of iPhone 17 - StudentDirectory (91716)'
+Test case 'StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.001 seconds)
+Test case 'StarterStudentDirectoryTests.testStarterStoreIsConstructible()' passed on 'Clone 1 of iPhone 17 - StudentDirectory (91716)' (0.000 seconds)
+Test suite 'AddStudentUITests' started on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)'
+Test suite 'DeleteStudentUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)'
+Test case 'DeleteStudentUITests.testCancelledDeleteKeepsStudent()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)' (12.587 seconds)
+Test case 'AddStudentUITests.testAddingStudentShowsItInList()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (21.368 seconds)
+Test case 'DeleteStudentUITests.testConfirmedSwipeDeleteRemovesStudent()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)' (18.042 seconds)
+Test suite 'SubjectFilterUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)'
+Test case 'AddStudentUITests.testCancelClosesFormWithoutAdding()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (18.046 seconds)
+Test case 'SubjectFilterUITests.testFilteredListRowOpensCorrectDetails()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)' (13.696 seconds)
+Test case 'AddStudentUITests.testInvalidInputShowsErrorAndKeepsForm()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (14.027 seconds)
+Test suite 'StudentDetailUITests' started on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)'
+Test case 'SubjectFilterUITests.testSubjectButtonOpensFilteredList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)' (11.569 seconds)
+Test suite 'EditStudentUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)'
+Test case 'StudentDetailUITests.testBackReturnsToStudentsList()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (11.459 seconds)
+Test case 'StudentDetailUITests.testTappingStudentOpensDetails()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (8.210 seconds)
+Test suite 'AccessibilityUITests' started on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)'
+Test case 'EditStudentUITests.testEditingStudentUpdatesDetailsAndList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)' (17.185 seconds)
+Test suite 'StudentListUITests' started on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)'
+Test case 'StudentListUITests.testLaunchShowsStudentsList()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)' (14.112 seconds)
+Test case 'AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (34.317 seconds)
+** TEST SUCCEEDED **
+Test case 'StudentDirectoryUITests.testStarterApplicationLaunches()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (12.771 seconds)
+Test suite 'StudentDirectoryUITestsLaunchTests' started on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)'
+Test case 'StudentListUITests.testSeedStudentCellIsFoundByIdentifier()' passed on 'Clone 1 of iPhone 17 - StudentDirectoryUITests-Runner (91803)' (25.585 seconds)
+Test case 'StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface()' passed on 'Clone 2 of iPhone 17 - StudentDirectoryUITests-Runner (91733)' (4.227 seconds)
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 75, failed 0, skipped 0, total 75
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: AddStudentTests.testAddButtonPresentsEmptyAddForm() -> Passed
+test: AddStudentTests.testBlankNameShowsErrorAndKeepsStore() -> Passed
+test: AddStudentTests.testCancelDoesNotChangeStore() -> Passed
+test: AddStudentTests.testFilteredListHasNoAddStudentButton() -> Passed
+test: AddStudentTests.testFormSupportsDynamicType() -> Passed
+test: AddStudentTests.testMainListHasAddStudentButton() -> Passed
+test: AddStudentTests.testNameIsSavedAsTyped() -> Passed
+test: AddStudentTests.testNonNumericAgeShowsErrorAndKeepsStore() -> Passed
+test: AddStudentTests.testNonPositiveAgeShowsErrorAndKeepsStore() -> Passed
+test: AddStudentTests.testSavingValidInputAddsStudentAndRefreshesList() -> Passed
+test: EditStudentTests.testDetailsHaveEditStudentButton() -> Passed
+test: EditStudentTests.testEditButtonPresentsFilledEditForm() -> Passed
+test: EditStudentTests.testEditOfDeletedStudentShowsNotFound() -> Passed
+test: EditStudentTests.testInvalidEditShowsErrorAndKeepsStore() -> Passed
+test: EditStudentTests.testListReloadsWhenItAppearsAgain() -> Passed
+test: EditStudentTests.testNotFoundDetailsHaveNoEditButton() -> Passed
+test: EditStudentTests.testSavingEditUpdatesStoreAndRefreshesDetails() -> Passed
+test: DeleteStudentTests.testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> Passed
+test: DeleteStudentTests.testConfirmedDeleteRemovesStudentFromStoreAndList() -> Passed
+test: DeleteStudentTests.testSwipeDeleteAsksForConfirmationFirst() -> Passed
+test: DeleteStudentTests.testSwipeOffersDestructiveDeleteAction() -> Passed
+test: SubjectFilterTests.testDetailsHaveButtonForEachSubject() -> Passed
+test: SubjectFilterTests.testFilteredListIsCaseSensitive() -> Passed
+test: SubjectFilterTests.testFilteredListShowsExactMatchesInStoreOrder() -> Passed
+test: SubjectFilterTests.testFilteredRowOpensDetailsOfFilteredStudent() -> Passed
+test: SubjectFilterTests.testTappingSubjectPushesListTitledWithSubject() -> Passed
+test: StudentListTests.testCellAccessibilityLabelSummarizesStudent() -> Passed
+test: StudentListTests.testCellShowsNameAgeGradeAndScholarship() -> Passed
+test: StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes() -> Passed
+test: StudentListTests.testCellTextSupportsDynamicType() -> Passed
+test: StudentListTests.testGradeFormattingFollowsLocale() -> Passed
+test: StudentListTests.testListHasOneRowPerStoreStudent() -> Passed
+test: StudentListTests.testListReflectsStoreChangesAfterReload() -> Passed
+test: StudentListTests.testListRowsFollowStoreOrder() -> Passed
+test: StudentListTests.testListTableHasStudentListIdentifier() -> Passed
+test: StudentListTests.testListTitleIsStudents() -> Passed
+test: StudentListTests.testReusedCellResetsScholarshipState() -> Passed
+test: StudentDetailTests.testDetailsForMissingStudentShowNoStudentData() -> Passed
+test: StudentDetailTests.testDetailsShowEveryStudentField() -> Passed
+test: StudentDetailTests.testDetailsTextSupportsDynamicType() -> Passed
+test: StudentDetailTests.testDetailsViewHasStudentDetailsIdentifier() -> Passed
+test: StudentDetailTests.testSelectingRowPushesDetailsOfThatStudent() -> Passed
+test: StoreMutationTests.testAddAcceptsSmallestPositiveAge() -> Passed
+test: StoreMutationTests.testAddAppendsStudentWithBonusDefaults() -> Passed
+test: StoreMutationTests.testAddGivesNewStudentANewID() -> Passed
+test: StoreMutationTests.testAddRejectsBlankNameWithoutChange() -> Passed
+test: StoreMutationTests.testAddRejectsNonPositiveAgeWithoutChange() -> Passed
+test: StoreMutationTests.testDeleteRemovesOnlyThatStudent() -> Passed
+test: StoreMutationTests.testDeleteUnknownIDThrowsWithoutChange() -> Passed
+test: StoreMutationTests.testUpdateChangesOnlyNameAndAge() -> Passed
+test: StoreMutationTests.testUpdateRejectsInvalidInputWithoutChange() -> Passed
+test: StoreMutationTests.testUpdateUnknownIDThrowsWithoutChange() -> Passed
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
+test: AddStudentUITests.testAddingStudentShowsItInList() -> Passed
+test: AddStudentUITests.testCancelClosesFormWithoutAdding() -> Passed
+test: AddStudentUITests.testInvalidInputShowsErrorAndKeepsForm() -> Passed
+test: DeleteStudentUITests.testCancelledDeleteKeepsStudent() -> Passed
+test: DeleteStudentUITests.testConfirmedSwipeDeleteRemovesStudent() -> Passed
+test: SubjectFilterUITests.testFilteredListRowOpensCorrectDetails() -> Passed
+test: SubjectFilterUITests.testSubjectButtonOpensFilteredList() -> Passed
+test: StudentDetailUITests.testBackReturnsToStudentsList() -> Passed
+test: StudentDetailUITests.testTappingStudentOpensDetails() -> Passed
+test: EditStudentUITests.testEditingStudentUpdatesDetailsAndList() -> Passed
+test: AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Passed
+test: StudentListUITests.testLaunchShowsStudentsList() -> Passed
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Passed
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed

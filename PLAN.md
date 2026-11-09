@@ -171,13 +171,13 @@ one `test(T6.1)` commit (as T1), T6.2-T6.4 are `test(T6.n)` red then
 - [x] Detail screen and navigation (T3)
 - [x] Subject-filtered list (T4)
 - [x] Accessibility/MVC/SnapKit audit and the largest-text-size UI test (T5)
-- [ ] Unit and UI tests (T1-T5, per task)
-- [ ] Optional add/edit/delete bonus, if attempted (T6, split by R-42)
+- [x] Unit and UI tests (T1-T6, per task): 58 unit + 13 UI student tests
+- [x] Optional add/edit/delete bonus (T6, split by R-42)
   - [x] T6.1 store mutation tests
   - [x] T6.2 form and add
   - [x] T6.3 edit and swipe-delete with confirmation (T6.3 + T6.4 in one cycle, R-57)
-- [ ] Local verification and CI review (each task, final in T7)
-- [ ] Final diff and evidence review (T7)
+- [x] Local verification and CI review (each task, final in T7)
+- [x] Final diff and evidence review (T7; the clean-clone run of the submitted SHA is reported in chat, R-11)
 
 ## Acceptance criteria
 
@@ -421,8 +421,15 @@ in `StudentDirectoryUITests/`.
   | UI `testConfirmedSwipeDeleteRemovesStudent` | `confirm-does-not-delete` |
   | UI `testCancelledDeleteKeepsStudent` | `cancel-deletes` |
   | UI `testEditingStudentUpdatesDetailsAndList` | `no-reload-on-appear-ui` |
-- T7: exact command green in `artifacts/final-xcodebuild-test.log`, CI green,
-  clean anonymous clone green at the submitted SHA.
+- T7: the exact README command on the last code commit `46e091b`:
+  `TEST SUCCEEDED`, 75/75 (60 unit: 58 student + 2 starter; 15 UI: 13 student
+  + 2 starter) (`artifacts/final-xcodebuild-test.log`); all 15 UI tests 5/5
+  (`artifacts/T7-ui5.log`, R-26 C); CI green for the last code commit; a clean
+  anonymous clone of the submitted SHA green with the exact command (reported
+  in chat after the push, R-11). Checks at T7: protected files unchanged
+  except R-19/R-25/R-30, template `HEAD` still `938bf69` (R-15), repository
+  public, no `fatalError`/`try!`/`as!` in app code, no duplicated test names,
+  no tracked build output, secrets or personal paths, no unfilled student placeholders.
 
 ## Risks and checks
 
@@ -722,3 +729,7 @@ Not yet verified: nothing the current code relies on.
 | 2026-11-09 | T6.3 green: all unit tests x20; new UI tests x5 | 60 tests each 20/20; 3 tests each 5/5 (`artifacts/T6.3-green.log`) | mutants |
 | 2026-11-09 | T6.3: 18 mutants (14 unit, 4 UI) | all failed on their rule messages | none |
 | 2026-11-09 | PLAN review during T6.3 | R-52…R-56 were used in T6.2 but missing from the decisions table (agent mistake, found by the agent) | rows added |
+| 2026-11-09 | T7 static checks: `git ls-remote` of the template, repository visibility, test names, `fatalError`/`try!`/`as!`, tracked junk, secrets, `TODO` | template `938bf69` = R-16; public; 60 unit + 15 UI test methods, no duplicates; none; none; none; only the Final review lines | none |
+| 2026-11-09 | T7: exact README command on `46e091b` | `TEST SUCCEEDED`, 75/75, 225 s (`artifacts/final-xcodebuild-test.log`) | none |
+| 2026-11-09 | T7: all UI tests x5 (`-parallel-testing-enabled NO`) | 15 tests each 5/5, 719 s (`artifacts/T7-ui5.log`) | none |
+| 2026-11-09 | T7 log headers | the agent first wrote 72 tests / 12 UI tests as the expectation (miscounted the UI tests: 13 student, not 10); both headers regenerated from the same runs before the commit | none |

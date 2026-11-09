@@ -1,0 +1,202 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryUITests -test-iterations 5 (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: all 15 UI tests (13 student + 2 starter) pass in all 5 repetitions (R-14, R-26 C: every UI test x5 once, in T7)
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 0
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'All tests' started at 2026-11-09 10:05:14.386.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 10:05:14.386.
+Test Suite 'AccessibilityUITests' started at 2026-11-09 10:05:14.387.
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (16.163 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.137 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.534 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (14.109 seconds).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.AccessibilityUITests testLargestTextSizeKeepsListDetailsAndFilterUsable]' passed (13.944 seconds).
+Test Suite 'AccessibilityUITests' passed at 2026-11-09 10:06:27.277.
+Test Suite 'AddStudentUITests' started at 2026-11-09 10:06:27.278.
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' passed (13.485 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' passed (12.397 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' passed (12.412 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' passed (12.970 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testAddingStudentShowsItInList]' passed (12.724 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' passed (10.223 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' passed (10.168 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' passed (10.165 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' passed (10.174 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testCancelClosesFormWithoutAdding]' passed (10.169 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' passed (10.589 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' passed (10.571 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' passed (10.595 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' passed (10.644 seconds).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.AddStudentUITests testInvalidInputShowsErrorAndKeepsForm]' passed (10.603 seconds).
+Test Suite 'AddStudentUITests' passed at 2026-11-09 10:09:15.186.
+Test Suite 'DeleteStudentUITests' started at 2026-11-09 10:09:15.186.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' passed (11.405 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' passed (11.300 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' passed (11.323 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' passed (11.364 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' passed (11.418 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' passed (10.206 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' passed (10.216 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' passed (10.117 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' passed (10.336 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' passed (10.212 seconds).
+Test Suite 'DeleteStudentUITests' passed at 2026-11-09 10:11:03.095.
+Test Suite 'EditStudentUITests' started at 2026-11-09 10:11:03.096.
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' passed (14.207 seconds).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' passed (14.161 seconds).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' passed (14.115 seconds).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' passed (14.149 seconds).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' passed (14.241 seconds).
+Test Suite 'EditStudentUITests' passed at 2026-11-09 10:12:13.976.
+Test Suite 'StudentDetailUITests' started at 2026-11-09 10:12:13.978.
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' passed (9.872 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' passed (9.901 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' passed (9.957 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' passed (9.911 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testBackReturnsToStudentsList]' passed (9.942 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' passed (6.896 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' passed (6.820 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' passed (6.995 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' passed (6.926 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDetailUITests testTappingStudentOpensDetails]' passed (6.891 seconds).
+Test Suite 'StudentDetailUITests' passed at 2026-11-09 10:13:38.097.
+Test Suite 'StudentDirectoryUITests' started at 2026-11-09 10:13:38.098.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.542 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.425 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.499 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.432 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITests testStarterApplicationLaunches]' passed (3.532 seconds).
+Test Suite 'StudentDirectoryUITests' passed at 2026-11-09 10:13:55.535.
+Test Suite 'StudentDirectoryUITestsLaunchTests' started at 2026-11-09 10:13:55.536.
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.440 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.468 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.411 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.519 seconds).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentDirectoryUITestsLaunchTests testStarterLaunchInterface]' passed (3.422 seconds).
+Test Suite 'StudentDirectoryUITestsLaunchTests' passed at 2026-11-09 10:14:12.801.
+Test Suite 'StudentListUITests' started at 2026-11-09 10:14:12.802.
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.724 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.593 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.694 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.601 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testLaunchShowsStudentsList]' passed (4.683 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.571 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.723 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.668 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.788 seconds).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.StudentListUITests testSeedStudentCellIsFoundByIdentifier]' passed (4.687 seconds).
+Test Suite 'StudentListUITests' passed at 2026-11-09 10:14:59.545.
+Test Suite 'SubjectFilterUITests' started at 2026-11-09 10:14:59.546.
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' passed (10.799 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' passed (10.674 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' passed (10.719 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' passed (10.755 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testFilteredListRowOpensCorrectDetails]' passed (11.149 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started (Iteration 1 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' passed (8.989 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started (Iteration 2 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' passed (8.649 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started (Iteration 3 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' passed (8.956 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started (Iteration 4 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' passed (8.636 seconds).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' started (Iteration 5 of 5).
+Test Case '-[StudentDirectoryUITests.SubjectFilterUITests testSubjectButtonOpensFilteredList]' passed (8.572 seconds).
+Test Suite 'SubjectFilterUITests' passed at 2026-11-09 10:16:37.456.
+Test Suite 'StudentDirectoryUITests.xctest' passed at 2026-11-09 10:16:37.458.
+Test Suite 'All tests' passed at 2026-11-09 10:16:37.460.
+** TEST SUCCEEDED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Passed; passed 15, failed 0, skipped 0, total 15
+device: iPhone 17 (iOS Simulator 26.3.1)
+test: AccessibilityUITests.testLargestTextSizeKeepsListDetailsAndFilterUsable() -> Passed (repetitions: 5, passed 5)
+test: AddStudentUITests.testAddingStudentShowsItInList() -> Passed (repetitions: 5, passed 5)
+test: AddStudentUITests.testCancelClosesFormWithoutAdding() -> Passed (repetitions: 5, passed 5)
+test: AddStudentUITests.testInvalidInputShowsErrorAndKeepsForm() -> Passed (repetitions: 5, passed 5)
+test: DeleteStudentUITests.testCancelledDeleteKeepsStudent() -> Passed (repetitions: 5, passed 5)
+test: DeleteStudentUITests.testConfirmedSwipeDeleteRemovesStudent() -> Passed (repetitions: 5, passed 5)
+test: EditStudentUITests.testEditingStudentUpdatesDetailsAndList() -> Passed (repetitions: 5, passed 5)
+test: StudentDetailUITests.testBackReturnsToStudentsList() -> Passed (repetitions: 5, passed 5)
+test: StudentDetailUITests.testTappingStudentOpensDetails() -> Passed (repetitions: 5, passed 5)
+test: StudentDirectoryUITests.testStarterApplicationLaunches() -> Passed (repetitions: 5, passed 5)
+test: StudentDirectoryUITestsLaunchTests.testStarterLaunchInterface() -> Passed (repetitions: 5, passed 5)
+test: StudentListUITests.testLaunchShowsStudentsList() -> Passed (repetitions: 5, passed 5)
+test: StudentListUITests.testSeedStudentCellIsFoundByIdentifier() -> Passed (repetitions: 5, passed 5)
+test: SubjectFilterUITests.testFilteredListRowOpensCorrectDetails() -> Passed (repetitions: 5, passed 5)
+test: SubjectFilterUITests.testSubjectButtonOpensFilteredList() -> Passed (repetitions: 5, passed 5)

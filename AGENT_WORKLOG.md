@@ -21,6 +21,7 @@ student as a diff before the student committed it manually.
 | 2026-11-09 | Entry 9: bonus plan R-42…R-49 and store mutation tests (T6.1), R-50…R-51 | Reviewed the bonus plan, the ten store tests, the assertThrows helper and all twelve mutant logs; accepted R-42…R-51 as recommended. | `artifacts/T6.1-green.log`, `artifacts/T6.1-red-mutant-*.log` (12) |
 | 2026-11-09 | Entry 10: add form and add button (T6.2), R-52…R-56, CI of `test(T5)` | Reviewed the form and list code, the red and green logs and all sixteen mutant logs; accepted R-52…R-56 and the UI-test fallback for cancel. | `artifacts/T6.2-red.log`, `artifacts/T6.2-green.log`, `artifacts/T6.2-red-mutant-*.log` (16) |
 | 2026-11-09 | Entry 11: edit and swipe-delete with confirmation (T6.3, includes T6.4), R-57…R-59, CI of `feat(T6.2)` |Reviewed the edit and delete code, the red and green logs and all eighteen mutant logs; chose R-57 and R-59 as recommended and R-58 against the recommendation.| `artifacts/T6.3-red.log`, `artifacts/T6.3-green.log`, `artifacts/T6.3-red-mutant-*.log` (18) |
+| 2026-11-09 | Entry 12: final verification (T7), CI of `feat(T6.3)` | Reviewed the final exact-command log, the UI x5 log, the CI result of feat(T6.3) and the final checks. | `artifacts/final-xcodebuild-test.log`, `artifacts/T7-ui5.log` |
 
 ---
 
@@ -729,10 +730,61 @@ Chose R-58 (a confirmation alert) against the recommendation: deleting a student
 
 ---
 
+## Entry 12 — Final verification (T7) (2026-11-09)
+
+### Tool/agent task
+
+Run the exact README command on the last code commit, repeat every UI test,
+re-check the protected files and the repository rules, and prepare the
+submission (`SUBMISSION.md`).
+
+### Output reviewed
+
+- CI of `feat(T6.3)` (run `42585094949`, the last code commit `46e091b`):
+  success, 75/75 tests on Xcode 16.4 (`gh run view --log` left out the test
+  step; the count comes from the job log through the GitHub API).
+- Exact command on `46e091b`: `TEST SUCCEEDED`, 75/75 (60 unit: 58 student +
+  2 starter; 15 UI: 13 student + 2 starter), iPhone 17, iOS 26.3.1.
+- All 15 UI tests `-test-iterations 5`: each 5/5.
+- Checks: template `HEAD` still `938bf69` (R-15/R-16); repository public;
+  protected files unchanged except the approved R-19 deinit and R-25/R-30 app
+  delegate lines; no `fatalError`, `try!` or `as!` in app code; no duplicated
+  test names; no tracked build output, secrets or personal paths.
+- The agent first wrote 72 tests / 12 UI tests into the expectation lines of
+  the two final logs (it had counted 10 student UI tests instead of 13); it
+  found the error with the static test count and regenerated both headers
+  from the same runs before the commit (agent mistake).
+- Only this documentation commit follows `46e091b`; the code is unchanged, so
+  the logs describe the submitted code. After the push the agent checks a
+  clean anonymous clone of the final SHA with the exact command and reports
+  the result and the CI run of the final commit in chat (R-11: recording them
+  here would change the SHA).
+
+### Accepted/rejected/revised decision
+
+Accepted the final verification as planned. The agent miscounted the UI tests in two log headers; I checked that the regenerated headers match the runs (75 tests, 15 UI).
+
+### Verification command/result
+
+- `xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' test`
+  -> `TEST SUCCEEDED`, 75/75 (225 s).
+- `-only-testing:StudentDirectoryUITests -test-iterations 5` -> 15 tests,
+  each 5/5 (719 s).
+- Protected-file check vs `938bf69`: unchanged except the approved
+  `StudentStore` deinit and `StudentDirectoryApp`.
+
+### Artifact links
+
+- `artifacts/final-xcodebuild-test.log`
+- `artifacts/T7-ui5.log`
+
+---
+
 ## Final review
 
-- Agent/tool disclosure: TODO (student)
-- Accepted and rejected/revised recommendations: TODO (student)
-- Exact local test command and result: TODO (student)
-- CI URL/status: TODO (student)
-- Known limitation or remaining risk: TODO (student)
+- Agent/tool disclosure: Claude Code (Claude Opus 5.5) in the desktop app planned, proposed every non-obvious decision with options, wrote code, tests, logs and these documents. I made every decision (R-1…R-59), reviewed each diff and ran every git add, commit and push myself.
+- Accepted and rejected/revised recommendations: I chose against the recommendation four times: R-15 (no upstream remote), R-23 (adaptive cell layout), R-27 (longer UI guard instead of a relaunch probe) and R-58 (confirmation alert before deleting). I revised R-14 (repeated green runs), R-19 (simpler deinit workaround), R-20/R-36 (custom out-of-order test data) and asked for R-26/R-57 to save time without dropping checks.
+- Exact local test command and result: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination ‘platform=iOS Simulator,name=iPhone 17’ test → TEST SUCCEEDED, 75/75 on 46e091b (artifacts/final-xcodebuild-test.log); all 15 UI tests 5/5 (artifacts/T7-ui5.log).
+- CI URL/status: https://github.com/ArseniiKlimenko/apd-hw-3-Klimenko/actions/runs/42585094949 - success, 75/75 on Xcode 16.4 for the last code commit 46e091b.
+- Known limitation or remaining risk: the template needed two app-level workarounds (R-19 deinit, R-25/R-30 scene delegate) that I reported to the instructor; on iPad two windows would get two separate stores (R-39, not tested); the alert’s Delete and Cancel buttons are proven only by UI tests (R-58).
+- Comment: Testing is very long process!!!
