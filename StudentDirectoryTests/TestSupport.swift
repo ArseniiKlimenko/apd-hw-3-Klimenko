@@ -96,6 +96,29 @@ func assertFollowsDynamicType(_ label: UILabel?, _ name: String, file: StaticStr
     XCTAssertEqual(label.numberOfLines, 0, "Rule: the \(name) wraps instead of truncating", file: file, line: line)
 }
 
+/// Dynamic Type check for a text field (same rules as for labels).
+@MainActor
+func assertFieldFollowsDynamicType(_ field: UITextField, _ name: String, file: StaticString = #filePath, line: UInt = #line) {
+    let textStyles: [UIFont.TextStyle] = [
+        .largeTitle, .title1, .title2, .title3, .headline, .subheadline, .body, .callout, .footnote, .caption1, .caption2
+    ]
+    let style = field.font?.fontDescriptor.object(forKey: .textStyle) as? String ?? "<none>"
+    XCTAssertTrue(textStyles.map(\.rawValue).contains(style), "Rule: the \(name) uses a text style font, got \(style)", file: file, line: line)
+    XCTAssertTrue(field.adjustsFontForContentSizeCategory, "Rule: the \(name) follows Dynamic Type changes", file: file, line: line)
+}
+
+/// A list in a navigation controller inside a visible window, so it can
+/// present (PLAN fact 42). Keep the window alive for the whole test.
+@MainActor
+func makeListInWindow(store: StudentStore) -> (window: UIWindow, navigation: UINavigationController, list: StudentListViewController) {
+    let (navigation, list) = makeListInNavigation(store: store)
+    let window = UIWindow(frame: UIScreen.main.bounds)
+    window.rootViewController = navigation
+    window.makeKeyAndVisible()
+    window.layoutIfNeeded()
+    return (window, navigation, list)
+}
+
 @MainActor
 extension StudentListViewController {
     /// Row count as UIKit asks the table's data source for it.

@@ -40,6 +40,9 @@ final class StudentListViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
+
+    /// T6.2 red stub.
+    func showAddForm() {}
 }
 
 extension StudentListViewController: UITableViewDataSource {
