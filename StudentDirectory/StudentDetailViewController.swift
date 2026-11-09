@@ -46,6 +46,9 @@ final class StudentDetailViewController: UIViewController {
         }
     }
 
+    /// T6.3 red stub.
+    func showEditForm() {}
+
     private func setUpLayout() {
         stack.axis = .vertical
         stack.alignment = .leading

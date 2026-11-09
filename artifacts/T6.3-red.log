@@ -1,0 +1,253 @@
+# Command: xcodebuild -project StudentDirectory.xcodeproj -scheme StudentDirectory -destination 'platform=iOS Simulator,name=iPhone 17' -parallel-testing-enabled NO test -only-testing:StudentDirectoryTests -only-testing:StudentDirectoryUITests/EditStudentUITests -only-testing:StudentDirectoryUITests/DeleteStudentUITests (plus -resultBundlePath in <scratch>)
+# Working directory: <repo>
+# Expectation: TEST FAILED: 13 T6.3+T6.4 tests (R-57: one cycle) fail on their rules with neutral stubs (form ignores editing, no edit button, no swipe action, empty deleteStudent, no reload on appear); testNotFoundDetailsHaveNoEditButton passes on the stub (no button anywhere) and is proven by a mutant; the 49 older unit tests pass
+# Environment: Xcode 26.3 (17C529), destination 'platform=iOS Simulator,name=iPhone 17'
+# Exit code: 65
+# Excerpt: lines matching Testing started / Test suite / Test case / ** TEST|BUILD ** /
+#   Swift error|warning diagnostics from the raw xcodebuild output (raw log kept outside the repo).
+
+--- excerpt ---
+Test Suite 'Selected tests' started at 2026-11-09 09:38:51.225.
+Test Suite 'StudentDirectoryUITests.xctest' started at 2026-11-09 09:38:51.226.
+Test Suite 'DeleteStudentUITests' started at 2026-11-09 09:38:51.226.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' started.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testCancelledDeleteKeepsStudent]' failed (26.195 seconds).
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' started.
+Test Case '-[StudentDirectoryUITests.DeleteStudentUITests testConfirmedSwipeDeleteRemovesStudent]' failed (26.028 seconds).
+Test Suite 'DeleteStudentUITests' failed at 2026-11-09 09:39:43.450.
+Test Suite 'EditStudentUITests' started at 2026-11-09 09:39:43.451.
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' started.
+Test Case '-[StudentDirectoryUITests.EditStudentUITests testEditingStudentUpdatesDetailsAndList]' failed (25.952 seconds).
+Test Suite 'EditStudentUITests' failed at 2026-11-09 09:40:09.404.
+Test Suite 'StudentDirectoryUITests.xctest' failed at 2026-11-09 09:40:09.404.
+Test Suite 'Selected tests' failed at 2026-11-09 09:40:09.405.
+Test Suite 'All tests' started at 2026-11-09 09:40:11.360.
+Test Suite 'StudentDirectoryTests.xctest' started at 2026-11-09 09:40:11.361.
+Test Suite 'AddStudentTests' started at 2026-11-09 09:40:11.361.
+Test Case '-[StudentDirectoryTests.AddStudentTests testAddButtonPresentsEmptyAddForm]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testAddButtonPresentsEmptyAddForm]' passed (0.029 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testBlankNameShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testBlankNameShowsErrorAndKeepsStore]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testCancelDoesNotChangeStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testCancelDoesNotChangeStore]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testFilteredListHasNoAddStudentButton]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testFilteredListHasNoAddStudentButton]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testFormSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testFormSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testMainListHasAddStudentButton]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testMainListHasAddStudentButton]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testNameIsSavedAsTyped]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNameIsSavedAsTyped]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonNumericAgeShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonNumericAgeShowsErrorAndKeepsStore]' passed (0.004 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonPositiveAgeShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testNonPositiveAgeShowsErrorAndKeepsStore]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.AddStudentTests testSavingValidInputAddsStudentAndRefreshesList]' started.
+Test Case '-[StudentDirectoryTests.AddStudentTests testSavingValidInputAddsStudentAndRefreshesList]' passed (0.022 seconds).
+Test Suite 'AddStudentTests' passed at 2026-11-09 09:40:11.428.
+Test Suite 'DeleteStudentTests' started at 2026-11-09 09:40:11.428.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteOnFilteredListRemovesStudentEverywhere]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteOnFilteredListRemovesStudentEverywhere]' failed (0.162 seconds).
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteRemovesStudentFromStoreAndList]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testConfirmedDeleteRemovesStudentFromStoreAndList]' failed (0.026 seconds).
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeDeleteAsksForConfirmationFirst]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeDeleteAsksForConfirmationFirst]' failed (0.022 seconds).
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeOffersDestructiveDeleteAction]' started.
+Test Case '-[StudentDirectoryTests.DeleteStudentTests testSwipeOffersDestructiveDeleteAction]' failed (0.003 seconds).
+Test Suite 'DeleteStudentTests' failed at 2026-11-09 09:40:11.644.
+Test Suite 'EditStudentTests' started at 2026-11-09 09:40:11.644.
+Test Case '-[StudentDirectoryTests.EditStudentTests testDetailsHaveEditStudentButton]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testDetailsHaveEditStudentButton]' failed (0.006 seconds).
+Test Case '-[StudentDirectoryTests.EditStudentTests testEditButtonPresentsFilledEditForm]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testEditButtonPresentsFilledEditForm]' failed (0.011 seconds).
+Test Case '-[StudentDirectoryTests.EditStudentTests testEditOfDeletedStudentShowsNotFound]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testEditOfDeletedStudentShowsNotFound]' failed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.EditStudentTests testInvalidEditShowsErrorAndKeepsStore]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testInvalidEditShowsErrorAndKeepsStore]' failed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.EditStudentTests testListReloadsWhenItAppearsAgain]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testListReloadsWhenItAppearsAgain]' failed (0.017 seconds).
+Test Case '-[StudentDirectoryTests.EditStudentTests testNotFoundDetailsHaveNoEditButton]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testNotFoundDetailsHaveNoEditButton]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.EditStudentTests testSavingEditUpdatesStoreAndRefreshesDetails]' started.
+Test Case '-[StudentDirectoryTests.EditStudentTests testSavingEditUpdatesStoreAndRefreshesDetails]' failed (0.010 seconds).
+Test Suite 'EditStudentTests' failed at 2026-11-09 09:40:11.696.
+Test Suite 'StarterStudentDirectoryTests' started at 2026-11-09 09:40:11.696.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' started.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterSeedDataHasOverlappingSubjects]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' started.
+Test Case '-[StudentDirectoryTests.StarterStudentDirectoryTests testStarterStoreIsConstructible]' passed (0.000 seconds).
+Test Suite 'StarterStudentDirectoryTests' passed at 2026-11-09 09:40:11.698.
+Test Suite 'StoreMutationTests' started at 2026-11-09 09:40:11.698.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAcceptsSmallestPositiveAge]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAcceptsSmallestPositiveAge]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAppendsStudentWithBonusDefaults]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddAppendsStudentWithBonusDefaults]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddGivesNewStudentANewID]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddGivesNewStudentANewID]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsBlankNameWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsBlankNameWithoutChange]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsNonPositiveAgeWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testAddRejectsNonPositiveAgeWithoutChange]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testDeleteRemovesOnlyThatStudent]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testDeleteRemovesOnlyThatStudent]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testDeleteUnknownIDThrowsWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testDeleteUnknownIDThrowsWithoutChange]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateChangesOnlyNameAndAge]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateChangesOnlyNameAndAge]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateRejectsInvalidInputWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateRejectsInvalidInputWithoutChange]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateUnknownIDThrowsWithoutChange]' started.
+Test Case '-[StudentDirectoryTests.StoreMutationTests testUpdateUnknownIDThrowsWithoutChange]' passed (0.000 seconds).
+Test Suite 'StoreMutationTests' passed at 2026-11-09 09:40:11.706.
+Test Suite 'StudentDetailTests' started at 2026-11-09 09:40:11.706.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsForMissingStudentShowNoStudentData]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsShowEveryStudentField]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsTextSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsViewHasStudentDetailsIdentifier]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testDetailsViewHasStudentDetailsIdentifier]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentDetailTests testSelectingRowPushesDetailsOfThatStudent]' passed (0.003 seconds).
+Test Suite 'StudentDetailTests' passed at 2026-11-09 09:40:11.719.
+Test Suite 'StudentListTests' started at 2026-11-09 09:40:11.719.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellAccessibilityLabelSummarizesStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellShowsNameAgeGradeAndScholarship]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellStacksVerticallyForAccessibilityTextSizes]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testCellTextSupportsDynamicType]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testGradeFormattingFollowsLocale]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListHasOneRowPerStoreStudent]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListReflectsStoreChangesAfterReload]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListRowsFollowStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTableHasStudentListIdentifier]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testListTitleIsStudents]' passed (0.001 seconds).
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' started.
+Test Case '-[StudentDirectoryTests.StudentListTests testReusedCellResetsScholarshipState]' passed (0.001 seconds).
+Test Suite 'StudentListTests' passed at 2026-11-09 09:40:11.736.
+Test Suite 'StudentStoreTests' started at 2026-11-09 09:40:11.736.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSeedStoreKeepsSeedStudentsInOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testStoreUsesInjectedStudents]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterIsCaseSensitive]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterKeepsStoreOrder]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterRequiresExactMatch]' passed (0.000 seconds).
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' started.
+Test Case '-[StudentDirectoryTests.StudentStoreTests testSubjectFilterWithUnknownSubjectIsEmpty]' passed (0.000 seconds).
+Test Suite 'StudentStoreTests' passed at 2026-11-09 09:40:11.740.
+Test Suite 'SubjectFilterTests' started at 2026-11-09 09:40:11.741.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testDetailsHaveButtonForEachSubject]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testDetailsHaveButtonForEachSubject]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListIsCaseSensitive]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListIsCaseSensitive]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListShowsExactMatchesInStoreOrder]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredListShowsExactMatchesInStoreOrder]' passed (0.003 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredRowOpensDetailsOfFilteredStudent]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testFilteredRowOpensDetailsOfFilteredStudent]' passed (0.002 seconds).
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' started.
+Test Case '-[StudentDirectoryTests.SubjectFilterTests testTappingSubjectPushesListTitledWithSubject]' passed (0.007 seconds).
+Test Suite 'SubjectFilterTests' passed at 2026-11-09 09:40:11.757.
+Test Suite 'StudentDirectoryTests.xctest' failed at 2026-11-09 09:40:11.757.
+Test Suite 'All tests' failed at 2026-11-09 09:40:11.758.
+** TEST FAILED **
+Testing started
+
+--- xcresult summary (xcrun xcresulttool get test-results summary) ---
+result: Failed; passed 50, failed 13, skipped 0, total 63
+device: iPhone 17 (iOS Simulator 26.3.1)
+failure: DeleteStudentTests/testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default")]") - Rule: deleting on a filtered list deletes from the shared store (R-49)
+failure: DeleteStudentTests/testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> XCTAssertEqual failed: ("1") is not equal to ("0") - Rule: the filtered list drops the deleted row
+failure: DeleteStudentTests/testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> XCTAssertEqual failed: ("2") is not equal to ("1") - Rule: the main list no longer has the deleted student
+failure: DeleteStudentTests/testConfirmedDeleteRemovesStudentFromStoreAndList() -> XCTAssertEqual failed: ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default"), StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000002, name: "Amy", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Design"], avatarName: "avatar-default")]") is not equal to ("[StudentDirectory.Student(id: 00000000-0000-0000-0000-000000000001, name: "Zed", age: 20, averageGrade: 90.0, isScholarshipHolder: false, subjects: ["Physics"], avatarName: "avatar-default")]") - Rule: a confirmed delete removes the student from the shared store
+failure: DeleteStudentTests/testConfirmedDeleteRemovesStudentFromStoreAndList() -> XCTAssertEqual failed: ("2") is not equal to ("1") - Rule: the list drops the deleted row (refresh)
+failure: EditStudentTests/testDetailsHaveEditStudentButton() -> XCTAssertEqual failed: ("nil") is not equal to ("Optional("editStudentButton")") - Rule: the details screen has the editStudentButton
+failure: EditStudentTests/testEditButtonPresentsFilledEditForm() -> XCTUnwrap failed: expected non-nil value of type "UINavigationController" - Rule: the edit button presents the form in its own navigation controller
+failure: EditStudentTests/testEditOfDeletedStudentShowsNotFound() -> XCTAssertEqual failed: ("Optional("Age must be a positive whole number")") is not equal to ("Optional("Student not found")") - Rule: editing a student that is gone shows Student not found
+failure: EditStudentTests/testInvalidEditShowsErrorAndKeepsStore() -> XCTAssertEqual failed: ("Optional("Age must be a positive whole number")") is not equal to ("Optional("Name must not be blank")") - Rule: a blank name in an edit shows Name must not be blank
+failure: EditStudentTests/testListReloadsWhenItAppearsAgain() -> XCTAssertEqual failed: ("Optional("Amy")") is not equal to ("Optional("Ann")") - Rule: the list shows edited data when it appears again (R-46)
+failure: EditStudentTests/testSavingEditUpdatesStoreAndRefreshesDetails() -> XCTUnwrap failed: expected non-nil value of type "UINavigationController" - Rule: the edit button presents the form in its own navigation controller
+failure: DeleteStudentTests/testSwipeDeleteAsksForConfirmationFirst() -> XCTUnwrap failed: expected non-nil value of type "UIContextualAction" - Rule: a row offers a Delete swipe action
+failure: DeleteStudentTests/testSwipeOffersDestructiveDeleteAction() -> XCTUnwrap failed: expected non-nil value of type "Array<UIContextualAction>" - Rule: a row offers swipe actions
+failure: DeleteStudentUITests/testCancelledDeleteKeepsStudent() -> failed - Rule: swiping a row shows Delete
+failure: DeleteStudentUITests/testCancelledDeleteKeepsStudent() -> failed: caught error: "MissingElement(rule: "swiping a row shows Delete")"
+failure: DeleteStudentUITests/testConfirmedSwipeDeleteRemovesStudent() -> failed - Rule: swiping a row shows Delete
+failure: DeleteStudentUITests/testConfirmedSwipeDeleteRemovesStudent() -> failed: caught error: "MissingElement(rule: "swiping a row shows Delete")"
+failure: EditStudentUITests/testEditingStudentUpdatesDetailsAndList() -> failed - Rule: the details screen has the editStudentButton
+failure: EditStudentUITests/testEditingStudentUpdatesDetailsAndList() -> failed: caught error: "MissingElement(rule: "the details screen has the editStudentButton")"
+test: DeleteStudentUITests.testCancelledDeleteKeepsStudent() -> Failed
+test: DeleteStudentUITests.testConfirmedSwipeDeleteRemovesStudent() -> Failed
+test: EditStudentUITests.testEditingStudentUpdatesDetailsAndList() -> Failed
+test: AddStudentTests.testAddButtonPresentsEmptyAddForm() -> Passed
+test: AddStudentTests.testBlankNameShowsErrorAndKeepsStore() -> Passed
+test: AddStudentTests.testCancelDoesNotChangeStore() -> Passed
+test: AddStudentTests.testFilteredListHasNoAddStudentButton() -> Passed
+test: AddStudentTests.testFormSupportsDynamicType() -> Passed
+test: AddStudentTests.testMainListHasAddStudentButton() -> Passed
+test: AddStudentTests.testNameIsSavedAsTyped() -> Passed
+test: AddStudentTests.testNonNumericAgeShowsErrorAndKeepsStore() -> Passed
+test: AddStudentTests.testNonPositiveAgeShowsErrorAndKeepsStore() -> Passed
+test: AddStudentTests.testSavingValidInputAddsStudentAndRefreshesList() -> Passed
+test: DeleteStudentTests.testConfirmedDeleteOnFilteredListRemovesStudentEverywhere() -> Failed
+test: DeleteStudentTests.testConfirmedDeleteRemovesStudentFromStoreAndList() -> Failed
+test: DeleteStudentTests.testSwipeDeleteAsksForConfirmationFirst() -> Failed
+test: DeleteStudentTests.testSwipeOffersDestructiveDeleteAction() -> Failed
+test: EditStudentTests.testDetailsHaveEditStudentButton() -> Failed
+test: EditStudentTests.testEditButtonPresentsFilledEditForm() -> Failed
+test: EditStudentTests.testEditOfDeletedStudentShowsNotFound() -> Failed
+test: EditStudentTests.testInvalidEditShowsErrorAndKeepsStore() -> Failed
+test: EditStudentTests.testListReloadsWhenItAppearsAgain() -> Failed
+test: EditStudentTests.testNotFoundDetailsHaveNoEditButton() -> Passed
+test: EditStudentTests.testSavingEditUpdatesStoreAndRefreshesDetails() -> Failed
+test: StarterStudentDirectoryTests.testStarterSeedDataHasOverlappingSubjects() -> Passed
+test: StarterStudentDirectoryTests.testStarterStoreIsConstructible() -> Passed
+test: StoreMutationTests.testAddAcceptsSmallestPositiveAge() -> Passed
+test: StoreMutationTests.testAddAppendsStudentWithBonusDefaults() -> Passed
+test: StoreMutationTests.testAddGivesNewStudentANewID() -> Passed
+test: StoreMutationTests.testAddRejectsBlankNameWithoutChange() -> Passed
+test: StoreMutationTests.testAddRejectsNonPositiveAgeWithoutChange() -> Passed
+test: StoreMutationTests.testDeleteRemovesOnlyThatStudent() -> Passed
+test: StoreMutationTests.testDeleteUnknownIDThrowsWithoutChange() -> Passed
+test: StoreMutationTests.testUpdateChangesOnlyNameAndAge() -> Passed
+test: StoreMutationTests.testUpdateRejectsInvalidInputWithoutChange() -> Passed
+test: StoreMutationTests.testUpdateUnknownIDThrowsWithoutChange() -> Passed
+test: StudentDetailTests.testDetailsForMissingStudentShowNoStudentData() -> Passed
+test: StudentDetailTests.testDetailsShowEveryStudentField() -> Passed
+test: StudentDetailTests.testDetailsTextSupportsDynamicType() -> Passed
+test: StudentDetailTests.testDetailsViewHasStudentDetailsIdentifier() -> Passed
+test: StudentDetailTests.testSelectingRowPushesDetailsOfThatStudent() -> Passed
+test: StudentListTests.testCellAccessibilityLabelSummarizesStudent() -> Passed
+test: StudentListTests.testCellShowsNameAgeGradeAndScholarship() -> Passed
+test: StudentListTests.testCellStacksVerticallyForAccessibilityTextSizes() -> Passed
+test: StudentListTests.testCellTextSupportsDynamicType() -> Passed
+test: StudentListTests.testGradeFormattingFollowsLocale() -> Passed
+test: StudentListTests.testListHasOneRowPerStoreStudent() -> Passed
+test: StudentListTests.testListReflectsStoreChangesAfterReload() -> Passed
+test: StudentListTests.testListRowsFollowStoreOrder() -> Passed
+test: StudentListTests.testListTableHasStudentListIdentifier() -> Passed
+test: StudentListTests.testListTitleIsStudents() -> Passed
+test: StudentListTests.testReusedCellResetsScholarshipState() -> Passed
+test: StudentStoreTests.testSeedStoreKeepsSeedStudentsInOrder() -> Passed
+test: StudentStoreTests.testStoreUsesInjectedStudents() -> Passed
+test: StudentStoreTests.testSubjectFilterIsCaseSensitive() -> Passed
+test: StudentStoreTests.testSubjectFilterKeepsStoreOrder() -> Passed
+test: StudentStoreTests.testSubjectFilterRequiresExactMatch() -> Passed
+test: StudentStoreTests.testSubjectFilterWithUnknownSubjectIsEmpty() -> Passed
+test: SubjectFilterTests.testDetailsHaveButtonForEachSubject() -> Passed
+test: SubjectFilterTests.testFilteredListIsCaseSensitive() -> Passed
+test: SubjectFilterTests.testFilteredListShowsExactMatchesInStoreOrder() -> Passed
+test: SubjectFilterTests.testFilteredRowOpensDetailsOfFilteredStudent() -> Passed
+test: SubjectFilterTests.testTappingSubjectPushesListTitledWithSubject() -> Passed

@@ -16,7 +16,8 @@ final class StudentFormViewController: UIViewController {
     private let store: StudentStore
     private let stack = UIStackView()
 
-    init(store: StudentStore) {
+    /// T6.3 red stub: `editing` is accepted but ignored.
+    init(store: StudentStore, editing studentID: UUID? = nil) {
         self.store = store
         super.init(nibName: nil, bundle: nil)
     }

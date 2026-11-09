@@ -48,6 +48,9 @@ final class StudentListViewController: UIViewController {
         }
     }
 
+    /// T6.4 red stub.
+    func deleteStudent(withID id: UUID) {}
+
     /// Presents the add form (R-43); after a save the list reloads and shows
     /// the new last row (R-46, R-52).
     func showAddForm() {

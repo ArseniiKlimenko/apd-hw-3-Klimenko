@@ -119,6 +119,19 @@ func makeListInWindow(store: StudentStore) -> (window: UIWindow, navigation: UIN
     return (window, navigation, list)
 }
 
+/// Details inside a navigation controller in a visible window, so the screen
+/// can present the edit form (PLAN fact 42). Keep the window alive.
+@MainActor
+func makeDetailsInWindow(store: StudentStore, studentID: UUID) -> (window: UIWindow, navigation: UINavigationController, details: StudentDetailViewController) {
+    let details = StudentDetailViewController(store: store, studentID: studentID, locale: Locale(identifier: "en_US_POSIX"))
+    let navigation = UINavigationController(rootViewController: details)
+    let window = UIWindow(frame: UIScreen.main.bounds)
+    window.rootViewController = navigation
+    window.makeKeyAndVisible()
+    window.layoutIfNeeded()
+    return (window, navigation, details)
+}
+
 @MainActor
 extension StudentListViewController {
     /// Row count as UIKit asks the table's data source for it.
